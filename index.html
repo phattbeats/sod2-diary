@@ -1794,21 +1794,20 @@
             const survivors = getSurvivors();
             const active = survivors.filter(s => s.status === 'active');
             const former = survivors.filter(s => s.status === 'dead' || s.status === 'exiled');
-            const communityName = document.getElementById('communityName').value.trim() || 'the community';
             
             let text = '';
             
             if (active.length > 0) {
-                text += `\n=== ACTIVE ROSTER (${active.length}) ===\n`;
+                text += `\nActive Roster:\n`;
                 active.forEach(s => {
-                    text += `- ${s.name}, ${s.age}, ${s.race} ${s.gender} | ${s.traits} | ${s.skills} | Joined ${communityName} Day ${s.dayJoined}\n`;
+                    text += `- ${s.name}, ${s.age}, ${s.race} ${s.gender} | ${s.traits} | ${s.skills} | Joined Day ${s.dayJoined}\n`;
                 });
             }
             
             // Legacy pool intentionally excluded from report output - historical tracking only
             
             if (former.length > 0) {
-                text += `\n=== LOST (${former.length}) ===\n`;
+                text += `\nLost:\n`;
                 former.forEach(s => {
                     text += `- ${s.name}, ${s.age}, ${s.race} ${s.gender} | ${s.statusReason} Day ${s.statusDay}\n`;
                 });
