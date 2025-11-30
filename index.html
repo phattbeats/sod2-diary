@@ -1,0 +1,2349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>State of Decay Community Diary v3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #24243e 50%, #1f1f33 100%);
+            color: #e8eaf6;
+            padding: 12px;
+            padding-bottom: 90px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 16px;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .title-main {
+            display: block;
+            color: #ff6b6b;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+        
+        .title-sub {
+            display: block;
+            color: #e8eaf6;
+            font-size: 26px;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.3), 0 0 40px rgba(78, 205, 196, 0.1);
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #e8eaf6 0%, #4ecdc4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .collapsible-header {
+            background: rgba(78, 205, 196, 0.15);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .collapsible-header.subtle {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            opacity: 0.4;
+            transition: opacity 0.2s, background 0.2s;
+        }
+        
+        .collapsible-header.subtle:hover,
+        .collapsible-header.subtle:active {
+            opacity: 0.7;
+            background: rgba(78, 205, 196, 0.1);
+        }
+        
+        .collapsible-header.subtle .collapsible-header-text {
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .collapsible-header.subtle .collapsible-arrow {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .collapsible-header:active {
+            background: rgba(78, 205, 196, 0.25);
+        }
+        
+        .collapsible-header-text {
+            color: #4ecdc4;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .collapsible-arrow {
+            color: #4ecdc4;
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+        
+        .collapsible-arrow.open {
+            transform: rotate(180deg);
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: rgba(26, 26, 26, 0.6);
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .collapsible-content.open {
+            max-height: 2000px;
+            padding: 14px;
+        }
+        
+        .how-to-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #b0b0b0;
+        }
+        
+        .how-to-text strong {
+            color: #4ecdc4;
+        }
+        
+        .section {
+            background: rgba(42, 42, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-title {
+            color: #4ecdc4;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        .compact-row {
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+        }
+        
+        .compact-item {
+            flex: 1;
+            background: rgba(26, 26, 26, 0.6);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .compact-label {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .number-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .pm-button {
+            width: 32px;
+            height: 32px;
+            max-width: none;
+            margin: 0;
+            padding: 0;
+            background: rgba(78, 205, 196, 0.2);
+            border: 1px solid rgba(78, 205, 196, 0.4);
+            border-radius: 6px;
+            color: #4ecdc4;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: none;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+        
+        .pm-button:active {
+            background: rgba(78, 205, 196, 0.4);
+            transform: scale(0.95);
+        }
+        
+        input[type="number"],
+        input[type="text"] {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            color: #e8eaf6;
+            padding: 8px;
+            border-radius: 6px;
+            width: 70px;
+            font-size: 16px;
+            text-align: center;
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            text-align: left;
+        }
+        
+        .styled-select {
+            width: 100%;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            color: #e8eaf6;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 14px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234ecdc4' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            cursor: pointer;
+        }
+        
+        .styled-select:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+        
+        .styled-select option {
+            background: #1a1a2e;
+            color: #e8eaf6;
+        }
+        
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        input[type="number"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+        
+        .resource-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .resource-item {
+            background: rgba(26, 26, 26, 0.6);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .resource-label {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .resource-inputs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: center;
+        }
+        
+        .resource-inputs input {
+            width: 50px;
+            font-size: 14px;
+            padding: 6px;
+        }
+        
+        .arrow {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .morale-container {
+            background: rgba(26, 26, 26, 0.6);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .morale-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right, #ff6b6b 0%, #ffd93d 50%, #6bcf7f 100%);
+            outline: none;
+            -webkit-appearance: none;
+            margin: 10px 0;
+        }
+        
+        .morale-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(78, 205, 196, 0.5);
+        }
+        
+        .morale-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(78, 205, 196, 0.5);
+        }
+        
+        .morale-value {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #4ecdc4;
+            margin-top: 8px;
+            text-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            color: #e8eaf6;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            font-family: inherit;
+            line-height: 1.5;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+        
+        textarea::placeholder {
+            color: #666;
+        }
+        
+        .button-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, rgba(26, 26, 46, 0) 0%, rgba(26, 26, 46, 0.95) 20%, rgba(26, 26, 46, 1) 100%);
+            padding: 20px 12px 12px 12px;
+        }
+        
+        button {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            display: block;
+            padding: 16px;
+            background: linear-gradient(135deg, #4ecdc4 0%, #44b3ab 100%);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.25);
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        button:hover {
+            box-shadow: 0 4px 16px rgba(78, 205, 196, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
+        }
+        
+        .copy-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.25);
+        }
+        
+        .copy-button:hover {
+            box-shadow: 0 4px 16px rgba(255, 107, 107, 0.4);
+        }
+        
+        .output {
+            background: rgba(26, 26, 46, 0.9);
+            border: 1px solid #4ecdc4;
+            padding: 14px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+            line-height: 1.6;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .history-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .history-actions button {
+            flex: 1;
+            padding: 10px;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            min-width: 100px;
+        }
+        
+        .clear-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+        }
+        
+        .clear-button:hover {
+            box-shadow: 0 4px 16px rgba(255, 107, 107, 0.35);
+        }
+        
+        .export-button {
+            background: linear-gradient(135deg, #6bcf7f 0%, #5ab86e 100%);
+            box-shadow: 0 4px 12px rgba(107, 207, 127, 0.2);
+        }
+        
+        .export-button:hover {
+            box-shadow: 0 4px 16px rgba(107, 207, 127, 0.35);
+        }
+        
+        .import-button {
+            background: linear-gradient(135deg, #ffd93d 0%, #e6c235 100%);
+            box-shadow: 0 4px 12px rgba(255, 217, 61, 0.2);
+            color: #1a1a2e;
+        }
+        
+        .import-button:hover {
+            box-shadow: 0 4px 16px rgba(255, 217, 61, 0.35);
+        }
+        
+        .reset-button {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c4ddb 100%);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+        }
+        
+        .reset-button:hover {
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.35);
+        }
+        
+        .history-empty {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+            font-size: 13px;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #555;
+            font-size: 10px;
+            padding: 8px;
+            margin-top: 4px;
+            opacity: 0.3;
+            transition: opacity 0.2s;
+        }
+        
+        .footer:hover {
+            opacity: 1;
+            color: #888;
+        }
+        
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: linear-gradient(135deg, #4ecdc4 0%, #44b3ab 100%);
+            color: #1a1a2e;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease-out;
+        }
+        
+        .copy-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            animation: notificationPulse 0.5s ease-in-out 0.3s;
+        }
+        
+        @keyframes notificationPulse {
+            0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+            50% { transform: translateX(-50%) translateY(0) scale(1.05); }
+        }
+        
+        .history-entry {
+            background: rgba(26, 26, 46, 0.9);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .history-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(78, 205, 196, 0.2);
+        }
+        
+        .history-timestamp {
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .history-copy-btn {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(78, 205, 196, 0.2);
+            border: 1px solid rgba(78, 205, 196, 0.4);
+            border-radius: 6px;
+            color: #4ecdc4;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: auto;
+            max-width: none;
+            margin: 0;
+            text-transform: none;
+            letter-spacing: normal;
+            box-shadow: none;
+            font-weight: normal;
+        }
+        
+        .history-copy-btn:active {
+            background: rgba(78, 205, 196, 0.4);
+        }
+        
+        .history-entry-content {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.5;
+            color: #e8eaf6;
+        }
+        
+        /* Hidden file input for import */
+        #importInput {
+            display: none;
+        }
+        
+        /* Survivor Roster Styles */
+        .roster-form {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(78, 205, 196, 0.2);
+        }
+        
+        .roster-form-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .roster-form-row .form-field {
+            flex: 1;
+            min-width: 80px;
+        }
+        
+        .form-field label {
+            display: block;
+            font-size: 10px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            color: #e8eaf6;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        
+        .form-field input:focus,
+        .form-field select:focus {
+            outline: none;
+            border-color: #4ecdc4;
+        }
+        
+        .add-survivor-btn {
+            background: linear-gradient(135deg, #6bcf7f 0%, #5ab86e 100%);
+            padding: 10px 16px;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        
+        .survivor-card {
+            background: rgba(26, 26, 46, 0.9);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+        }
+        
+        .survivor-card.deceased {
+            border-color: rgba(255, 107, 107, 0.3);
+            opacity: 0.7;
+        }
+        
+        .survivor-card.exiled {
+            border-color: rgba(255, 217, 61, 0.3);
+            opacity: 0.7;
+        }
+        
+        .survivor-card.legacy {
+            border-color: rgba(139, 92, 246, 0.3);
+            opacity: 0.8;
+        }
+        
+        .survivor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+        
+        .survivor-name {
+            font-weight: 600;
+            color: #e8eaf6;
+            font-size: 14px;
+        }
+        
+        .survivor-card.deceased .survivor-name {
+            color: #ff6b6b;
+            text-decoration: line-through;
+        }
+        
+        .survivor-card.exiled .survivor-name {
+            color: #ffd93d;
+        }
+        
+        .survivor-card.legacy .survivor-name {
+            color: #8b5cf6;
+        }
+        
+        .survivor-actions {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .survivor-action-btn {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid;
+            background: transparent;
+            transition: all 0.2s;
+            width: auto;
+            max-width: none;
+            margin: 0;
+            text-transform: none;
+            letter-spacing: normal;
+            box-shadow: none;
+            font-weight: normal;
+        }
+        
+        .survivor-action-btn.edit {
+            color: #4ecdc4;
+            border-color: rgba(78, 205, 196, 0.4);
+        }
+        
+        .survivor-action-btn.edit:hover {
+            background: rgba(78, 205, 196, 0.2);
+            box-shadow: 0 0 8px rgba(78, 205, 196, 0.3);
+        }
+        
+        .survivor-action-btn.kill {
+            color: #ff6b6b;
+            border-color: rgba(255, 107, 107, 0.4);
+        }
+        
+        .survivor-action-btn.kill:hover {
+            background: rgba(255, 107, 107, 0.2);
+            box-shadow: 0 0 8px rgba(255, 107, 107, 0.3);
+        }
+        
+        .survivor-action-btn.exile {
+            color: #ffd93d;
+            border-color: rgba(255, 217, 61, 0.4);
+        }
+        
+        .survivor-action-btn.exile:hover {
+            background: rgba(255, 217, 61, 0.2);
+            box-shadow: 0 0 8px rgba(255, 217, 61, 0.3);
+        }
+        
+        .survivor-action-btn.legacy {
+            color: #8b5cf6;
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+        
+        .survivor-action-btn.legacy:hover {
+            background: rgba(139, 92, 246, 0.2);
+            box-shadow: 0 0 8px rgba(139, 92, 246, 0.3);
+        }
+        
+        .survivor-action-btn.restore {
+            color: #6bcf7f;
+            border-color: rgba(107, 207, 127, 0.4);
+        }
+        
+        .survivor-action-btn.restore:hover {
+            background: rgba(107, 207, 127, 0.2);
+            box-shadow: 0 0 8px rgba(107, 207, 127, 0.3);
+        }
+        
+        .survivor-details {
+            font-size: 11px;
+            color: #999;
+            line-height: 1.5;
+        }
+        
+        .survivor-details span {
+            display: inline;
+        }
+        
+        .survivor-status {
+            font-size: 10px;
+            margin-top: 4px;
+            font-style: italic;
+        }
+        
+        .survivor-card.deceased .survivor-status {
+            color: #ff6b6b;
+        }
+        
+        .survivor-card.exiled .survivor-status {
+            color: #ffd93d;
+        }
+        
+        .survivor-card.legacy .survivor-status {
+            color: #8b5cf6;
+        }
+        
+        .roster-subsection {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .roster-subsection-title {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+        
+        .roster-empty {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 15px;
+            font-size: 12px;
+        }
+        
+        .roster-count {
+            font-size: 11px;
+            color: #4ecdc4;
+            margin-left: 6px;
+        }
+        
+        /* Edit modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #1a1a2e;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-title {
+            color: #4ecdc4;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .modal-actions button {
+            flex: 1;
+            padding: 10px;
+            font-size: 13px;
+        }
+        
+        .cancel-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e8eaf6;
+        }
+        
+        /* PC / Desktop Responsive Styles */
+        @media (min-width: 768px) {
+            body {
+                padding: 24px;
+                padding-bottom: 100px;
+            }
+            
+            .container {
+                max-width: 800px;
+            }
+            
+            h1 {
+                margin-bottom: 24px;
+            }
+            
+            .title-sub {
+                font-size: 32px;
+            }
+            
+            .section {
+                padding: 20px;
+                margin-bottom: 16px;
+            }
+            
+            .resource-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .compact-row {
+                gap: 16px;
+            }
+            
+            .roster-form-row {
+                gap: 12px;
+            }
+            
+            .survivor-card {
+                padding: 14px 18px;
+            }
+            
+            .survivor-header {
+                flex-wrap: nowrap;
+            }
+            
+            .survivor-actions {
+                gap: 6px;
+            }
+            
+            .survivor-action-btn {
+                padding: 4px 10px;
+                font-size: 11px;
+            }
+            
+            .history-actions {
+                flex-wrap: nowrap;
+            }
+            
+            .history-actions button {
+                min-width: auto;
+            }
+            
+            .output {
+                font-size: 13px;
+                max-height: 400px;
+            }
+            
+            .modal-content {
+                max-width: 500px;
+            }
+        }
+        
+        /* Large Desktop */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 900px;
+            }
+            
+            .resource-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <span class="title-main">State of Decay</span>
+            <span class="title-sub">Community Diary</span>
+        </h1>
+        
+        <!-- Auto-copy notification -->
+        <div id="copyNotification" class="copy-notification">Report copied to clipboard!</div>
+        
+        <!-- Hidden file input for import -->
+        <input type="file" id="importInput" accept=".json" onchange="handleImport(event)">
+        
+        <!-- How To Section -->
+        <div class="collapsible-header subtle" onclick="toggleCollapsible('howto')">
+            <span class="collapsible-header-text">Help</span>
+            <span class="collapsible-arrow" id="howto-arrow">&#x25BC;</span>
+        </div>
+        <div class="collapsible-content" id="howto-content">
+            <div class="how-to-text">
+                <strong>About:</strong> State of Decay narrative tie-in for use with LLM chats. Track your community's progress and generate reports to paste into your AI companion.
+                <br><br>
+                <strong>Quick Start:</strong> Fill in community/base, set resources (use +/- buttons), add events, hit Generate. Report auto-copies; data rolls forward to next day.
+                <br><br>
+                <strong>Survivor Roster:</strong> Track individual survivors with traits and skills. Legacy Pool preserves survivors for future playthroughs (excluded from reports).
+                <br><br>
+                <strong>History:</strong> Export saves reports + roster as JSON backup. Import to restore or merge data.
+            </div>
+        </div>
+        
+        <!-- Community and Base -->
+        <div class="section">
+            <div class="section-title">Community Info</div>
+            <div class="compact-row" style="margin-bottom: 10px;">
+                <div class="compact-item" style="flex: 1;">
+                    <div class="compact-label">Community Name</div>
+                    <input type="text" id="communityName" placeholder="The Survivors..." style="width: 100%;">
+                </div>
+            </div>
+            <div class="compact-row" style="margin-bottom: 10px;">
+                <div class="compact-item" style="flex: 1;">
+                    <div class="compact-label">Map</div>
+                    <select id="mapSelect" class="styled-select" onchange="updateBaseOptions()">
+                        <option value="">Select Map...</option>
+                        <option value="cascade">Cascade Hills</option>
+                        <option value="drucker">Drucker County</option>
+                        <option value="meagher">Meagher Valley</option>
+                        <option value="providence">Providence Ridge</option>
+                        <option value="trumbull">Trumbull Valley</option>
+                    </select>
+                </div>
+                <div class="compact-item" style="flex: 1;">
+                    <div class="compact-label">Difficulty</div>
+                    <select id="difficultySelect" class="styled-select">
+                        <option value="">Select...</option>
+                        <option value="Green Zone">Green Zone</option>
+                        <option value="Standard">Standard</option>
+                        <option value="Dread">Dread</option>
+                        <option value="Nightmare">Nightmare</option>
+                        <option value="Lethal">Lethal</option>
+                    </select>
+                </div>
+            </div>
+            <div class="compact-row" style="margin-bottom: 10px;">
+                <div class="compact-item" style="flex: 1;">
+                    <div class="compact-label">Current Base</div>
+                    <select id="baseSelect" class="styled-select">
+                        <option value="">Select map first...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="compact-row">
+                <div class="compact-item" style="flex: 1;">
+                    <div class="compact-label">Plague Hearts Remaining</div>
+                    <div class="number-control">
+                        <button class="pm-button" onclick="adjustPlagueHearts(-1)">&#x2212;</button>
+                        <input type="number" id="plagueHearts" placeholder="0" style="width: 60px;">
+                        <button class="pm-button" onclick="adjustPlagueHearts(1)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day and Key Stats -->
+        <div class="section">
+            <div class="compact-row">
+                <div class="compact-item">
+                    <div class="compact-label">Day</div>
+                    <div class="number-control">
+                        <button class="pm-button" onclick="adjustDay(-1)">&#x2212;</button>
+                        <input type="number" id="dayNumber" placeholder="1" style="width: 60px;">
+                        <button class="pm-button" onclick="adjustDay(1)">+</button>
+                    </div>
+                </div>
+                <div class="compact-item">
+                    <div class="compact-label">Survivors</div>
+                    <div class="number-control">
+                        <button class="pm-button" onclick="adjustSurvivors(-1)">&#x2212;</button>
+                        <input type="number" id="survivors" placeholder="0" style="width: 60px;">
+                        <button class="pm-button" onclick="adjustSurvivors(1)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Resources -->
+        <div class="section">
+            <div class="section-title">Resources</div>
+            <div class="resource-grid">
+                <div class="resource-item">
+                    <div class="resource-label">
+                        <span>Food</span>
+                        <div style="display: flex; gap: 4px;">
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('food', -1)">&#x2212;</button>
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('food', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="resource-inputs">
+                        <input type="number" id="foodFrom" placeholder="0">
+                        <span class="arrow">&#x2192;</span>
+                        <input type="number" id="foodTo" placeholder="0">
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <div class="resource-label">
+                        <span>Medicine</span>
+                        <div style="display: flex; gap: 4px;">
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('med', -1)">&#x2212;</button>
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('med', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="resource-inputs">
+                        <input type="number" id="medFrom" placeholder="0">
+                        <span class="arrow">&#x2192;</span>
+                        <input type="number" id="medTo" placeholder="0">
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <div class="resource-label">
+                        <span>Ammo</span>
+                        <div style="display: flex; gap: 4px;">
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('ammo', -1)">&#x2212;</button>
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('ammo', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="resource-inputs">
+                        <input type="number" id="ammoFrom" placeholder="0">
+                        <span class="arrow">&#x2192;</span>
+                        <input type="number" id="ammoTo" placeholder="0">
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <div class="resource-label">
+                        <span>Materials</span>
+                        <div style="display: flex; gap: 4px;">
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('mat', -1)">&#x2212;</button>
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('mat', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="resource-inputs">
+                        <input type="number" id="matFrom" placeholder="0">
+                        <span class="arrow">&#x2192;</span>
+                        <input type="number" id="matTo" placeholder="0">
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <div class="resource-label">
+                        <span>Fuel</span>
+                        <div style="display: flex; gap: 4px;">
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('fuel', -1)">&#x2212;</button>
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('fuel', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="resource-inputs">
+                        <input type="number" id="fuelFrom" placeholder="0">
+                        <span class="arrow">&#x2192;</span>
+                        <input type="number" id="fuelTo" placeholder="0">
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <div class="resource-label">
+                        <span>Parts</span>
+                        <div style="display: flex; gap: 4px;">
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('parts', -100)">&#x2212;</button>
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('parts', 100)">+</button>
+                        </div>
+                    </div>
+                    <div class="resource-inputs">
+                        <input type="number" id="partsFrom" placeholder="0">
+                        <span class="arrow">&#x2192;</span>
+                        <input type="number" id="partsTo" placeholder="0">
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <div class="resource-label">
+                        <span>Influence</span>
+                        <div style="display: flex; gap: 4px;">
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('influence', -100)">&#x2212;</button>
+                            <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('influence', 100)">+</button>
+                        </div>
+                    </div>
+                    <div class="resource-inputs">
+                        <input type="number" id="influenceFrom" placeholder="0">
+                        <span class="arrow">&#x2192;</span>
+                        <input type="number" id="influenceTo" placeholder="0">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Morale -->
+        <div class="section">
+            <div class="section-title">Morale</div>
+            <div class="morale-container">
+                <input type="range" id="morale" min="-100" max="100" value="0" class="morale-slider" oninput="updateMoraleValue()">
+                <div class="morale-value" id="moraleValue">0</div>
+            </div>
+        </div>
+        
+        <!-- Deaths and New Survivors -->
+        <div class="section">
+            <div class="section-title">Deaths</div>
+            <textarea id="deaths" placeholder="None, or list names..."></textarea>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">New Survivors</div>
+            <textarea id="newSurvivors" placeholder="None, or list names..."></textarea>
+        </div>
+        
+        <!-- Events -->
+        <div class="section">
+            <div class="section-title">Events</div>
+            <textarea id="events" placeholder="Describe what happened today..." style="min-height: 140px;"></textarea>
+        </div>
+        
+        <!-- Survivor Roster Section -->
+        <div class="collapsible-header" onclick="toggleCollapsible('roster')">
+            <span class="collapsible-header-text">Survivor Roster <span class="roster-count" id="rosterCount">(0)</span></span>
+            <span class="collapsible-arrow" id="roster-arrow">&#x25BC;</span>
+        </div>
+        <div class="collapsible-content" id="roster-content">
+            <!-- Add Survivor Form -->
+            <div class="roster-form">
+                <div class="roster-form-row">
+                    <div class="form-field" style="flex: 2;">
+                        <label>Name</label>
+                        <input type="text" id="survivorName" placeholder="Full name...">
+                    </div>
+                    <div class="form-field" style="flex: 0.7;">
+                        <label>Age</label>
+                        <input type="number" id="survivorAge" placeholder="25">
+                    </div>
+                </div>
+                <div class="roster-form-row">
+                    <div class="form-field">
+                        <label>Race</label>
+                        <select id="survivorRace">
+                            <option value="">Select...</option>
+                            <option value="White">White</option>
+                            <option value="Black">Black</option>
+                            <option value="Hispanic">Hispanic</option>
+                            <option value="Asian">Asian</option>
+                            <option value="Native American">Native American</option>
+                            <option value="Mixed">Mixed</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label>Gender</label>
+                        <select id="survivorGender">
+                            <option value="">Select...</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="roster-form-row">
+                    <div class="form-field" style="flex: 1;">
+                        <label>Traits</label>
+                        <input type="text" id="survivorTraits" placeholder="Optimist, Former Soldier...">
+                    </div>
+                </div>
+                <div class="roster-form-row">
+                    <div class="form-field" style="flex: 1;">
+                        <label>Skills</label>
+                        <input type="text" id="survivorSkills" placeholder="Shooting, Mechanics...">
+                    </div>
+                </div>
+                <div class="roster-form-row">
+                    <div class="form-field" style="flex: 0.5;">
+                        <label>Day Joined</label>
+                        <input type="number" id="survivorDayJoined" placeholder="1">
+                    </div>
+                </div>
+                <button class="add-survivor-btn" onclick="addSurvivor()">Add Survivor</button>
+            </div>
+            
+            <!-- Active Survivors List -->
+            <div id="activeSurvivors">
+                <div class="roster-empty">No survivors yet. Add your first community member above.</div>
+            </div>
+            
+            <!-- Legacy Pool -->
+            <div id="legacyPoolSection" class="roster-subsection" style="display: none;">
+                <div class="roster-subsection-title">&#x2B50; Legacy Pool</div>
+                <div id="legacySurvivors"></div>
+            </div>
+            
+            <!-- Former Survivors (Dead/Exiled) -->
+            <div id="formerSurvivorsSection" class="roster-subsection" style="display: none;">
+                <div class="roster-subsection-title">&#x1F480; Former Survivors</div>
+                <div id="formerSurvivors"></div>
+            </div>
+        </div>
+        
+        <!-- Edit Survivor Modal -->
+        <div id="editModal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-title">Edit Survivor</div>
+                <input type="hidden" id="editSurvivorId">
+                <div class="roster-form" style="border: none; padding: 0; margin: 0;">
+                    <div class="roster-form-row">
+                        <div class="form-field" style="flex: 2;">
+                            <label>Name</label>
+                            <input type="text" id="editName">
+                        </div>
+                        <div class="form-field" style="flex: 0.7;">
+                            <label>Age</label>
+                            <input type="number" id="editAge">
+                        </div>
+                    </div>
+                    <div class="roster-form-row">
+                        <div class="form-field">
+                            <label>Race</label>
+                            <select id="editRace">
+                                <option value="">Select...</option>
+                                <option value="White">White</option>
+                                <option value="Black">Black</option>
+                                <option value="Hispanic">Hispanic</option>
+                                <option value="Asian">Asian</option>
+                                <option value="Native American">Native American</option>
+                                <option value="Mixed">Mixed</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label>Gender</label>
+                            <select id="editGender">
+                                <option value="">Select...</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="roster-form-row">
+                        <div class="form-field" style="flex: 1;">
+                            <label>Traits</label>
+                            <input type="text" id="editTraits">
+                        </div>
+                    </div>
+                    <div class="roster-form-row">
+                        <div class="form-field" style="flex: 1;">
+                            <label>Skills</label>
+                            <input type="text" id="editSkills">
+                        </div>
+                    </div>
+                    <div class="roster-form-row">
+                        <div class="form-field" style="flex: 0.5;">
+                            <label>Day Joined</label>
+                            <input type="number" id="editDayJoined">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="cancel-btn" onclick="closeEditModal()">Cancel</button>
+                    <button onclick="saveEditedSurvivor()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Output Section -->
+        <div id="outputSection" class="section" style="display: none;">
+            <div class="section-title">Generated Report</div>
+            <div id="output" class="output"></div>
+            <button class="copy-button" onclick="copyToClipboard()">Copy Report</button>
+        </div>
+        
+        <!-- History Section -->
+        <div class="collapsible-header" onclick="toggleCollapsible('history')">
+            <span class="collapsible-header-text">History Log</span>
+            <span class="collapsible-arrow" id="history-arrow">&#x25BC;</span>
+        </div>
+        <div class="collapsible-content" id="history-content">
+            <div class="history-actions">
+                <button onclick="copyHistory()">Copy All</button>
+                <button class="export-button" onclick="exportHistory()">Export</button>
+                <button class="import-button" onclick="document.getElementById('importInput').click()">Import</button>
+                <button class="clear-button" onclick="clearHistory()">Clear</button>
+            </div>
+            <div class="history-actions">
+                <button class="reset-button" onclick="resetEverything()">Start New Community</button>
+            </div>
+            <div id="historyOutput">
+                <div class="history-empty">No reports yet. Generate your first report to start tracking history.</div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            v2.0 &#x2022; made with vibes by phaTT and Claude
+        </div>
+        
+        <div class="button-container">
+            <button onclick="generateReport()">Generate Report</button>
+        </div>
+    </div>
+    
+    <script>
+        // Base options for each map
+        const mapBases = {
+            'cascade': [
+                'Vogel House (Starter)',
+                'River Fort',
+                'Loch & Keogh Self Storage',
+                'Bridge Fort',
+                'Container Fort',
+                'Prescott Fire Station'
+            ],
+            'drucker': [
+                'Justineau House (Starter)',
+                'Mohr & Mohr Distributing',
+                "Wally's Bar and Grill",
+                'Rural Police Station',
+                'Barricaded Strip Mall',
+                'Fort Marshall'
+            ],
+            'meagher': [
+                'Clarington House (Starter)',
+                'Camp Kelenqua',
+                'Squelones Brewing Company',
+                "Knight's Family Drive-In",
+                'The Corner Office',
+                'Whitney Field'
+            ],
+            'providence': [
+                "Lutz's Lot (Starter)",
+                'Fir Lounge',
+                'Lundegaard Lumber Mill',
+                "Rusty Rosie's",
+                'Firewatch Fortress',
+                'Fortified Truck Stop'
+            ],
+            'trumbull': [
+                'Savini Residence (Starter)',
+                'Snyder Trucking Warehouse',
+                'The Farmland Compound',
+                'Marshall Manor'
+            ]
+        };
+        
+        // Map display names
+        const mapNames = {
+            'cascade': 'Cascade Hills',
+            'drucker': 'Drucker County',
+            'meagher': 'Meagher Valley',
+            'providence': 'Providence Ridge',
+            'trumbull': 'Trumbull Valley'
+        };
+        
+        // Initialize on page load
+        window.onload = function() {
+            loadSavedValues();
+            updateMoraleValue();
+            loadHistory();
+            setupSurvivorActionHandlers();
+        };
+        
+        // Event delegation for survivor action buttons
+        function setupSurvivorActionHandlers() {
+            document.getElementById('roster-content').addEventListener('click', function(e) {
+                const btn = e.target.closest('.survivor-action-btn');
+                if (!btn) return;
+                
+                const action = btn.dataset.action;
+                const id = btn.dataset.id;
+                
+                if (!action || !id) return;
+                
+                switch(action) {
+                    case 'edit':
+                        editSurvivor(id);
+                        break;
+                    case 'kill':
+                        killSurvivor(id);
+                        break;
+                    case 'exile':
+                        exileSurvivor(id);
+                        break;
+                    case 'legacy':
+                        legacySurvivor(id);
+                        break;
+                    case 'restore':
+                        restoreSurvivor(id);
+                        break;
+                }
+            });
+        }
+        
+        // Update base dropdown based on selected map
+        function updateBaseOptions() {
+            const mapSelect = document.getElementById('mapSelect');
+            const baseSelect = document.getElementById('baseSelect');
+            const selectedMap = mapSelect.value;
+            
+            // Clear existing options
+            baseSelect.innerHTML = '';
+            
+            if (!selectedMap) {
+                baseSelect.innerHTML = '<option value="">Select map first...</option>';
+                return;
+            }
+            
+            const bases = mapBases[selectedMap] || [];
+            baseSelect.innerHTML = '<option value="">Select base...</option>';
+            bases.forEach(base => {
+                const option = document.createElement('option');
+                option.value = base;
+                option.textContent = base;
+                baseSelect.appendChild(option);
+            });
+            
+            // Try to restore saved base if it exists for this map
+            const savedBase = localStorage.getItem('last_base');
+            if (savedBase) {
+                const matchingOption = Array.from(baseSelect.options).find(opt => opt.value === savedBase);
+                if (matchingOption) {
+                    baseSelect.value = savedBase;
+                }
+            }
+        }
+        
+        // Plague hearts adjustment
+        function adjustPlagueHearts(delta) {
+            const input = document.getElementById('plagueHearts');
+            const current = parseInt(input.value) || 0;
+            input.value = Math.max(0, current + delta);
+        }
+        
+        // ==================== SURVIVOR ROSTER ====================
+        
+        function getSurvivors() {
+            return JSON.parse(localStorage.getItem('survivor_roster') || '[]');
+        }
+        
+        function saveSurvivors(survivors) {
+            localStorage.setItem('survivor_roster', JSON.stringify(survivors));
+            renderRoster();
+        }
+        
+        function generateSurvivorId() {
+            return 'surv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+        
+        function addSurvivor() {
+            const name = document.getElementById('survivorName').value.trim();
+            const age = document.getElementById('survivorAge').value;
+            const race = document.getElementById('survivorRace').value;
+            const gender = document.getElementById('survivorGender').value;
+            const traits = document.getElementById('survivorTraits').value.trim();
+            const skills = document.getElementById('survivorSkills').value.trim();
+            const dayJoined = document.getElementById('survivorDayJoined').value || document.getElementById('dayNumber').value || '1';
+            
+            if (!name) {
+                alert('Please enter a survivor name.');
+                return;
+            }
+            
+            const survivor = {
+                id: generateSurvivorId(),
+                name: name,
+                age: age || '?',
+                race: race || 'Unknown',
+                gender: gender || '?',
+                traits: traits || 'None',
+                skills: skills || 'None',
+                dayJoined: dayJoined,
+                status: 'active',
+                statusDay: null,
+                statusReason: null
+            };
+            
+            const survivors = getSurvivors();
+            survivors.push(survivor);
+            saveSurvivors(survivors);
+            
+            // Clear form
+            document.getElementById('survivorName').value = '';
+            document.getElementById('survivorAge').value = '';
+            document.getElementById('survivorRace').value = '';
+            document.getElementById('survivorGender').value = '';
+            document.getElementById('survivorTraits').value = '';
+            document.getElementById('survivorSkills').value = '';
+            document.getElementById('survivorDayJoined').value = '';
+        }
+        
+        function killSurvivor(id) {
+            const currentDay = document.getElementById('dayNumber').value || '?';
+            const survivors = getSurvivors();
+            const survivor = survivors.find(s => s.id === id);
+            if (!survivor) {
+                console.log('Survivor not found:', id);
+                return;
+            }
+            
+            if (confirm(`Mark ${survivor.name} as killed on Day ${currentDay}?`)) {
+                survivor.status = 'dead';
+                survivor.statusDay = currentDay;
+                survivor.statusReason = 'Killed';
+                saveSurvivors(survivors);
+                showActionNotification(`${survivor.name} marked as killed`);
+            }
+        }
+        
+        function exileSurvivor(id) {
+            const currentDay = document.getElementById('dayNumber').value || '?';
+            const survivors = getSurvivors();
+            const survivor = survivors.find(s => s.id === id);
+            if (!survivor) {
+                console.log('Survivor not found:', id);
+                return;
+            }
+            
+            if (confirm(`Exile ${survivor.name} on Day ${currentDay}?`)) {
+                survivor.status = 'exiled';
+                survivor.statusDay = currentDay;
+                survivor.statusReason = 'Exiled';
+                saveSurvivors(survivors);
+                showActionNotification(`${survivor.name} exiled`);
+            }
+        }
+        
+        function legacySurvivor(id) {
+            const currentDay = document.getElementById('dayNumber').value || '?';
+            const survivors = getSurvivors();
+            const survivor = survivors.find(s => s.id === id);
+            if (!survivor) {
+                console.log('Survivor not found:', id);
+                return;
+            }
+            
+            if (confirm(`Send ${survivor.name} to the Legacy Pool?`)) {
+                survivor.status = 'legacy';
+                survivor.statusDay = currentDay;
+                survivor.statusReason = 'Legacy';
+                saveSurvivors(survivors);
+                showActionNotification(`${survivor.name} sent to Legacy Pool`);
+            }
+        }
+        
+        function showActionNotification(message) {
+            const notification = document.getElementById('copyNotification');
+            const originalText = notification.textContent;
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(function() {
+                notification.classList.remove('show');
+                notification.textContent = originalText;
+            }, 2000);
+        }
+        
+        function restoreSurvivor(id) {
+            const survivors = getSurvivors();
+            const survivor = survivors.find(s => s.id === id);
+            if (!survivor) {
+                console.log('Survivor not found:', id);
+                return;
+            }
+            
+            if (confirm(`Restore ${survivor.name} to active status?`)) {
+                survivor.status = 'active';
+                survivor.statusDay = null;
+                survivor.statusReason = null;
+                saveSurvivors(survivors);
+                showActionNotification(`${survivor.name} restored to active`);
+            }
+        }
+        
+        function editSurvivor(id) {
+            const survivors = getSurvivors();
+            const survivor = survivors.find(s => s.id === id);
+            if (!survivor) return;
+            
+            document.getElementById('editSurvivorId').value = id;
+            document.getElementById('editName').value = survivor.name;
+            document.getElementById('editAge').value = survivor.age;
+            document.getElementById('editRace').value = survivor.race;
+            document.getElementById('editGender').value = survivor.gender;
+            document.getElementById('editTraits').value = survivor.traits;
+            document.getElementById('editSkills').value = survivor.skills;
+            document.getElementById('editDayJoined').value = survivor.dayJoined;
+            
+            document.getElementById('editModal').classList.add('show');
+        }
+        
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('show');
+        }
+        
+        function saveEditedSurvivor() {
+            const id = document.getElementById('editSurvivorId').value;
+            const survivors = getSurvivors();
+            const survivor = survivors.find(s => s.id === id);
+            
+            if (survivor) {
+                survivor.name = document.getElementById('editName').value.trim() || survivor.name;
+                survivor.age = document.getElementById('editAge').value || '?';
+                survivor.race = document.getElementById('editRace').value || 'Unknown';
+                survivor.gender = document.getElementById('editGender').value || '?';
+                survivor.traits = document.getElementById('editTraits').value.trim() || 'None';
+                survivor.skills = document.getElementById('editSkills').value.trim() || 'None';
+                survivor.dayJoined = document.getElementById('editDayJoined').value || survivor.dayJoined;
+                
+                saveSurvivors(survivors);
+            }
+            
+            closeEditModal();
+        }
+        
+        function renderRoster() {
+            const survivors = getSurvivors();
+            const active = survivors.filter(s => s.status === 'active');
+            const legacy = survivors.filter(s => s.status === 'legacy');
+            const former = survivors.filter(s => s.status === 'dead' || s.status === 'exiled');
+            
+            // Update count
+            document.getElementById('rosterCount').textContent = `(${active.length})`;
+            
+            // Render active survivors
+            const activeContainer = document.getElementById('activeSurvivors');
+            if (active.length === 0) {
+                activeContainer.innerHTML = '<div class="roster-empty">No survivors yet. Add your first community member above.</div>';
+            } else {
+                activeContainer.innerHTML = active.map(s => `
+                    <div class="survivor-card">
+                        <div class="survivor-header">
+                            <span class="survivor-name">${escapeHtml(s.name)}</span>
+                            <div class="survivor-actions">
+                                <button class="survivor-action-btn edit" data-action="edit" data-id="${s.id}">Edit</button>
+                                <button class="survivor-action-btn legacy" data-action="legacy" data-id="${s.id}">Legacy</button>
+                                <button class="survivor-action-btn kill" data-action="kill" data-id="${s.id}">Kill</button>
+                                <button class="survivor-action-btn exile" data-action="exile" data-id="${s.id}">Exile</button>
+                            </div>
+                        </div>
+                        <div class="survivor-details">
+                            ${escapeHtml(s.age)}, ${escapeHtml(s.race)} ${escapeHtml(s.gender)} | ${escapeHtml(s.traits)} | ${escapeHtml(s.skills)} | Joined Day ${escapeHtml(s.dayJoined)}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Render legacy pool
+            const legacySection = document.getElementById('legacyPoolSection');
+            const legacyContainer = document.getElementById('legacySurvivors');
+            
+            if (legacy.length === 0) {
+                legacySection.style.display = 'none';
+            } else {
+                legacySection.style.display = 'block';
+                legacyContainer.innerHTML = legacy.map(s => `
+                    <div class="survivor-card legacy">
+                        <div class="survivor-header">
+                            <span class="survivor-name">${escapeHtml(s.name)}</span>
+                            <div class="survivor-actions">
+                                <button class="survivor-action-btn restore" data-action="restore" data-id="${s.id}">Restore</button>
+                            </div>
+                        </div>
+                        <div class="survivor-details">
+                            ${escapeHtml(s.age)}, ${escapeHtml(s.race)} ${escapeHtml(s.gender)} | ${escapeHtml(s.traits)} | ${escapeHtml(s.skills)} | Joined Day ${escapeHtml(s.dayJoined)}
+                        </div>
+                        <div class="survivor-status">Sent to Legacy Day ${s.statusDay}</div>
+                    </div>
+                `).join('');
+            }
+            
+            // Render former survivors
+            const formerSection = document.getElementById('formerSurvivorsSection');
+            const formerContainer = document.getElementById('formerSurvivors');
+            
+            if (former.length === 0) {
+                formerSection.style.display = 'none';
+            } else {
+                formerSection.style.display = 'block';
+                formerContainer.innerHTML = former.map(s => `
+                    <div class="survivor-card ${s.status === 'dead' ? 'deceased' : 'exiled'}">
+                        <div class="survivor-header">
+                            <span class="survivor-name">${escapeHtml(s.name)}</span>
+                            <div class="survivor-actions">
+                                <button class="survivor-action-btn restore" data-action="restore" data-id="${s.id}">Restore</button>
+                            </div>
+                        </div>
+                        <div class="survivor-details">
+                            ${escapeHtml(s.age)}, ${escapeHtml(s.race)} ${escapeHtml(s.gender)} | ${escapeHtml(s.traits)} | ${escapeHtml(s.skills)} | Joined Day ${escapeHtml(s.dayJoined)}
+                        </div>
+                        <div class="survivor-status">${s.statusReason} on Day ${s.statusDay}</div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function generateRosterText() {
+            const survivors = getSurvivors();
+            const active = survivors.filter(s => s.status === 'active');
+            const former = survivors.filter(s => s.status === 'dead' || s.status === 'exiled');
+            const communityName = document.getElementById('communityName').value.trim() || 'the community';
+            
+            let text = '';
+            
+            if (active.length > 0) {
+                text += `\n=== ACTIVE ROSTER (${active.length}) ===\n`;
+                active.forEach(s => {
+                    text += `- ${s.name}, ${s.age}, ${s.race} ${s.gender} | ${s.traits} | ${s.skills} | Joined ${communityName} Day ${s.dayJoined}\n`;
+                });
+            }
+            
+            // Legacy pool intentionally excluded from report output - historical tracking only
+            
+            if (former.length > 0) {
+                text += `\n=== LOST (${former.length}) ===\n`;
+                former.forEach(s => {
+                    text += `- ${s.name}, ${s.age}, ${s.race} ${s.gender} | ${s.statusReason} Day ${s.statusDay}\n`;
+                });
+            }
+            
+            return text;
+        }
+        
+        // Collapsible functionality
+        function toggleCollapsible(id) {
+            const content = document.getElementById(id + '-content');
+            const arrow = document.getElementById(id + '-arrow');
+            
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                arrow.classList.remove('open');
+            } else {
+                content.classList.add('open');
+                arrow.classList.add('open');
+            }
+        }
+        
+        // Day adjustment
+        function adjustDay(delta) {
+            const input = document.getElementById('dayNumber');
+            const current = parseInt(input.value) || 0;
+            input.value = Math.max(1, current + delta);
+        }
+        
+        // Survivors adjustment
+        function adjustSurvivors(delta) {
+            const input = document.getElementById('survivors');
+            const current = parseInt(input.value) || 0;
+            input.value = Math.max(0, current + delta);
+        }
+        
+        // Resource adjustment (affects the "to" field)
+        function adjustResource(resource, delta) {
+            const input = document.getElementById(resource + 'To');
+            const current = parseInt(input.value) || 0;
+            input.value = Math.max(0, current + delta);
+        }
+        
+        // Morale display
+        function updateMoraleValue() {
+            const value = document.getElementById('morale').value;
+            document.getElementById('moraleValue').textContent = value > 0 ? '+' + value : value;
+        }
+        
+        // Save values to localStorage
+        function saveValues() {
+            const resources = ['food', 'med', 'ammo', 'mat', 'fuel', 'parts', 'influence'];
+            resources.forEach(resource => {
+                const toValue = document.getElementById(resource + 'To').value;
+                if (toValue) {
+                    localStorage.setItem('last_' + resource + '_to', toValue);
+                }
+            });
+            
+            localStorage.setItem('last_survivors', document.getElementById('survivors').value);
+            localStorage.setItem('last_day', document.getElementById('dayNumber').value);
+            localStorage.setItem('last_morale', document.getElementById('morale').value);
+            localStorage.setItem('last_community', document.getElementById('communityName').value);
+            localStorage.setItem('last_map', document.getElementById('mapSelect').value);
+            localStorage.setItem('last_difficulty', document.getElementById('difficultySelect').value);
+            localStorage.setItem('last_base', document.getElementById('baseSelect').value);
+            localStorage.setItem('last_plague_hearts', document.getElementById('plagueHearts').value);
+        }
+        
+        // Load saved values and set up next day
+        function loadSavedValues() {
+            const lastDay = localStorage.getItem('last_day');
+            if (lastDay) {
+                document.getElementById('dayNumber').value = parseInt(lastDay) + 1;
+            }
+            
+            const lastSurvivors = localStorage.getItem('last_survivors');
+            if (lastSurvivors) {
+                document.getElementById('survivors').value = lastSurvivors;
+            }
+            
+            const lastMorale = localStorage.getItem('last_morale');
+            if (lastMorale) {
+                document.getElementById('morale').value = lastMorale;
+            }
+            
+            const lastCommunity = localStorage.getItem('last_community');
+            if (lastCommunity) {
+                document.getElementById('communityName').value = lastCommunity;
+            }
+            
+            const lastMap = localStorage.getItem('last_map');
+            if (lastMap) {
+                document.getElementById('mapSelect').value = lastMap;
+                updateBaseOptions();
+            }
+            
+            const lastDifficulty = localStorage.getItem('last_difficulty');
+            if (lastDifficulty) {
+                document.getElementById('difficultySelect').value = lastDifficulty;
+            }
+            
+            const lastBase = localStorage.getItem('last_base');
+            if (lastBase) {
+                document.getElementById('baseSelect').value = lastBase;
+            }
+            
+            const lastPlagueHearts = localStorage.getItem('last_plague_hearts');
+            if (lastPlagueHearts) {
+                document.getElementById('plagueHearts').value = lastPlagueHearts;
+            }
+            
+            // Auto-populate "from" fields with last "to" values
+            // And default "to" to match "from" (user only changes what's different)
+            const resources = ['food', 'med', 'ammo', 'mat', 'fuel', 'parts', 'influence'];
+            resources.forEach(resource => {
+                const lastTo = localStorage.getItem('last_' + resource + '_to');
+                if (lastTo) {
+                    document.getElementById(resource + 'From').value = lastTo;
+                    document.getElementById(resource + 'To').value = lastTo;
+                }
+            });
+            
+            // Render survivor roster
+            renderRoster();
+        }
+        
+        // Generate report
+        function generateReport() {
+            const communityName = document.getElementById('communityName').value.trim() || 'Unnamed Community';
+            const mapSelect = document.getElementById('mapSelect');
+            const mapValue = mapSelect.value;
+            const mapName = mapValue ? mapNames[mapValue] : 'Unknown Map';
+            const difficulty = document.getElementById('difficultySelect').value || 'Unknown';
+            const currentBase = document.getElementById('baseSelect').value || 'Unknown';
+            const plagueHearts = document.getElementById('plagueHearts').value || '?';
+            const day = document.getElementById('dayNumber').value || 'X';
+            const foodFrom = document.getElementById('foodFrom').value || '?';
+            const foodTo = document.getElementById('foodTo').value || '?';
+            const medFrom = document.getElementById('medFrom').value || '?';
+            const medTo = document.getElementById('medTo').value || '?';
+            const ammoFrom = document.getElementById('ammoFrom').value || '?';
+            const ammoTo = document.getElementById('ammoTo').value || '?';
+            const matFrom = document.getElementById('matFrom').value || '?';
+            const matTo = document.getElementById('matTo').value || '?';
+            const fuelFrom = document.getElementById('fuelFrom').value || '?';
+            const fuelTo = document.getElementById('fuelTo').value || '?';
+            const partsFrom = document.getElementById('partsFrom').value || '?';
+            const partsTo = document.getElementById('partsTo').value || '?';
+            const influenceFrom = document.getElementById('influenceFrom').value || '?';
+            const influenceTo = document.getElementById('influenceTo').value || '?';
+            
+            const morale = document.getElementById('morale').value;
+            const moraleText = morale > 0 ? '+' + morale : morale;
+            
+            const survivors = document.getElementById('survivors').value || '?';
+            const deaths = document.getElementById('deaths').value.trim() || 'None';
+            const newSurvivors = document.getElementById('newSurvivors').value.trim() || 'None';
+            const events = document.getElementById('events').value.trim() || 'Nothing significant to report.';
+            
+            const report = `${communityName} - Day ${day} Report
+${mapName} | ${difficulty} | ${currentBase}
+Plague Hearts: ${plagueHearts}
+Food: ${foodFrom} -> ${foodTo}
+Medicine: ${medFrom} -> ${medTo}
+Ammo: ${ammoFrom} -> ${ammoTo}
+Materials: ${matFrom} -> ${matTo}
+Fuel: ${fuelFrom} -> ${fuelTo}
+Parts: ${partsFrom} -> ${partsTo}
+Influence: ${influenceFrom} -> ${influenceTo}
+Morale: ${moraleText}
+Survivors: ${survivors}
+Deaths: ${deaths}
+New: ${newSurvivors}
+
+Events: ${events}` + generateRosterText();
+            
+            // Display report
+            document.getElementById('output').textContent = report;
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Auto-copy to clipboard with notification
+            copyTextToClipboard(report, null, true);
+            
+            // Add to history
+            addToHistory(report);
+            
+            // Move "to" values to "from" for next day
+            const resources = ['food', 'med', 'ammo', 'mat', 'fuel', 'parts', 'influence'];
+            resources.forEach(resource => {
+                const toValue = document.getElementById(resource + 'To').value;
+                if (toValue) {
+                    document.getElementById(resource + 'From').value = toValue;
+                }
+            });
+            
+            // Increment day number
+            const dayInput = document.getElementById('dayNumber');
+            const currentDay = parseInt(dayInput.value) || 0;
+            dayInput.value = currentDay + 1;
+            
+            // Clear day-specific fields for next day
+            document.getElementById('deaths').value = '';
+            document.getElementById('newSurvivors').value = '';
+            document.getElementById('events').value = '';
+            
+            // Save values
+            saveValues();
+            
+            // Scroll to output
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // History management
+        function addToHistory(report) {
+            let history = JSON.parse(localStorage.getItem('report_history') || '[]');
+            history.push({
+                timestamp: new Date().toISOString(),
+                report: report
+            });
+            localStorage.setItem('report_history', JSON.stringify(history));
+            loadHistory();
+        }
+        
+        // Escape HTML to prevent injection
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
+            const div = document.createElement('div');
+            div.textContent = String(text);
+            return div.innerHTML;
+        }
+        
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('report_history') || '[]');
+            const historyOutput = document.getElementById('historyOutput');
+            
+            if (history.length === 0) {
+                historyOutput.innerHTML = '<div class="history-empty">No reports yet. Generate your first report to start tracking history.</div>';
+            } else {
+                let html = '';
+                // Reverse to show most recent first
+                const reversedHistory = [...history].reverse();
+                reversedHistory.forEach((entry, displayIndex) => {
+                    const actualIndex = history.length - 1 - displayIndex;
+                    const timestamp = new Date(entry.timestamp);
+                    const timeString = timestamp.toLocaleString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric', 
+                        year: 'numeric',
+                        hour: 'numeric', 
+                        minute: '2-digit',
+                        hour12: true 
+                    });
+                    
+                    // Escape report content to prevent HTML injection
+                    const escapedReport = escapeHtml(entry.report);
+                    
+                    html += `
+                        <div class="history-entry">
+                            <div class="history-entry-header">
+                                <span class="history-timestamp">${escapeHtml(timeString)}</span>
+                                <button class="history-copy-btn" onclick="copyHistoryEntry(${actualIndex})">Copy</button>
+                            </div>
+                            <div class="history-entry-content">${escapedReport}</div>
+                        </div>
+                    `;
+                });
+                historyOutput.innerHTML = html;
+            }
+        }
+        
+        function copyHistory() {
+            const history = JSON.parse(localStorage.getItem('report_history') || '[]');
+            if (history.length === 0) {
+                alert('No history to copy yet.');
+                return;
+            }
+            
+            const historyText = history.map(entry => entry.report).join('\n\n' + '='.repeat(40) + '\n\n');
+            copyTextToClipboard(historyText, 'History copied!');
+        }
+        
+        function copyHistoryEntry(index) {
+            const history = JSON.parse(localStorage.getItem('report_history') || '[]');
+            if (history[index]) {
+                copyTextToClipboard(history[index].report, 'Entry copied!');
+            }
+        }
+        
+        function clearHistory() {
+            if (confirm('Clear all history? This cannot be undone.')) {
+                localStorage.removeItem('report_history');
+                loadHistory();
+            }
+        }
+        
+        // Reset everything for a new community
+        function resetEverything() {
+            if (confirm('Start fresh? This will clear ALL data including history, roster, resources, and community info.\n\nConsider exporting your data first!')) {
+                // Clear all localStorage items for this app
+                const keysToRemove = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith('last_') || key === 'report_history' || key === 'survivor_roster') {
+                        keysToRemove.push(key);
+                    }
+                }
+                keysToRemove.forEach(key => localStorage.removeItem(key));
+                
+                // Reset all form fields
+                document.getElementById('communityName').value = '';
+                document.getElementById('mapSelect').value = '';
+                document.getElementById('difficultySelect').value = '';
+                document.getElementById('baseSelect').innerHTML = '<option value="">Select map first...</option>';
+                document.getElementById('plagueHearts').value = '';
+                document.getElementById('dayNumber').value = '';
+                document.getElementById('survivors').value = '';
+                document.getElementById('morale').value = 0;
+                updateMoraleValue();
+                
+                const resources = ['food', 'med', 'ammo', 'mat', 'fuel', 'parts', 'influence'];
+                resources.forEach(resource => {
+                    document.getElementById(resource + 'From').value = '';
+                    document.getElementById(resource + 'To').value = '';
+                });
+                
+                document.getElementById('deaths').value = '';
+                document.getElementById('newSurvivors').value = '';
+                document.getElementById('events').value = '';
+                
+                // Hide output section
+                document.getElementById('outputSection').style.display = 'none';
+                
+                // Reload history and roster displays
+                loadHistory();
+                renderRoster();
+                
+                alert('Fresh start! Ready for a new community.');
+            }
+        }
+        
+        // Export history as JSON
+        function exportHistory() {
+            const history = JSON.parse(localStorage.getItem('report_history') || '[]');
+            const roster = JSON.parse(localStorage.getItem('survivor_roster') || '[]');
+            
+            if (history.length === 0 && roster.length === 0) {
+                alert('No data to export yet.');
+                return;
+            }
+            
+            const exportData = {
+                exportDate: new Date().toISOString(),
+                communityName: document.getElementById('communityName').value || 'Unknown',
+                reportCount: history.length,
+                survivorCount: roster.length,
+                reports: history,
+                survivors: roster
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            const safeName = (exportData.communityName || 'sod_history').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            a.download = safeName + '_' + new Date().toISOString().split('T')[0] + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Import history from JSON
+        function handleImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importData = JSON.parse(e.target.result);
+                    
+                    // Validate structure - need either reports or survivors
+                    const hasReports = importData.reports && Array.isArray(importData.reports);
+                    const hasSurvivors = importData.survivors && Array.isArray(importData.survivors);
+                    
+                    if (!hasReports && !hasSurvivors) {
+                        throw new Error('Invalid file format - no reports or survivors found');
+                    }
+                    
+                    // Validate reports if present
+                    let validReports = [];
+                    if (hasReports) {
+                        validReports = importData.reports.filter(entry => 
+                            entry && typeof entry.report === 'string' && entry.timestamp
+                        );
+                    }
+                    
+                    // Validate survivors if present
+                    let validSurvivors = [];
+                    if (hasSurvivors) {
+                        validSurvivors = importData.survivors.filter(s => 
+                            s && s.id && s.name
+                        );
+                    }
+                    
+                    if (validReports.length === 0 && validSurvivors.length === 0) {
+                        throw new Error('No valid data found in file');
+                    }
+                    
+                    const existingHistory = JSON.parse(localStorage.getItem('report_history') || '[]');
+                    const existingRoster = JSON.parse(localStorage.getItem('survivor_roster') || '[]');
+                    
+                    const hasExisting = existingHistory.length > 0 || existingRoster.length > 0;
+                    const mergeChoice = hasExisting
+                        ? confirm(`Found ${validReports.length} reports and ${validSurvivors.length} survivors.\n\nMerge with existing data?\n\nOK = Merge\nCancel = Replace all`)
+                        : false;
+                    
+                    if (mergeChoice) {
+                        // Merge reports and sort by timestamp
+                        if (validReports.length > 0) {
+                            const merged = [...existingHistory, ...validReports];
+                            merged.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                            localStorage.setItem('report_history', JSON.stringify(merged));
+                        }
+                        
+                        // Merge survivors (skip duplicates by ID)
+                        if (validSurvivors.length > 0) {
+                            const existingIds = new Set(existingRoster.map(s => s.id));
+                            const newSurvivors = validSurvivors.filter(s => !existingIds.has(s.id));
+                            const mergedRoster = [...existingRoster, ...newSurvivors];
+                            localStorage.setItem('survivor_roster', JSON.stringify(mergedRoster));
+                        }
+                    } else {
+                        // Replace all
+                        if (validReports.length > 0) {
+                            localStorage.setItem('report_history', JSON.stringify(validReports));
+                        }
+                        if (validSurvivors.length > 0) {
+                            localStorage.setItem('survivor_roster', JSON.stringify(validSurvivors));
+                        }
+                    }
+                    
+                    loadHistory();
+                    renderRoster();
+                    alert(`Successfully imported ${validReports.length} reports and ${validSurvivors.length} survivors!`);
+                    
+                } catch (err) {
+                    alert('Failed to import: ' + err.message);
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset file input so same file can be selected again
+            event.target.value = '';
+        }
+        
+        // Copy functions
+        function copyToClipboard() {
+            const output = document.getElementById('output').textContent;
+            copyTextToClipboard(output, 'Report copied!');
+        }
+        
+        function showAutoNotification() {
+            const notification = document.getElementById('copyNotification');
+            notification.classList.add('show');
+            
+            setTimeout(function() {
+                notification.classList.remove('show');
+            }, 2500);
+        }
+        
+        function copyTextToClipboard(text, successMessage, isAuto) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    if (isAuto) {
+                        showAutoNotification();
+                    } else if (successMessage) {
+                        showCopyFeedback(successMessage);
+                    }
+                }).catch(function() {
+                    fallbackCopy(text, successMessage, isAuto);
+                });
+            } else {
+                fallbackCopy(text, successMessage, isAuto);
+            }
+        }
+        
+        function fallbackCopy(text, successMessage, isAuto) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.width = "2em";
+            textArea.style.height = "2em";
+            textArea.style.padding = "0";
+            textArea.style.border = "none";
+            textArea.style.outline = "none";
+            textArea.style.boxShadow = "none";
+            textArea.style.background = "transparent";
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                if (isAuto) {
+                    showAutoNotification();
+                } else if (successMessage) {
+                    showCopyFeedback(successMessage);
+                }
+            } catch (err) {
+                if (!isAuto) {
+                    alert('Unable to copy. Please select the text manually.');
+                }
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        function showCopyFeedback(message) {
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = message;
+            button.style.opacity = '0.8';
+            
+            setTimeout(function() {
+                button.textContent = originalText;
+                button.style.opacity = '1';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
