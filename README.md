@@ -22,9 +22,12 @@ Medicine: 5 -> 4
 
 Events: Cleared the police station. Lost Marcus to a feral ambush.
 
-=== ACTIVE ROSTER (3) ===
-- Maya, 28, Black F | Tough, Leader | Shooting, Medicine | Joined The Survivors Day 1
-...
+Active Roster:
+- Maya, 28, Black F | Tough, Leader | Shooting, Medicine | Joined Day 1
+- Ed, 42, White M | Asthma | Wits, Repair | Joined Day 1
+
+Lost:
+- Marcus, 35, Black M | Killed Day 3
 ```
 
 ## Hosting
