@@ -1045,10 +1045,10 @@
             }
         }
         
-        /* ── Design Tokens ─────────────────────────────────────────── */
+                /* ── Design Tokens ─────────────────────────────────────────── */
         :root {
             /* Surface */
-            --paper: var(--paper);
+            --paper: #e8eaf6;
             --paper-warm: #f5f0e8;
             --leather: #2a2a2a;
             --leather-dark: #1f1f1f;
@@ -1056,19 +1056,22 @@
             --ink-light: #24243e;
 
             /* Brand */
-            --teal: var(--teal);
-            --teal-dark: var(--teal-dark);
+            --teal: #4ecdc4;
+            --teal-dark: #44b3ab;
             --teal-glow: rgba(78, 205, 196, 0.3);
-            --red: var(--red);
-            --red-dark: var(--red-dark);
+            --red: #ff6b6b;
+            --red-dark: #ee5a52;
             --red-glow: rgba(255, 107, 107, 0.3);
-            --gold: var(--gold);
-            --gold-dark: var(--gold-dark);
-            --green: var(--green);
+            --gold: #ffd93d;
+            --gold-dark: #e6c235;
+            --green: #6bcf7f;
+            --amber: #d97706;
+            --amber-dark: #b45309;
+            --amber-glow: rgba(217, 119, 6, 0.25);
 
             /* Text */
-            --muted: var(--muted);
-            --muted-dark: var(--muted-dark);
+            --muted: #b0b0b0;
+            --muted-dark: #888;
 
             /* Animation */
             --dur-fast: 150ms;
@@ -1093,7 +1096,480 @@
             }
         }
 
+        /* ── Input Slots (penned-box) ─────────────────────────────── */
+        .input-slot,
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        input[type="password"],
+        select.styled-select,
+        textarea {
+            background: rgba(245, 240, 232, 0.08);
+            border: 1.5px solid rgba(26, 26, 46, 0.7);
+            border-bottom-color: rgba(26, 26, 46, 0.9);
+            color: var(--paper);
+            padding: 8px 10px;
+            border-radius: 2px;
+            font-family: inherit;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color var(--dur-med) ease,
+                        box-shadow var(--dur-med) ease;
+        }
+
+        .input-slot::placeholder,
+        input[type="text"]::placeholder,
+        input[type="number"]::placeholder,
+        textarea::placeholder {
+            color: var(--muted-dark);
+            font-style: italic;
+        }
+
+        .input-slot:focus,
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select.styled-select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--amber);
+            box-shadow: 0 0 0 3px var(--amber-glow);
+        }
+
+        select.styled-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23b0b0b0' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 30px;
+            cursor: pointer;
+        }
+
+        select.styled-select option {
+            background: var(--leather-dark);
+            color: var(--paper);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* ── Stamp Buttons ───────────────────────────────────────── */
+        .stamp-button,
+        .output-buttons button,
+        .modal-actions button {
+            display: inline-block;
+            width: auto;
+            max-width: 100%;
+            padding: 10px 20px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--paper-warm);
+            background: var(--leather-dark);
+            border: 1.5px solid var(--ink);
+            border-bottom-width: 3px;
+            border-radius: 2px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 var(--ink);
+            transition: transform var(--dur-fast) ease,
+                        box-shadow var(--dur-fast) ease,
+                        background var(--dur-fast) ease;
+        }
+
+        .stamp-button:hover,
+        .output-buttons button:hover,
+        .modal-actions button:hover {
+            background: var(--ink-light);
+            box-shadow: 3px 3px 0 var(--ink);
+        }
+
+        .stamp-button:active,
+        .output-buttons button:active,
+        .modal-actions button:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+            background: var(--ink);
+            border-bottom-width: 1px;
+        }
+
+        .stamp-button.primary {
+            color: var(--ink);
+            background: var(--teal);
+            border-color: var(--teal-dark);
+            border-bottom-color: var(--teal-dark);
+        }
+
+        .stamp-button.primary:hover {
+            background: var(--teal-dark);
+        }
+
+        /* ── Ration Tally Buttons (resource +/-) ─────────────────── */
+        .ration-tally {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+            background: var(--paper-warm);
+            border: 1.5px solid var(--ink);
+            border-bottom-width: 3px;
+            border-radius: 2px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 var(--ink);
+            transition: transform var(--dur-fast) ease,
+                        box-shadow var(--dur-fast) ease;
+            flex-shrink: 0;
+        }
+
+        .ration-tally:hover { background: var(--gold); }
+
+        .ration-tally:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+            border-bottom-width: 1px;
+        }
+
+        .ration-tally.sm {
+            width: 28px;
+            height: 28px;
+            font-size: 13px;
+            box-shadow: 1px 1px 0 var(--ink);
+        }
+
+        .ration-tally.sm:active {
+            transform: translate(1px, 1px);
+        }
+
+        /* ── pm-button → ration-tally.sm ─────────────────────────── */
+        .pm-button {
+            width: 44px;
+            height: 44px;
+            max-width: none;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+            background: var(--paper-warm);
+            border: 1.5px solid var(--ink);
+            border-bottom-width: 3px;
+            border-radius: 2px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 var(--ink);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform var(--dur-fast) ease,
+                        box-shadow var(--dur-fast) ease;
+        }
+
+        .pm-button:hover { background: var(--gold); }
+
+        .pm-button:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+            border-bottom-width: 1px;
+        }
+
+        /* Smaller inline pm-buttons */
+        .resource-grid .pm-button,
+        .resource-inputs .pm-button {
+            width: 28px;
+            height: 28px;
+            font-size: 13px;
+            box-shadow: 1px 1px 0 var(--ink);
+        }
+
+        .resource-grid .pm-button:active,
+        .resource-inputs .pm-button:active {
+            transform: translate(1px, 1px);
+        }
+
+        /* ── Morale Slider (smiley gauge) ────────────────────────── */
+        .morale-container {
+            background: rgba(245, 240, 232, 0.06);
+            padding: 14px 16px;
+            border: 1px solid rgba(26, 26, 46, 0.5);
+            border-radius: 2px;
+        }
+
+        .morale-gauge-label {
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .morale-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right,
+                var(--red) 0%,
+                var(--gold) 50%,
+                var(--green) 100%);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 10px 0;
+        }
+
+        .morale-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--paper-warm);
+            border: 2px solid var(--ink);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .morale-slider::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--paper-warm);
+            border: 2px solid var(--ink);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .morale-slider:focus {
+            box-shadow: 0 0 0 3px var(--amber-glow);
+        }
+
+        .morale-value {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--gold);
+            margin-top: 8px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .morale-slider::-webkit-slider-thumb,
+            .morale-slider::-moz-range-thumb {
+                transition: none;
+            }
+        }
+
+        /* ── Input number spinners ───────────────────────────────── */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--amber);
+            box-shadow: 0 0 0 3px var(--amber-glow);
+        }
+
+        /* ── Form field label ───────────────────────────────────── */
+        .form-field label {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* ── Resume Banner Buttons ──────────────────────────────── */
+        .resume-yes-btn {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--ink);
+            background: var(--teal);
+            border: 1.5px solid var(--teal-dark);
+            border-bottom-width: 3px;
+            border-radius: 2px;
+            padding: 6px 14px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 var(--teal-dark);
+        }
+
+        .resume-yes-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+            border-bottom-width: 1px;
+        }
+
+        .resume-no-btn {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: transparent;
+            border: 1.5px solid rgba(176, 176, 176, 0.3);
+            border-radius: 2px;
+            padding: 6px 14px;
+            cursor: pointer;
+        }
+
+        .resume-no-btn:hover {
+            color: var(--paper);
+            border-color: var(--muted);
+        }
+
+        /* ── Copy / Clear / Export / Import / Reset ──────────────── */
+        .copy-button,
+        .clear-button {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--paper-warm);
+            background: var(--red);
+            border: 1.5px solid var(--red-dark);
+            border-bottom-width: 3px;
+            border-radius: 2px;
+            padding: 10px 20px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 var(--red-dark);
+        }
+
+        .copy-button:hover,
+        .clear-button:hover { background: var(--red-dark); }
+
+        .copy-button:active,
+        .clear-button:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+            border-bottom-width: 1px;
+        }
+
+        .export-button {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--ink);
+            background: var(--green);
+            border: 1.5px solid #5ab86e;
+            border-bottom-width: 3px;
+            border-radius: 2px;
+            padding: 10px 20px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 #5ab86e;
+        }
+
+        .export-button:hover { background: #5ab86e; }
+
+        .export-button:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+            border-bottom-width: 1px;
+        }
+
+        .import-button {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--ink);
+            background: var(--gold);
+            border: 1.5px solid var(--gold-dark);
+            border-bottom-width: 3px;
+            border-radius: 2px;
+            padding: 10px 20px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 var(--gold-dark);
+        }
+
+        .import-button:hover { background: var(--gold-dark); }
+
+        .import-button:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+            border-bottom-width: 1px;
+        }
+
+        .reset-button {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--paper-warm);
+            background: #8b5cf6;
+            border: 1.5px solid #7c4ddb;
+            border-bottom-width: 3px;
+            border-radius: 2px;
+            padding: 10px 20px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 #7c4ddb;
+        }
+
+        .reset-button:hover { background: #7c4ddb; }
+
+        .reset-button:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+            border-bottom-width: 1px;
+        }
+
+        /* Global button base — stamp-style */
+        button {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--paper-warm);
+            background: var(--leather-dark);
+            border: 1.5px solid var(--ink);
+            border-bottom-width: 3px;
+            border-radius: 2px;
+            padding: 12px 20px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 var(--ink);
+            transition: transform var(--dur-fast) ease,
+                        box-shadow var(--dur-fast) ease,
+                        background var(--dur-fast) ease;
+        }
+
+        button:hover {
+            background: var(--ink-light);
+            box-shadow: 3px 3px 0 var(--ink);
+        }
+
+        button:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+            background: var(--ink);
+            border-bottom-width: 1px;
+        }
+
         /* Large Desktop */
+/* Large Desktop */
         @media (min-width: 1200px) {
             .container {
                 max-width: 900px;
