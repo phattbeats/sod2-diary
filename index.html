@@ -433,6 +433,16 @@
         .copy-button:hover {
             box-shadow: 0 4px 16px rgba(255, 107, 107, 0.4);
         }
+
+        .copy-markdown-btn {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44b8b0 100%);
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.25);
+            margin-left: 6px;
+        }
+
+        .copy-markdown-btn:hover {
+            box-shadow: 0 4px 16px rgba(78, 205, 196, 0.4);
+        }
         
         .output {
             background: rgba(26, 26, 46, 0.9);
@@ -1365,6 +1375,7 @@
             <div class="section-title">Generated Report</div>
             <div id="output" class="output"></div>
             <button class="copy-button" onclick="copyToClipboard()">Copy Report</button>
+            <button class="copy-button copy-markdown-btn" onclick="copyToClipboardMarkdown()">Copy as Markdown</button>
         </div>
         
         <!-- History Section -->
@@ -2271,6 +2282,81 @@ Events: ${events}` + generateRosterText();
         function copyToClipboard() {
             const output = document.getElementById('output').textContent;
             copyTextToClipboard(output, 'Report copied!');
+        }
+
+        function copyToClipboardMarkdown() {
+            const output = document.getElementById('output').textContent;
+            const md = convertReportToMarkdown(output);
+            copyTextToClipboard(md, 'Markdown copied!');
+        }
+
+        function convertReportToMarkdown(textReport) {
+            // Parse the plain-text report back into structured markdown.
+            // textReport format:
+            // COMMUNITYNAME - Day N Report
+            // MAP | DIFFICULTY | BASE
+            // Plague Hearts: N
+            // Food: N -> N
+            // ...
+            // Events: ...
+            // Active Roster:
+            // - Name, age, race gender | traits | skills | Joined Day N
+            // Lost:
+            // - Name, age, race gender | statusReason Day N
+
+            const lines = textReport.split('\n');
+            const md = [];
+
+            for (const line of lines) {
+                const trimmed = line.trim();
+                if (!trimmed) {
+                    md.push('');
+                    continue;
+                }
+
+                // Community header line → H1
+                if (trimmed.includes(' - Day ') && trimmed.includes(' Report')) {
+                    md.push(`## ${trimmed}`);
+                    continue;
+                }
+
+                // Map/difficulty/base line → italic subtitle
+                if (trimmed.includes(' | ')) {
+                    const parts = trimmed.split('|').map(p => p.trim());
+                    md.push(`*${parts.join(' • ')}*`);
+                    continue;
+                }
+
+                // Roster section headers
+                if (trimmed.startsWith('Active Roster:')) {
+                    md.push(`\n### ${trimmed}`);
+                    continue;
+                }
+                if (trimmed.startsWith('Lost:')) {
+                    md.push(`\n### ${trimmed}`);
+                    continue;
+                }
+
+                // Bullet items (roster entries)
+                if (trimmed.startsWith('- ')) {
+                    md.push(trimmed);
+                    continue;
+                }
+
+                // Key:value resource lines → bold label
+                const colonIdx = trimmed.indexOf(':');
+                if (colonIdx > 0) {
+                    const key = trimmed.slice(0, colonIdx).trim();
+                    const val = trimmed.slice(colonIdx + 1).trim();
+                    md.push(`**${key}:** ${val}`);
+                    continue;
+                }
+
+                // Default: pass through
+                md.push(trimmed);
+            }
+
+            return md.join('\n');
         }
         
         function showAutoNotification() {
