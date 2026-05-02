@@ -18,7 +18,7 @@ This folder is the **public-facing source of truth** for the diary's design phil
 | **Tokens (markdown spec)** | [`../design/tokens.md`](../design/tokens.md) | Full rationale + WCAG-AA contrast proofs. |
 | **Tokens (CSS)** | [`../design/tokens.css`](../design/tokens.css) | The custom-property file every component imports. |
 | **Screenshots** | [`screenshots/`](./screenshots/) | Auto-generated from the live preview on every push (see workflow below). |
-| **Original concept art** | [`concept-art/`](./concept-art/) | Source images that inspired the v2 metaphor. Drop new art here. |
+| **Original concept art** | [`concept-art/`](./concept-art/) | Canonical reference: [`network-logbook.png`](./concept-art/network-logbook.png). The single image the v2 metaphor was built around. |
 
 ---
 

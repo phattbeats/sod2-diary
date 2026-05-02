@@ -8,6 +8,16 @@ Aesthetic in one line: a worn leather field journal kept by a survivor — paper
 
 ---
 
+## Canonical concept art
+
+The single image the v2 metaphor was built around lives at [`/docs/concept-art/network-logbook.png`](../docs/concept-art/network-logbook.png). Every reference below is a "find a CC0 stand-in for **this**." If you ever need to settle a "does this feel right?" question, hold the candidate against that page.
+
+![Network Logbook concept art](../docs/concept-art/network-logbook.png)
+
+What that one image already locks in: leather book chrome (`--leather`), aged cream paper (`--paper`), typewriter section labels (`--font-typewriter` + `--ink-brown`), ballpoint-blue handwriting (`--font-hand` + `--ink-blue`), the mood-today smiley row, the right-edge section tabs (PEOPLE / PLACES / RESOURCES / CONTACTS / NOTES), the paperclipped header note with the Network crosshair, the "SHARED TODAY, STRONGER TOMORROW." footer tagline, and the single amber light source from the top-left (`--amber`).
+
+---
+
 ## Reference Grid
 
 Five references, one per surface. Each entry names the asset, the surface it informs, what to take from it, and what to leave behind.
@@ -100,5 +110,5 @@ Required even for CC0 (license terms permit no attribution, but we keep the row 
 
 | File | Source URL | Creator | License | Retrieved |
 |---|---|---|---|---|
-| `design/textures/paper.png` | <https://ambientcg.com/view?id=Paper003> | ambientCG (Lennart Demes) | CC0 1.0 | _on download_ |
-| `design/textures/leather.png` | <https://ambientcg.com/view?id=Leather011> | ambientCG (Lennart Demes) | CC0 1.0 | _on download_ |
+| `design/textures/paper.png` | <https://ambientcg.com/view?id=Paper003> | ambientCG (Lennart Demes) | CC0 1.0 | 2026-05-02 |
+| `design/textures/leather.png` | <https://ambientcg.com/view?id=Leather011> | ambientCG (Lennart Demes) | CC0 1.0 | 2026-05-02 |
