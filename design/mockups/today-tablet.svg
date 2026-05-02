@@ -140,28 +140,25 @@
 <text x="44" y="520" font-family="'Caveat', 'Patrick Hand', 'Bradley Hand', cursive" font-size="18" fill="#1F2A4A">Maya killed a feral on the highway.</text>
 <text x="44" y="542" font-family="'Caveat', 'Patrick Hand', 'Bradley Hand', cursive" font-size="18" fill="#1F2A4A">Ed scavenged the gas station — found</text>
 <text x="44" y="562" font-family="'Caveat', 'Patrick Hand', 'Bradley Hand', cursive" font-size="18" fill="#1F2A4A">2 medkits, gave one to Marcus.</text>
-<path d="M690 108 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#F1E4C8" stroke="#3B2A1A" stroke-width="0.6"/>
-<text x="698" y="144.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">PEOPLE</text>
-<line x1="690" y1="171" x2="750" y2="171" stroke="#D4A24C" stroke-width="2"/>
+<path d="M694 108 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="702" y="144.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">PEOPLE</text>
 <path d="M694 180 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
-<text x="702" y="216.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">PLACES</text>
+<text x="702" y="216.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">RES</text>
 <path d="M694 252 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
-<text x="702" y="288.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">RES</text>
+<text x="702" y="288.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">EVENTS</text>
 <path d="M694 324 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
-<text x="702" y="360.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">EVENTS</text>
-<path d="M694 396 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
-<text x="702" y="432.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">DISP</text>
+<text x="702" y="360.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">DISP</text>
 <g>
-  <path d="M540 976 q53 -10 94 0 v18 q-53 10 -94 0 z"
+  <path d="M566 962 q48 -10 84 0 v18 q-48 10 -84 0 z"
         fill="#7E1E1E" opacity="0.85"/>
-  <circle cx="593" cy="929" r="53" fill="#7E1E1E"/>
-  <circle cx="587" cy="921" r="53" fill="#F1E4C8" opacity="0.18"/>
-  <circle cx="593" cy="929" r="29" fill="none" stroke="#F1E4C8" stroke-width="1.5"/>
-  <line x1="593" y1="900" x2="593" y2="958"
+  <circle cx="614" cy="920" r="48" fill="#7E1E1E"/>
+  <circle cx="608" cy="912" r="48" fill="#F1E4C8" opacity="0.18"/>
+  <circle cx="614" cy="920" r="26" fill="none" stroke="#F1E4C8" stroke-width="1.5"/>
+  <line x1="614" y1="894" x2="614" y2="946"
         stroke="#F1E4C8" stroke-width="1.5"/>
-  <line x1="564" y1="929" x2="622" y2="929"
+  <line x1="588" y1="920" x2="640" y2="920"
         stroke="#F1E4C8" stroke-width="1.5"/>
-  <text x="593" y="996" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace"
+  <text x="614" y="982" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace"
         font-size="11" fill="#F1E4C8" letter-spacing="2.5">TRANSMIT</text>
 </g>
 
@@ -178,27 +175,27 @@
 <text x="808" y="88" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--amber clip · --font-typewriter · --ink-brown</text>
 <text x="808" y="102" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Decorative grouping; &lt;section aria-labelledby&gt;</text>
 <text x="808" y="114" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">still asserts structure.</text>
-<line x1="232" y1="168" x2="768" y2="225" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
-<circle cx="232" cy="168" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
-<text x="232" y="172" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">2</text>
+<line x1="232" y1="258" x2="768" y2="225" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="232" cy="258" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="232" y="262" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">2</text>
 <circle cx="792" cy="225" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
 <text x="792" y="229" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">2</text>
 <text x="808" y="229" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§1 Input slot · MORALE</text>
 <text x="808" y="245" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--font-mono label · --font-hand value</text>
 <text x="808" y="259" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Caveat is decorative; numeric value (1–10) is</text>
 <text x="808" y="271" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">canonical via &lt;output&gt;.</text>
-<line x1="392" y1="168" x2="768" y2="382" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
-<circle cx="392" cy="168" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
-<text x="392" y="172" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">3</text>
+<line x1="502" y1="168" x2="768" y2="382" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="502" cy="168" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="502" y="172" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">3</text>
 <circle cx="792" cy="382" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
 <text x="792" y="386" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">3</text>
 <text x="808" y="386" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§1 RESOURCES grid</text>
 <text x="808" y="402" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--ink-brown 1.4px · --radius-sm</text>
-<text x="808" y="416" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Two-column grid drops to single column under</text>
-<text x="808" y="428" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">prefers-reduced-data.</text>
-<line x1="132" y1="498" x2="768" y2="539" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
-<circle cx="132" cy="498" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
-<text x="132" y="502" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">4</text>
+<text x="808" y="416" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Two-column grid; falls back to single column</text>
+<text x="808" y="428" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">under prefers-reduced-data.</text>
+<line x1="132" y1="448" x2="768" y2="539" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="132" cy="448" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="132" y="452" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">4</text>
 <circle cx="792" cy="539" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
 <text x="792" y="543" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">4</text>
 <text x="808" y="543" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§1 PLAGUE HEARTS</text>
@@ -211,12 +208,12 @@
 <circle cx="792" cy="696" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
 <text x="792" y="700" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">5</text>
 <text x="808" y="700" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§5 Right-edge tabs</text>
-<text x="808" y="716" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--paper-stained inactive · --paper active · --amber underline</text>
-<text x="808" y="730" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Tabs degrade to a horizontal &lt;nav&gt; on small</text>
-<text x="808" y="742" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">viewports; redundant cues for active.</text>
-<line x1="568" y1="944" x2="768" y2="853" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
-<circle cx="568" cy="944" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
-<text x="568" y="948" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">6</text>
+<text x="808" y="716" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--paper-stained inactive · --paper active · --amber</text>
+<text x="808" y="730" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Today is home view — no tab is aria-current.</text>
+<text x="808" y="742" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Selecting a tab leaves Today.</text>
+<line x1="658" y1="930" x2="768" y2="853" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="658" cy="930" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="658" y="934" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">6</text>
 <circle cx="792" cy="853" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
 <text x="792" y="857" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">6</text>
 <text x="808" y="857" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§13 Wax-seal TRANSMIT</text>

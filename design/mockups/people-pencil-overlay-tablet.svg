@@ -73,13 +73,11 @@
 <text x="698" y="144.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">PEOPLE</text>
 <line x1="690" y1="171" x2="750" y2="171" stroke="#D4A24C" stroke-width="2"/>
 <path d="M694 180 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
-<text x="702" y="216.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">PLACES</text>
+<text x="702" y="216.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">RES</text>
 <path d="M694 252 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
-<text x="702" y="288.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">RES</text>
+<text x="702" y="288.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">EVENTS</text>
 <path d="M694 324 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
-<text x="702" y="360.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">EVENTS</text>
-<path d="M694 396 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
-<text x="702" y="432.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">DISP</text>
+<text x="702" y="360.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">DISP</text>
     <rect x="768" y="0" width="320" height="1024" fill="#FAF6EC"/>
 <line x1="768" y1="0" x2="768" y2="1024" stroke="#C9B388" stroke-width="1"/>
 <text x="784" y="28" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="2">ANNOTATIONS</text>

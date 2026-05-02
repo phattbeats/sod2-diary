@@ -30,14 +30,29 @@ viewBox dimensions — no scaling, no guesswork.
 
 | breakpoint | viewport width  | device viewBox |
 | ---------- | --------------- | -------------- |
-| `mobile`   | ≤640 px         | 360 × 760      |
+| `mobile`   | ≤640 px         | 360 × 1080     |
 | `tablet`   | 641–1024 px     | 768 × 1024     |
 | `desktop`  | ≥1025 px        | 1440 × 900     |
+
+Mobile is taller than a typical phone viewport because mobile pages
+scroll vertically on real devices — the mockup shows the full
+content extent so engineering doesn't have to imagine "what's
+below the fold." The bottom-edge ribbon nav is drawn at the canvas
+bottom and is documented in [`components.md`](../components.md) §7
+as `position: sticky` against the viewport.
 
 Each SVG is the device viewBox plus a right-side annotation rail
 (280–360 px wide). The rail holds numbered callouts; the device
 itself shows numbered targets with leader lines pointing into the
 rail.
+
+### Today is the home view — no tab/ribbon item is active
+
+Today's page is the default landing view for v2 (the "home" of the
+journal). Tabs and ribbon items switch you AWAY from Today into
+PEOPLE / RES / EVENTS / DISP. Therefore on every Today mockup,
+no tab or ribbon item carries `aria-current="page"` — only Today's
+own header anchors the page. Selecting any tab leaves Today.
 
 ## How to read an annotation
 
@@ -72,16 +87,24 @@ This honours the issue's "21 mockups" file count and the spec's
 
 ```
 cd design/mockups
-python3 _render.py
+python3 _render.py     # regenerate the 21 SVGs
+python3 _audit.py      # spatial audit — flags overflow, card-line crossings
 ```
 
 The generator is the source of truth. After touching `tokens.css`
-or `components.md`, re-run it and commit the regenerated SVGs in
-the same change so the spec and the visual reference never drift.
+or `components.md`, re-run both scripts and commit the
+regenerated SVGs in the same change so the spec and the visual
+reference never drift.
 
 The token mirror lives at the top of `_render.py` (SVG can't
 read CSS variables) — keep those constants in sync if a token
 changes value.
+
+`_audit.py` catches the kinds of bugs you can't eyeball at this
+density: elements that bleed into the annotation rail, content
+that overflows the device frame, and pencil-line tie paths that
+intersect a survivor card on the desktop overlay. Treat it as a
+linter — keep it green or fix the layout.
 
 ## Acceptance map (PHA-348 §Acceptance)
 

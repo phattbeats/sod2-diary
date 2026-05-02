@@ -37,7 +37,10 @@ FONT_MONO = "'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace"
 FONT_HAND = "'Caveat', 'Patrick Hand', 'Bradley Hand', cursive"
 
 # Breakpoint device widths (per Plan §5 responsive strategy)
-MOBILE_W,  MOBILE_H  = 360,  760
+# Mobile height is taller than a typical iPhone viewport because mobile screens
+# scroll vertically on real devices; the mockup shows the full content extent
+# of the page so engineering doesn't have to imagine the rest.
+MOBILE_W,  MOBILE_H  = 360,  1080
 TABLET_W,  TABLET_H  = 768,  1024
 DESKTOP_W, DESKTOP_H = 1440, 900
 
@@ -358,11 +361,11 @@ def index_card(x: int, y: int, w: int, h: int, name: str, age: str,
     return "\n".join(parts)
 
 
-def tab_strip_right(c: Canvas, active: str, x: int, y_start: int, count: int = 5) -> str:
-    """Right-edge tabs: PEOPLE / PLACES / RESOURCES / EVENTS / DISPATCH (per moodboard)."""
-    labels = ["PEOPLE", "PLACES", "RES", "EVENTS", "DISP"]
-    if count == 4:
-        labels = ["PEOPLE", "RES", "EVENTS", "DISP"]
+def tab_strip_right(c: Canvas, active: str, x: int, y_start: int, count: int = 4) -> str:
+    """Right-edge tabs (§5): PEOPLE / RESOURCES / EVENTS / DISPATCH per components.md."""
+    labels = ["PEOPLE", "RES", "EVENTS", "DISP"]
+    if count == 5:
+        labels = ["PEOPLE", "PLACES", "RES", "EVENTS", "DISP"]
     parts = []
     tab_h = 64
     for i, lbl in enumerate(labels[:count]):
@@ -437,37 +440,49 @@ def todays_page(c: Canvas) -> str:
     parts = [page_title(c, px, py, "Tuesday — clear", "14", "Trumbull Pt.")]
     # form area depends on breakpoint
     if c.device_w == MOBILE_W:
-        slots = [
-            ("DATE", "Tue · D14"),
-            ("WEATHER", "clear"),
-            ("MORALE", "high"),
-            ("FOOD", "5"),
-            ("MEDS", "2"),
-            ("AMMO", "11"),
-            ("FUEL", "3"),
-            ("MATERIALS", "8"),
-            ("PLAGUE HEARTS", "2"),
-        ]
-        slot_y = py + 70
-        slot_h = 44
-        for label, val in slots:
-            parts.append(input_slot(px, slot_y, c.page_w - 36, slot_h, label, val, width_label=120))
-            slot_y += slot_h + 8
-        # events note (multiline)
-        parts.append(input_slot(px, slot_y, c.page_w - 36, 72, "EVENTS", ""))
+        # Vitals block (paperclipped)
+        parts.append(section_clip(c, px, py + 76, "VITALS", "weather · morale"))
+        sy = py + 116
+        for label, val in [("WEATHER", "clear · 62°F"), ("MORALE", "high")]:
+            parts.append(input_slot(px, sy, c.page_w - 36, 44, label, val, width_label=110))
+            sy += 52
+        # Resources block
+        parts.append(section_clip(c, px, sy + 4, "RESOURCES", "food · meds · ammo · fuel · materials"))
+        sy += 44
+        for label, val in [("FOOD", "5"), ("MEDS", "2"), ("AMMO", "11"),
+                           ("FUEL", "3"), ("MATERIALS", "8")]:
+            parts.append(input_slot(px, sy, c.page_w - 36, 44, label, val, width_label=110))
+            sy += 52
+        # Plague hearts (alert tone)
         parts.append(
-            f'<text x="{px + 12}" y="{slot_y + 36}" font-family="{FONT_HAND}" font-size="16" '
-            f'fill="{INK_BLUE}">Maya killed a feral. Ed</text>'
+            f'<rect x="{px}" y="{sy + 4}" width="{c.page_w - 36}" height="44" fill="none" '
+            f'stroke="{INK_RED}" stroke-width="1.4" rx="3"/>'
         )
         parts.append(
-            f'<text x="{px + 12}" y="{slot_y + 56}" font-family="{FONT_HAND}" font-size="16" '
-            f'fill="{INK_BLUE}">scavenged the gas station.</text>'
+            f'<text x="{px + 12}" y="{sy + 30}" font-family="{FONT_MONO}" font-size="11" '
+            f'fill="{INK_RED}" letter-spacing="1">PLAGUE HEARTS</text>'
         )
-        slot_y += 80
-        # ribbon nav
-        parts.append(ribbon_nav(c, "PEOPLE"))  # Today is shown via Today screen, ribbon shows section
-        # transmit wax-seal
-        parts.append(wax_seal(c.device_w - 200, c.device_h - 180, label="TRANSMIT"))
+        parts.append(
+            f'<text x="{px + 130}" y="{sy + 32}" font-family="{FONT_HAND}" font-size="20" '
+            f'fill="{INK_RED}">2 — west</text>'
+        )
+        sy += 56
+        # Events note (multiline)
+        parts.append(input_slot(px, sy, c.page_w - 36, 72, "EVENTS", ""))
+        parts.append(
+            f'<text x="{px + 12}" y="{sy + 36}" font-family="{FONT_HAND}" font-size="15" '
+            f'fill="{INK_BLUE}">Maya killed a feral.</text>'
+        )
+        parts.append(
+            f'<text x="{px + 12}" y="{sy + 56}" font-family="{FONT_HAND}" font-size="15" '
+            f'fill="{INK_BLUE}">Ed scavenged the gas station.</text>'
+        )
+        sy += 80
+        # TRANSMIT — stamp button on mobile (wax seal would collide with the ribbon)
+        parts.append(stamp_button(px, sy, c.page_w - 36, 48, "TRANSMIT TO NETWORK",
+                                  fill=INK_RED, text_color=PAPER, rotate=-1.0))
+        # Ribbon nav (Today is the home view; no section is "active" on Today)
+        parts.append(ribbon_nav(c, "_none_"))
     elif c.device_w == TABLET_W:
         # Two-column form: vitals on left, resources on right
         col_w = (c.page_w - 60) // 2
@@ -514,8 +529,11 @@ def todays_page(c: Canvas) -> str:
             f'<text x="{px + 12}" y="{ev_y + 80}" font-family="{FONT_HAND}" font-size="18" '
             f'fill="{INK_BLUE}">2 medkits, gave one to Marcus.</text>'
         )
-        parts.append(tab_strip_right(c, "PEOPLE", c.device_w - c.inset - 60, py + 70))
-        parts.append(wax_seal(c.device_w - 240, c.device_h - 160, label="TRANSMIT"))
+        # Today is the home view; tab-strip shows none active.
+        parts.append(tab_strip_right(c, "_none_", c.device_w - c.inset - 60, py + 70))
+        # Wax seal sits inside the events block on tablet (lands above the page edge)
+        parts.append(wax_seal(c.device_w - 200 - c.inset, c.page_y + c.page_h - 150,
+                              label="TRANSMIT", size=120))
     else:  # desktop — two-page spread
         spine_x = c.page_x + c.page_w // 2
         # spine fold
@@ -573,8 +591,9 @@ def todays_page(c: Canvas) -> str:
                 f'<text x="{right_inner + 18}" y="{sy + 36 + i * 30}" font-family="{FONT_HAND}" '
                 f'font-size="20" fill="{INK_BLUE}">{xml_escape(line)}</text>'
             )
-        parts.append(tab_strip_right(c, "PEOPLE", c.device_w - c.inset - 60, py + 80))
-        parts.append(wax_seal(c.device_w - 280, c.device_h - 200, label="TRANSMIT"))
+        # Today is the home view; tab-strip shows none active.
+        parts.append(tab_strip_right(c, "_none_", c.device_w - c.inset - 60, py + 80))
+        parts.append(wax_seal(c.device_w - 280, c.device_h - 240, label="TRANSMIT", size=160))
     return "\n".join(parts)
 
 
@@ -610,6 +629,7 @@ def people_front(c: Canvas) -> str:
     chip_y = py + 30
     chip_x = px
     chip_w = 72
+    chip_centers = []
     for i, lbl in enumerate(chip_labels):
         is_active = i == 0
         fill = INK_BROWN if is_active else "none"
@@ -624,6 +644,11 @@ def people_front(c: Canvas) -> str:
             f'font-family="{FONT_TYPE}" font-size="10" fill="{text_color}" '
             f'letter-spacing="1.5">{lbl}</text>'
         )
+        chip_centers.append((cx + chip_w / 2, chip_y + 14))
+    # Visible touch-target proof on mobile/tablet — invisible 44×44 hit-box
+    # extends each chip's effective tap area to --touch-min.
+    if c.device_w in (MOBILE_W, TABLET_W):
+        parts.append(touch_proof(c, [(int(x), int(y)) for x, y in chip_centers]))
 
     survivors = [
         ("Maya", "28", "Tough · Leader", "Shoot · Med", "high", "JOINED D1", None),
@@ -686,17 +711,18 @@ def people_back(c: Canvas) -> str:
         card_x = px
         card_y = py + 36
         card_w = c.page_w - 36
-        card_h = c.page_h - 80 - 70  # room for ribbon
+        # 5 ties × 64 + add-tie 56 + header 70 + footer 24 = 470 (max)
+        card_h = min(c.page_h - 80 - 70, 480)
     elif c.device_w == TABLET_W:
         card_x = px + 40
         card_y = py + 80
-        card_w = c.page_w - 80 - 60  # leave tab gutter
-        card_h = c.page_h - 160
+        card_w = c.page_w - 80 - 60   # leave tab gutter
+        card_h = 460                  # sized to content, not page-fill
     else:
         card_x = px + 80
         card_y = py + 80
         card_w = c.page_w - 200 - 60
-        card_h = c.page_h - 160
+        card_h = 480                  # sized to content, not page-fill
 
     parts.append(
         f'<rect x="{card_x}" y="{card_y}" width="{card_w}" height="{card_h}" '
@@ -881,43 +907,93 @@ def people_pencil_overlay(c: Canvas) -> str:
         ("Reyes", "26", "Sharp", "Shoot", "—", "D11", "KIA"),
     ]
     card_w, card_h, gap = 280, 170, 24
+    row_gap = 28
     cy_ = py + 80
-    centers = []
+    # Anchor table: card edges (top/right/bottom/left) per name
+    anchors = {}
     for i, s in enumerate(survivors):
-        cx_ = px + (i % 3) * (card_w + gap)
-        ry = cy_ + (i // 3) * (card_h + 28)
+        col = i % 3
+        row = i // 3
+        cx_ = px + col * (card_w + gap)
+        ry = cy_ + row * (card_h + row_gap)
         parts.append(index_card(cx_, ry, card_w, card_h, *s))
-        centers.append((s[0], cx_ + card_w / 2, ry + card_h / 2))
-    # pencil-line ties (strongest only)
+        anchors[s[0]] = {
+            "row": row,
+            "col": col,
+            "top":   (cx_ + card_w / 2, ry),
+            "right": (cx_ + card_w,     ry + card_h / 2),
+            "bot":   (cx_ + card_w / 2, ry + card_h),
+            "left":  (cx_,              ry + card_h / 2),
+        }
+
+    # Hand-routed pencil paths through corridors between cards.
+    # Two horizontal "shelves" carry inter-card lines without crossing any card:
+    #   shelf-top-A (y=cy_-22) for primary row-0 ties
+    #   shelf-top-B (y=cy_-7)  for second row-0 tie (avoids shelf-A collision)
+    #   shelf-mid   (y=cy_+card_h+8) for row-row crossings + bottom-row dropouts
+    shelf_a = cy_ - 22
+    shelf_b = cy_ - 7
+    shelf_mid = cy_ + card_h + 8
+    shelf_bot = cy_ + 2 * card_h + row_gap + 18
+
+    # (kind, path-d, label-x, label-y, stroke, opacity, dashed)
     web = [
-        ("Maya", "Ed",     "PARTNER"),
-        ("Maya", "Marcus", "MENTOR"),
-        ("Maya", "Lena",   "FRIEND"),
-        ("Ed",   "Marcus", "ALLY"),
-        ("Lena", "Sam",    "ALLY"),
-        ("Maya", "Reyes",  "MOURNED"),
+        ("PARTNER",
+         f"M{anchors['Maya']['top'][0]} {anchors['Maya']['top'][1]} "
+         f"L{anchors['Maya']['top'][0]} {shelf_a} "
+         f"L{anchors['Ed']['top'][0]}   {shelf_a} "
+         f"L{anchors['Ed']['top'][0]}   {anchors['Ed']['top'][1]}",
+         (anchors['Maya']['top'][0] + anchors['Ed']['top'][0]) / 2, shelf_a - 4,
+         INK_BROWN, "0.6", False),
+        ("MENTOR",
+         f"M{anchors['Maya']['top'][0]} {anchors['Maya']['top'][1]} "
+         f"L{anchors['Maya']['top'][0]} {shelf_b} "
+         f"L{anchors['Marcus']['top'][0]} {shelf_b} "
+         f"L{anchors['Marcus']['top'][0]} {anchors['Marcus']['top'][1]}",
+         (anchors['Ed']['right'][0] + anchors['Marcus']['left'][0]) / 2, shelf_b - 4,
+         INK_BROWN, "0.55", False),
+        ("ALLY",
+         f"M{anchors['Ed']['bot'][0]} {anchors['Ed']['bot'][1]} "
+         f"L{anchors['Ed']['bot'][0]} {shelf_mid} "
+         f"L{anchors['Marcus']['bot'][0]} {shelf_mid} "
+         f"L{anchors['Marcus']['bot'][0]} {anchors['Marcus']['bot'][1]}",
+         (anchors['Ed']['bot'][0] + anchors['Marcus']['bot'][0]) / 2, shelf_mid + 5,
+         INK_BROWN, "0.55", False),
+        ("FRIEND",
+         f"M{anchors['Maya']['bot'][0]} {anchors['Maya']['bot'][1]} "
+         f"L{anchors['Lena']['top'][0]} {anchors['Lena']['top'][1]}",
+         anchors['Maya']['bot'][0] + 36, anchors['Maya']['bot'][1] + 16,
+         INK_BROWN, "0.55", False),
+        # Lena-Sam routes via the BOTTOM shelf so its label doesn't compete
+        # with Maya-Reyes for the narrow row gutter.
+        ("ALLY",
+         f"M{anchors['Lena']['bot'][0]} {anchors['Lena']['bot'][1]} "
+         f"L{anchors['Lena']['bot'][0]} {shelf_bot} "
+         f"L{anchors['Sam']['bot'][0]} {shelf_bot} "
+         f"L{anchors['Sam']['bot'][0]} {anchors['Sam']['bot'][1]}",
+         (anchors['Lena']['bot'][0] + anchors['Sam']['bot'][0]) / 2, shelf_bot + 5,
+         INK_BROWN, "0.55", False),
+        ("MOURNED",
+         f"M{anchors['Maya']['bot'][0]} {anchors['Maya']['bot'][1]} "
+         f"L{anchors['Maya']['bot'][0]} {shelf_mid + 6} "
+         f"L{anchors['Reyes']['top'][0]} {shelf_mid + 6} "
+         f"L{anchors['Reyes']['top'][0]} {anchors['Reyes']['top'][1]}",
+         (anchors['Sam']['top'][0] + anchors['Reyes']['top'][0]) / 2, shelf_mid + 11,
+         INK_RED, "0.7", True),
     ]
-    by_name = {n: (x, y) for (n, x, y) in centers}
-    for a, b, kind in web:
-        ax, ay = by_name[a]
-        bx, by_ = by_name[b]
-        # slight curve via control point above midpoint
-        mx = (ax + bx) / 2
-        my = (ay + by_) / 2 - 28
-        stroke = INK_BROWN if kind != "MOURNED" else INK_RED
-        opacity = "0.55" if kind != "MOURNED" else "0.7"
-        dash = "" if kind != "MOURNED" else 'stroke-dasharray="4 4"'
+    for kind, d, lx, ly, stroke, opacity, dashed in web:
+        dash = 'stroke-dasharray="4 4"' if dashed else ""
         parts.append(
-            f'<path d="M{ax} {ay} Q{mx} {my} {bx} {by_}" stroke="{stroke}" '
-            f'stroke-width="1.2" fill="none" opacity="{opacity}" {dash}/>'
+            f'<path d="{d}" stroke="{stroke}" stroke-width="1.2" fill="none" '
+            f'opacity="{opacity}" {dash} stroke-linecap="round" stroke-linejoin="round"/>'
         )
-        # label at midpoint
+        # Label chip on a paper-tinted background so it stays readable.
         parts.append(
-            f'<rect x="{mx - 28}" y="{my - 10}" width="56" height="14" fill="{PAPER}" '
-            f'opacity="0.85"/>'
+            f'<rect x="{lx - 30}" y="{ly - 10}" width="60" height="14" fill="{PAPER}" '
+            f'opacity="0.9" rx="2"/>'
         )
         parts.append(
-            f'<text x="{mx}" y="{my + 1}" text-anchor="middle" font-family="{FONT_TYPE}" '
+            f'<text x="{lx}" y="{ly + 1}" text-anchor="middle" font-family="{FONT_TYPE}" '
             f'font-size="9" fill="{stroke}" letter-spacing="1">{kind}</text>'
         )
     parts.append(tab_strip_right(c, "PEOPLE", c.device_w - c.inset - 60, py + 80))
@@ -1555,37 +1631,40 @@ def annotations_for(screen: str, breakpoint: str, c: Canvas) -> List[Annotation]
                 Annotation(1, (px + 100, py + 38), "§0 Page header",
                            "--font-typewriter · --font-hand · --ink-blue",
                            "Date stays in mono caps; handwritten day-name is decorative — typed day is canonical."),
-                Annotation(2, (px + 80, py + 100), "§1 Input slot · DATE",
+                Annotation(2, (px + 30, py + 90), "§6 Paperclip · VITALS",
+                           "--amber clip · --font-typewriter · --ink-brown",
+                           "Decorative; <section aria-labelledby> still asserts structure for screen readers."),
+                Annotation(3, (px + 80, py + 138), "§1 Input slot · WEATHER",
                            "--ink-brown 1.4px · --radius-sm",
                            "Falls back to flat <input> with solid border if SVG filter unsupported."),
-                Annotation(3, (px + 80, py + 460), "§1 PLAGUE HEARTS",
+                Annotation(4, (px + 80, py + 550), "§0 PLAGUE HEARTS",
                            "--ink-red border · --font-mono",
-                           "Color is paired with the explicit text label; never rely on red alone."),
-                Annotation(4, (px + 60, c.device_h - 80), "§7 Ribbon nav",
-                           "--leather + --texture-leather · --amber 4px",
-                           "Active section announced via aria-current=page; underline survives CSS strip."),
-                Annotation(5, (c.device_w - 130, c.device_h - 130), "§13 Wax-seal TRANSMIT",
-                           "--ink-red · --font-typewriter · --paper",
-                           "Real <button> underneath; toast announced via aria-live polite."),
+                           "Color paired with explicit text label; never rely on red alone."),
+                Annotation(5, (px + 170, py + 684), "§2 Stamp button · TRANSMIT TO NETWORK",
+                           "--ink-red · --paper · --font-typewriter",
+                           "Mobile uses stamp instead of wax (saves vertical room above the ribbon). Real <button>."),
+                Annotation(6, (px + 60, c.device_h - 80), "§7 Ribbon nav",
+                           "--leather + --texture-leather · --amber",
+                           "Today is the home view — no section is aria-current on the ribbon."),
             ]
         if breakpoint == "tablet":
             return [
                 Annotation(1, (px + 30, py + 90), "§6 Paperclip header · VITALS",
                            "--amber clip · --font-typewriter · --ink-brown",
                            "Decorative grouping; <section aria-labelledby> still asserts structure."),
-                Annotation(2, (px + 200, py + 130), "§1 Input slot · MORALE",
+                Annotation(2, (px + 200, py + 220), "§1 Input slot · MORALE",
                            "--font-mono label · --font-hand value",
                            "Caveat is decorative; numeric value (1–10) is canonical via <output>."),
-                Annotation(3, (px + 360, py + 130), "§1 RESOURCES grid",
+                Annotation(3, (px + 470, py + 130), "§1 RESOURCES grid",
                            "--ink-brown 1.4px · --radius-sm",
-                           "Two-column grid drops to single column under prefers-reduced-data."),
-                Annotation(4, (px + 100, py + 460), "§1 PLAGUE HEARTS",
+                           "Two-column grid; falls back to single column under prefers-reduced-data."),
+                Annotation(4, (px + 100, py + 410), "§1 PLAGUE HEARTS",
                            "--ink-red · --font-mono",
                            "Inline <small> error text accompanies the red border for AA-safe error signal."),
                 Annotation(5, (c.device_w - 90, py + 200), "§5 Right-edge tabs",
-                           "--paper-stained inactive · --paper active · --amber underline",
-                           "Tabs degrade to a horizontal <nav> on small viewports; redundant cues for active."),
-                Annotation(6, (c.device_w - 200, c.device_h - 80), "§13 Wax-seal TRANSMIT",
+                           "--paper-stained inactive · --paper active · --amber",
+                           "Today is home view — no tab is aria-current. Selecting a tab leaves Today."),
+                Annotation(6, (c.device_w - 110, c.page_y + c.page_h - 80), "§13 Wax-seal TRANSMIT",
                            "--ink-red · --shadow-press",
                            "Single dominant CTA; never a second wax in v2."),
             ]
@@ -1607,10 +1686,10 @@ def annotations_for(screen: str, breakpoint: str, c: Canvas) -> List[Annotation]
                        "Multi-line input falls back to flat <textarea>; handwriting is visual decoration."),
             Annotation(6, (c.device_w - 90, py + 200), "§5 Right-edge tabs",
                        "--paper-stained · --paper · --amber 2px",
-                       "Active state: aria-current + cutout-forward + amber underline (3 redundant cues)."),
-            Annotation(7, (c.device_w - 220, c.device_h - 160), "§13 Wax-seal TRANSMIT",
+                       "Today is home view — no tab is aria-current. Tabs switch to other sections."),
+            Annotation(7, (c.device_w - 200, c.device_h - 200), "§13 Wax-seal TRANSMIT",
                        "--ink-red · --font-typewriter --paper",
-                       "Static toast 'TRANSMITTED · COPIED TO CLIPBOARD' over aria-live polite."),
+                       "Single dominant CTA; static toast 'TRANSMITTED · COPIED' fires aria-live polite."),
         ]
 
     if screen == "people-front":
@@ -1663,20 +1742,25 @@ def annotations_for(screen: str, breakpoint: str, c: Canvas) -> List[Annotation]
         ]
 
     if screen == "people-back":
+        # Row centers depend on breakpoint (mobile uses 64px rows, tablet/desktop 56px)
+        if breakpoint == "mobile":
+            head_y, row0, row3, row4, add_y = py + 70, py + 138, py + 330, py + 394, py + 478
+        else:
+            head_y, row0, row3, row4, add_y = py + 110, py + 178, py + 346, py + 402, py + 466
         common = [
-            Annotation(1, (px + 60, py + 80), "Card-back header",
+            Annotation(1, (px + 60, head_y), "Card-back header",
                        "--font-hand --ink-blue name · --font-typewriter — TIES —",
                        "Flip is bidirectional: clicking ↺ returns to front; aria-pressed tracks face."),
-            Annotation(2, (px + 220, py + 160), "§4 Tie row · PARTNER",
+            Annotation(2, (px + 220, row0), "§4 Tie row · PARTNER",
                        "--font-mono kind · --font-hand counterpart + label",
                        "Free-text label is the load-bearing field; kind is a coarse bucket."),
-            Annotation(3, (px + 220, py + 280), "§4 Tie row · MOURNED",
+            Annotation(3, (px + 220, row3), "§4 Tie row · MOURNED",
                        "--ink-brown 3px left band + ' · MOURNED' text",
                        "Status text appended in plain text so screen-readers carry meaning."),
-            Annotation(4, (px + 220, py + 340), "§4 Tie row · STRAINED",
+            Annotation(4, (px + 220, row4), "§4 Tie row · STRAINED",
                        "--ink-red zigzag underline · ' · STRAINED' text",
                        "Color is redundant; never the only signal."),
-            Annotation(5, (px + 280, py + 420), "§4 + ADD TIE",
+            Annotation(5, (px + 280, add_y), "§4 + ADD TIE",
                        "--ink-brown dashed · --font-typewriter",
                        "Tap opens the inline editor (kind / label / since / status / note inputs)."),
         ]
