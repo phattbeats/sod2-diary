@@ -14,18 +14,16 @@ Five references, one per surface. Each entry names the asset, the surface it inf
 
 ### 1. Leather book cover — informs `--leather`, `--leather-shadow`, page chrome
 
-- **Source candidates (CC0 / CC-BY):**
-  - Unsplash: search `aged leather book cover dark` (e.g. photos by Annie Spratt, Kelly Sikkema — credit per Unsplash license).
-  - Polyhaven texture library: `leather_red_03` or `book_pattern_free` (CC0).
+- **Source — locked: ambientCG (CC0).** Library URL: <https://ambientcg.com/list?type=Material&category=Leather>. Pick the dark-umber tile that matches `--leather` (`#3B2A1A`) under a top-left amber light — recommended candidate: **Leather011** (<https://ambientcg.com/view?id=Leather011>). Backup library if ambientCG is unreachable: Polyhaven (<https://polyhaven.com/textures/leather>), also CC0.
+- **Pick rule:** 1K-resolution Color map only. We do not ship Normal / Roughness / Displacement — the journal is flat. Rename to `design/textures/leather.png` after pngquant `--quality 60-80` (must clear ≤ 30 KB per `tokens.md` §3).
 - **Take:** deep umber grain (`#3B2A1A`), uneven edge highlight, slight warp at corners. The shadow falls darkest near the spine and the bottom edge.
 - **Leave:** any embossed brand mark, gold leaf foil, decorative cartouche. The book is anonymous — the only mark we will paint on it is a simple "NETWORK" crosshair-in-circle (see Plan §10, brand/IP note).
 - **Surface usage:** body background outside the page; spine bar across the top of the layout on mobile; full bound cover behind the two-page spread on desktop.
 
 ### 2. Aged cream paper sheet — informs `--paper`, `--paper-stained`, page surface
 
-- **Source candidates (CC0):**
-  - Unsplash: `old paper texture cream`, `vintage notebook page`.
-  - Polyhaven: `paper_0008` family (CC0).
+- **Source — locked: ambientCG (CC0).** Library URL: <https://ambientcg.com/list?type=Material&category=Paper>. Pick the warm-cream tile closest to `--paper` (`#F1E4C8`) — recommended candidate: **Paper003** (<https://ambientcg.com/view?id=Paper003>). Backup library if ambientCG is unreachable: Polyhaven (<https://polyhaven.com/textures/paper>), also CC0.
+- **Pick rule:** 1K-resolution Color map only. If the source tile has a yellow cast, neutralize it in pngquant or shift the `--paper` flat color underneath (the texture is overlaid `multiply` per `tokens.md` §3 layering recipe). Rename to `design/textures/paper.png` after pngquant `--quality 60-80` (≤ 30 KB).
 - **Take:** warm cream base (`#F1E4C8`) drifting to `#C9B388` at the edges; faint stains and water rings; tooth (the slight fiber noise) visible only at large sizes; very subtle horizontal grain so handwriting reads "on the line" without us drawing rules.
 - **Leave:** heavy yellow tea-stain saturation, dramatic burn marks, holes. Anything that competes with ink for attention. The paper is the canvas — it must stay quiet enough that body text sits at AA contrast (verified in tokens.md).
 - **Surface usage:** primary content area for every section; index card background on the People tab (a brighter trim of the same paper); torn-receipt strips for events.
@@ -85,21 +83,22 @@ Five references, one per surface. Each entry names the asset, the surface it inf
 
 ---
 
-## Asset Sourcing TODO (next issue, not this one)
+## Asset Sourcing TODO (handed off to the texture-fetch follow-up)
 
-- [ ] Pick one CC0 paper PNG, optimize to ≤30 KB, commit at `design/textures/paper.png`.
-- [ ] Pick one CC0 leather PNG, optimize to ≤30 KB, commit at `design/textures/leather.png`.
+- [ ] Download Color map for **ambientCG → Paper003** (<https://ambientcg.com/view?id=Paper003>), pngquant `--quality 60-80`, commit at `design/textures/paper.png` (≤ 30 KB cap from `tokens.md` §3).
+- [ ] Download Color map for **ambientCG → Leather011** (<https://ambientcg.com/view?id=Leather011>), pngquant `--quality 60-80`, commit at `design/textures/leather.png` (≤ 30 KB cap).
 - [ ] Author the SVG noise overlay (≈1 KB inline) per the spec in `tokens.md`.
 - [ ] Redraw paperclip / staple / tape / wax-seal / radio-dial as inline SVGs (per Plan §9.5 asset inventory).
 
-These belong to PHA-347 (component spec sheet) and the implementation roadmap, not to this foundation issue. This page is the brief; the assets follow.
+The two ambientCG slugs above are recommended candidates — the picker may swap to a sibling tile in the same library if a Color map matches the moodboard `take` lines more cleanly. Any swap stays inside the locked source decision (ambientCG primary, Polyhaven backup) and updates the attribution row below.
 
 ---
 
-## Attribution Block (to fill once images are pulled)
+## Attribution Block
 
-When images land in `design/textures/` and `design/refs/`, append a row here per image: filename, source URL, photographer/creator, license, retrieval date. Required for any CC-BY asset and a courtesy for CC0.
+Required even for CC0 (license terms permit no attribution, but we keep the row so the source is auditable).
 
 | File | Source URL | Creator | License | Retrieved |
 |---|---|---|---|---|
-| _tbd_ | _tbd_ | _tbd_ | _tbd_ | _tbd_ |
+| `design/textures/paper.png` | <https://ambientcg.com/view?id=Paper003> | ambientCG (Lennart Demes) | CC0 1.0 | _on download_ |
+| `design/textures/leather.png` | <https://ambientcg.com/view?id=Leather011> | ambientCG (Lennart Demes) | CC0 1.0 | _on download_ |
