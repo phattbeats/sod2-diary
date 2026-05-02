@@ -52,7 +52,7 @@ Computed with the WCAG 2.1 relative luminance / contrast formula. AA threshold: 
 
 ### 1.3 What we are retiring
 
-The v1 palette (`#4ecdc4` neon teal, `#ff6b6b` coral, dark `#1a1a1a` background) is gone. If any v2 mockup or CSS introduces a glow that isn't `--amber`, it is wrong. Per Plan §2: glow like a candle, not a CRT.
+The v1 palette (the neon teal and coral accents on a near-black `#1a1a1a` background) is gone. If any v2 mockup or CSS introduces a glow that isn't `--amber`, it is wrong. Per Plan §2: glow like a candle, not a CRT.
 
 ---
 

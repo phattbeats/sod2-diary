@@ -14,10 +14,10 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #3B2A1A;
+            background-color: var(--leather);
             background-image: url('./design/textures/leather.png');
             background-repeat: repeat;
-            color: #2A1F12;
+            color: var(--color-text-default);
             font-family: 'IBM Plex Mono', 'Courier New', ui-monospace, monospace;
             font-size: 15px;
             line-height: 1.5;
@@ -37,7 +37,7 @@
             width: 100%;
             max-width: 720px;
             min-height: 100vh;
-            background-color: #F1E4C8;
+            background-color: var(--color-bg-page);
             background-image: url('./design/textures/paper.png');
             background-repeat: repeat;
             box-shadow:
@@ -54,7 +54,7 @@
             position: fixed;
             inset: 0;
             z-index: -1;
-            background-color: #3B2A1A;
+            background-color: var(--leather);
             background-image: url('./design/textures/leather.png');
             background-repeat: repeat;
         }
@@ -65,7 +65,7 @@
                 max-width: 100%;
                 box-shadow:
                     0 4px 16px rgba(27, 18, 10, 0.5),
-                    inset 3px 0 0 #C9B388;
+                    inset 3px 0 0 var(--paper-stained);
             }
         }
 
@@ -96,13 +96,13 @@
             font-size: 24px;
             font-weight: 700;
             line-height: 1.2;
-            color: #2A1F12;
+            color: var(--ink-brown);
             font-family: 'Special Elite', 'Courier New', ui-monospace, monospace;
         }
 
         .title-main {
             display: block;
-            color: #7E1E1E;
+            color: var(--ink-red);
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 4px;
@@ -113,7 +113,7 @@
 
         .title-sub {
             display: block;
-            color: #1F2A4A;
+            color: var(--ink-blue);
             font-size: 26px;
             font-weight: 700;
             text-shadow: 0 1px 0 rgba(31, 42, 74, 0.2);
@@ -345,7 +345,7 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234ecdc4' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%232A1F12' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 10px center;
             cursor: pointer;
@@ -358,7 +358,7 @@
         }
         
         .styled-select option {
-            background: #1a1a2e;
+            background: var(--leather-shadow);
             color: var(--paper);
         }
         
@@ -413,7 +413,7 @@
         }
         
         .arrow {
-            color: #666;
+            color: var(--muted);
             font-size: 16px;
         }
         
@@ -485,7 +485,7 @@
         }
         
         textarea::placeholder {
-            color: #666;
+            color: var(--muted);
         }
         
         .button-container {
@@ -504,7 +504,7 @@
             display: block;
             padding: 16px;
             background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
-            color: #1a1a2e;
+            color: var(--ink-brown);
             border: none;
             border-radius: 10px;
             font-size: 16px;
@@ -589,44 +589,44 @@
         }
         
         .export-button {
-            background: linear-gradient(135deg, var(--green) 0%, #5ab86e 100%);
-            box-shadow: 0 4px 12px rgba(107, 207, 127, 0.2);
+            background: linear-gradient(135deg, var(--green) 0%, var(--green) 100%);
+            box-shadow: 0 4px 12px rgba(79, 111, 63, 0.25);
         }
-        
+
         .export-button:hover {
-            box-shadow: 0 4px 16px rgba(107, 207, 127, 0.35);
+            box-shadow: 0 4px 16px rgba(79, 111, 63, 0.4);
         }
-        
+
         .import-button {
             background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-            box-shadow: 0 4px 12px rgba(255, 217, 61, 0.2);
-            color: #1a1a2e;
+            box-shadow: 0 4px 12px var(--amber-glow);
+            color: var(--ink-brown);
         }
-        
+
         .import-button:hover {
-            box-shadow: 0 4px 16px rgba(255, 217, 61, 0.35);
+            box-shadow: 0 4px 16px rgba(212, 162, 76, 0.4);
         }
-        
+
         .reset-button {
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c4ddb 100%);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+            background: linear-gradient(135deg, var(--ink-blue) 0%, var(--leather-shadow) 100%);
+            box-shadow: 0 4px 12px rgba(31, 42, 74, 0.25);
         }
-        
+
         .reset-button:hover {
-            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.35);
+            box-shadow: 0 4px 16px rgba(31, 42, 74, 0.4);
         }
         
         .history-empty {
             text-align: center;
-            color: #666;
+            color: var(--muted);
             font-style: italic;
             padding: 20px;
             font-size: 13px;
         }
-        
+
         .footer {
             text-align: center;
-            color: #555;
+            color: var(--muted-dark);
             font-size: 10px;
             padding: 8px;
             margin-top: 4px;
@@ -645,7 +645,7 @@
             left: 50%;
             transform: translateX(-50%) translateY(-100px);
             background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
-            color: #1a1a2e;
+            color: var(--paper);
             padding: 14px 24px;
             border-radius: 10px;
             font-weight: 600;
@@ -680,7 +680,7 @@
         .auto-save-saving {
             transform: translateX(-50%) translateY(0);
             opacity: 1;
-            background: linear-gradient(135deg, #aaa 0%, var(--muted-dark) 100%);
+            background: linear-gradient(135deg, var(--muted) 0%, var(--muted-dark) 100%);
         }
 
         .auto-save-done {
@@ -711,7 +711,7 @@
 
         .resume-yes-btn {
             background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
-            color: #1a1a2e;
+            color: var(--paper);
             border: none;
             border-radius: 6px;
             padding: 6px 12px;
@@ -749,7 +749,7 @@
         
         .history-timestamp {
             font-size: 11px;
-            color: #666;
+            color: var(--muted);
         }
         
         .history-copy-btn {
@@ -836,7 +836,7 @@
         }
         
         .add-survivor-btn {
-            background: linear-gradient(135deg, var(--green) 0%, #5ab86e 100%);
+            background: linear-gradient(135deg, var(--green) 0%, var(--green) 100%);
             padding: 10px 16px;
             font-size: 13px;
             margin-top: 5px;
@@ -888,7 +888,7 @@
         }
         
         .survivor-card.legacy .survivor-name {
-            color: #8b5cf6;
+            color: var(--ink-blue);
         }
         
         .survivor-actions {
@@ -945,13 +945,13 @@
         }
         
         .survivor-action-btn.legacy {
-            color: #8b5cf6;
-            border-color: rgba(139, 92, 246, 0.4);
+            color: var(--ink-blue);
+            border-color: rgba(31, 42, 74, 0.4);
         }
         
         .survivor-action-btn.legacy:hover {
-            background: rgba(139, 92, 246, 0.2);
-            box-shadow: 0 0 8px rgba(139, 92, 246, 0.3);
+            background: rgba(31, 42, 74, 0.2);
+            box-shadow: 0 0 8px rgba(31, 42, 74, 0.3);
         }
         
         .survivor-action-btn.restore {
@@ -989,7 +989,7 @@
         }
         
         .survivor-card.legacy .survivor-status {
-            color: #8b5cf6;
+            color: var(--ink-blue);
         }
         
         .roster-subsection {
@@ -1008,7 +1008,7 @@
         
         .roster-empty {
             text-align: center;
-            color: #666;
+            color: var(--muted);
             font-style: italic;
             padding: 15px;
             font-size: 12px;
@@ -1040,7 +1040,7 @@
         }
         
         .modal-content {
-            background: #1a1a2e;
+            background: var(--leather-shadow);
             border: 1px solid rgba(78, 205, 196, 0.3);
             border-radius: 12px;
             padding: 20px;
@@ -1146,54 +1146,142 @@
             }
         }
         
-                /* ── Design Tokens ─────────────────────────────────────────── */
+        /* ── Design Tokens ────────────────────────────────────────────
+         * Canonical sepia palette per PHA-336 plan rev 3 (§2 Visual
+         * Language). Values mirror design/tokens.css from PHA-346.
+         * Future component PRs MUST consume these vars; do not introduce
+         * new raw hex literals.
+         * ─────────────────────────────────────────────────────────────── */
         :root {
-            /* Surface */
-            --paper: #e8eaf6;
-            --paper-warm: #f5f0e8;
-            --leather: #2a2a2a;
-            --leather-dark: #1f1f1f;
-            --ink: #1a1a2e;
-            --ink-light: #24243e;
+            color-scheme: light;
 
-            /* Brand */
-            --teal: #4ecdc4;
-            --teal-dark: #44b3ab;
-            --teal-glow: rgba(78, 205, 196, 0.3);
-            --red: #ff6b6b;
-            --red-dark: #ee5a52;
-            --red-glow: rgba(255, 107, 107, 0.3);
-            --gold: #ffd93d;
-            --gold-dark: #e6c235;
-            --green: #6bcf7f;
-            --amber: #d97706;
-            --amber-dark: #b45309;
-            --amber-glow: rgba(217, 119, 6, 0.25);
+            /* ----- 1. Color: Canonical Sepia Palette ----- */
+            --paper:           #F1E4C8;
+            --paper-stained:   #C9B388;
+            --leather:         #3B2A1A;
+            --leather-shadow:  #1B120A;
+            --ink-blue:        #1F2A4A;
+            --ink-brown:       #2A1F12;
+            --ink-red:         #7E1E1E;
+            --amber:           #D4A24C;
 
-            /* Text */
-            --muted: #b0b0b0;
-            --muted-dark: #888;
+            /* Semantic aliases — components SHOULD prefer these. */
+            --color-bg-page:           var(--paper);
+            --color-bg-page-edge:      var(--paper-stained);
+            --color-bg-chrome:         var(--leather);
+            --color-bg-chrome-deep:    var(--leather-shadow);
+            --color-text-default:      var(--ink-brown);
+            --color-text-handwritten:  var(--ink-blue);
+            --color-text-alert:        var(--ink-red);
+            --color-focus-ring:        var(--amber);
 
-            /* Animation */
-            --dur-fast: 150ms;
-            --dur-med: 250ms;
-            --dur-slow: 350ms;
+            /* ----- 2. Typography ----- */
+            --font-typewriter: "Special Elite", "Courier New", Courier, ui-monospace, monospace;
+            --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+            --font-hand: "Caveat", "Patrick Hand", "Bradley Hand", "Segoe Script", "Comic Sans MS", cursive;
+
+            --weight-regular: 400;
+            --weight-bold:    600;
+
+            --text-xs:   0.75rem;
+            --text-sm:   0.875rem;
+            --text-base: 1rem;
+            --text-lg:   1.125rem;
+            --text-xl:   1.375rem;
+            --text-2xl:  1.75rem;
+
+            --leading-tight: 1.25;
+            --leading-base:  1.5;
+
+            /* ----- 3. Texture ----- */
+            --texture-paper:    url("./design/textures/paper.png");
+            --texture-leather:  url("./design/textures/leather.png");
+
+            /* ----- 4. Shadow / Press / Motion ----- */
+            --shadow-card:
+                0 1px 0 rgba(27, 18, 10, 0.18),
+                0 6px 14px -6px rgba(27, 18, 10, 0.45);
+            --shadow-press:
+                inset 0 1px 0 rgba(27, 18, 10, 0.25),
+                0 0 0 rgba(0, 0, 0, 0);
+            --ink-bleed-duration: 180ms;
+            --ink-bleed-easing:   cubic-bezier(0.2, 0.7, 0.2, 1);
+            --press-duration:     90ms;
+
+            /* Animation duration scale — Plan §0 hard-caps total motion at 200ms. */
+            --dur-fast: 90ms;
+            --dur-med:  150ms;
+            --dur-slow: 200ms;
+
+            /* ----- 5. Spacing & Touch ----- */
+            --space-1:  4px;
+            --space-2:  8px;
+            --space-3:  12px;
+            --space-4:  16px;
+            --space-5:  24px;
+            --space-6:  32px;
+            --space-7:  48px;
+
+            --touch-min: 44px;
+
+            --radius-sm: 2px;
+            --radius-md: 4px;
+            --radius-lg: 8px;
+
+            /* ----- 6. Z-index ----- */
+            --z-page:      0;
+            --z-artifact:  10;
+            --z-hardware:  20;
+            --z-stamp:     30;
+            --z-tab:       40;
+            --z-overlay:   100;
+            --z-toast:     110;
+
+            /* ----- Legacy compat shims -----
+             * Old neon-name vars repointed at sepia equivalents so existing
+             * component CSS keeps rendering while we migrate. Future PRs
+             * should replace var(--teal) → var(--color-text-handwritten),
+             * var(--red) → var(--color-text-alert), etc., then delete this
+             * block. Tracked under the PHA-336 rollout. */
+            --teal:         var(--ink-blue);
+            --teal-dark:    #14193A;
+            --teal-glow:    rgba(31, 42, 74, 0.30);
+            --red:          var(--ink-red);
+            --red-dark:     #5A1414;
+            --red-glow:     rgba(126, 30, 30, 0.30);
+            --gold:         var(--amber);
+            --gold-dark:    #B58639;
+            --green:        #4F6F3F;
+            --amber-dark:   #B58639;
+            --amber-glow:   rgba(212, 162, 76, 0.30);
+            --paper-warm:   var(--paper-stained);
+            --leather-dark: var(--leather-shadow);
+            --ink:          var(--ink-brown);
+            --ink-light:    #4A3826;
+            --muted:        #8B7C66;
+            --muted-dark:   #6E624F;
         }
 
-        /* Prefers reduced motion — disable all animations */
+        /* Prefers reduced motion — disable all animation tokens. */
         @media (prefers-reduced-motion: reduce) {
             :root {
-                --dur-fast: 0ms;
-                --dur-med: 0ms;
-                --dur-slow: 0ms;
+                --ink-bleed-duration: 0ms;
+                --press-duration:     0ms;
+                --dur-fast:           0ms;
+                --dur-med:            0ms;
+                --dur-slow:           0ms;
             }
         }
 
-        /* Lantern mode (dark/sepia preference) */
+        /* Lantern mode (Plan §6) — paper dims +20% sepia, leather goes
+         * near-black. Body text stays --ink-brown; AA re-checked against
+         * the dimmed paper before promoting past prototype. */
         @media (prefers-color-scheme: dark) {
             :root {
-                --paper: #f0e8d8;
-                --paper-warm: #e8dcc8;
+                --paper:          #D9C9A6;
+                --paper-stained:  #B19A6F;
+                --leather:        #1B120A;
+                --leather-shadow: #0A0604;
             }
         }
 
@@ -1205,10 +1293,10 @@
         input[type="password"],
         select.styled-select,
         textarea {
-            background: rgba(245, 240, 232, 0.08);
-            border: 1.5px solid rgba(26, 26, 46, 0.7);
-            border-bottom-color: rgba(26, 26, 46, 0.9);
-            color: var(--paper);
+            background: rgba(241, 228, 200, 0.35);
+            border: 1.5px solid rgba(42, 31, 18, 0.45);
+            border-bottom-color: rgba(42, 31, 18, 0.7);
+            color: var(--ink-brown);
             padding: 8px 10px;
             border-radius: 2px;
             font-family: inherit;
@@ -1241,7 +1329,7 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23b0b0b0' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%232A1F12' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 10px center;
             padding-right: 30px;
@@ -1571,17 +1659,17 @@
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: var(--ink);
+            color: var(--paper);
             background: var(--green);
-            border: 1.5px solid #5ab86e;
+            border: 1.5px solid var(--leather);
             border-bottom-width: 3px;
             border-radius: 2px;
             padding: 10px 20px;
             cursor: pointer;
-            box-shadow: 2px 2px 0 #5ab86e;
+            box-shadow: 2px 2px 0 var(--leather);
         }
 
-        .export-button:hover { background: #5ab86e; }
+        .export-button:hover { background: var(--leather); }
 
         .export-button:active {
             transform: translate(2px, 2px);
@@ -1619,17 +1707,17 @@
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: var(--paper-warm);
-            background: #8b5cf6;
-            border: 1.5px solid #7c4ddb;
+            color: var(--paper);
+            background: var(--ink-blue);
+            border: 1.5px solid var(--leather-shadow);
             border-bottom-width: 3px;
             border-radius: 2px;
             padding: 10px 20px;
             cursor: pointer;
-            box-shadow: 2px 2px 0 #7c4ddb;
+            box-shadow: 2px 2px 0 var(--leather-shadow);
         }
 
-        .reset-button:hover { background: #7c4ddb; }
+        .reset-button:hover { background: var(--leather-shadow); }
 
         .reset-button:active {
             transform: translate(2px, 2px);

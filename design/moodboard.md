@@ -66,7 +66,7 @@ Five references, one per surface. Each entry names the asset, the surface it inf
   - Unsplash: `tungsten desk lamp warm`, `amber lamp dark room`.
   - Polyhaven HDRI thumbnails: `studio_country_hall` (a warm-low-light reference).
 - **Take:** soft amber falloff (`#D4A24C`) — the glow brightens the page edge nearest the lamp and quietly fades. This is the **only** glow allowed in the v2 palette. It is decorative-only and never used as text on paper (1.84:1 — fails AA, see tokens.md).
-- **Leave:** any neon, any cyan/teal, any RGB-keyboard rainbow. The current `#4ecdc4` and `#ff6b6b` retire here.
+- **Leave:** any neon, any cyan/teal, any RGB-keyboard rainbow. The v1 neon teal and coral retire here (see tokens.md for the palette they’re replaced by).
 - **Surface usage:** focus ring on inputs, active tab indicator, "TRANSMIT" wax-seal hover state, sync-radio "last contact" amber bar across the spine. On leather (`--leather` `#3B2A1A`) amber clears AA at 5.92:1 — that is the safe place to put amber type if needed.
 
 ---
