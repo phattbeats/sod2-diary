@@ -1,0 +1,245 @@
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1088 1024" width="1088"
+         height="1024" role="img"
+         aria-label="PHA-348 · Sync radio · closed/open/conflict · Tablet · 641–1024px mockup">
+      <title>PHA-348 · Sync radio · closed/open/conflict · Tablet · 641–1024px</title>
+      <desc>viewBox 768×1024 device + 320px rail · tokens from design/tokens.css · components from design/components.md</desc>
+    <defs>
+  <pattern id="paperGrain" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+    <rect width="60" height="60" fill="#F1E4C8"/>
+    <circle cx="11" cy="14" r="0.6" fill="#C9B388" opacity="0.5"/>
+    <circle cx="42" cy="22" r="0.5" fill="#C9B388" opacity="0.4"/>
+    <circle cx="29" cy="48" r="0.7" fill="#C9B388" opacity="0.45"/>
+    <circle cx="55" cy="51" r="0.4" fill="#C9B388" opacity="0.3"/>
+  </pattern>
+  <pattern id="leatherGrain" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+    <rect width="80" height="80" fill="#3B2A1A"/>
+    <path d="M0 13 q40 -3 80 0 M0 41 q40 4 80 0 M0 67 q40 -4 80 0" stroke="#1B120A"
+          stroke-width="0.6" fill="none" opacity="0.5"/>
+  </pattern>
+  <radialGradient id="lamp" cx="18%" cy="12%" r="65%">
+    <stop offset="0%" stop-color="#D4A24C" stop-opacity="0.18"/>
+    <stop offset="55%" stop-color="#D4A24C" stop-opacity="0.06"/>
+    <stop offset="100%" stop-color="#D4A24C" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="hand" x="-2%" y="-50%" width="104%" height="200%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="3"/>
+    <feDisplacementMap in="SourceGraphic" scale="0.6"/>
+  </filter>
+  <symbol id="paperclip" viewBox="0 0 40 60">
+    <path d="M20 4 q-9 0 -9 9 v36 q0 9 9 9 t9 -9 v-30 q0 -5 -5 -5 t-5 5 v22"
+          fill="none" stroke="#D4A24C" stroke-width="2.2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="touchHint" viewBox="0 0 44 44">
+    <rect x="0" y="0" width="44" height="44" fill="none" stroke="#D4A24C"
+          stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+  </symbol>
+</defs>
+
+      <!-- backdrop matches body chrome (leather over texture-leather) -->
+      <rect x="0" y="0" width="1088" height="1024" fill="#3B2A1A"/>
+      <rect x="0" y="0" width="768" height="1024" fill="url(#leatherGrain)"/>
+    <!-- leather book chrome -->
+<rect x="0" y="0" width="768" height="1024" fill="url(#leatherGrain)"/>
+<rect x="0" y="0" width="768" height="1024" fill="#3B2A1A" opacity="0.15"/>
+<!-- spine inset shadow -->
+<rect x="0" y="0" width="768" height="3" fill="#1B120A"/>
+<rect x="0" y="1021" width="768" height="3" fill="#1B120A"/>
+<rect x="0" y="0" width="3" height="1024" fill="#1B120A"/>
+<rect x="765" y="0" width="3" height="1024" fill="#1B120A"/>
+<!-- paper page -->
+<rect x="14" y="14" width="740" height="996"
+      fill="url(#paperGrain)" stroke="#C9B388" stroke-width="0.5"/>
+<!-- amber lamp wash from top-left -->
+<rect x="14" y="14" width="740" height="996" fill="url(#lamp)"/>
+
+    <text x="32" y="52" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="2">SYNC RADIO · CLOSED · OPEN · CONFLICT</text>
+<rect x="32" y="98" width="198" height="796" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.5" rx="3"/>
+<text x="46" y="122" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="2">CLOSED</text>
+<circle cx="131.0" cy="208" r="56" fill="#3B2A1A" stroke="#D4A24C" stroke-width="2"/>
+<circle cx="131.0" cy="208" r="50" fill="#1B120A"/>
+<circle cx="131.0" cy="208" r="44" fill="none" stroke="#D4A24C" stroke-width="0.6" opacity="0.5"/>
+<line x1="131.0" y1="156.0" x2="131.0" y2="162.0" stroke="#D4A24C" stroke-width="1" opacity="0.6"/>
+<line x1="183.0" y1="208.0" x2="177.0" y2="208.0" stroke="#D4A24C" stroke-width="1" opacity="0.6"/>
+<line x1="131.0" y1="260.0" x2="131.0" y2="254.0" stroke="#D4A24C" stroke-width="1" opacity="0.6"/>
+<line x1="79.0" y1="208.0" x2="85.0" y2="208.0" stroke="#D4A24C" stroke-width="1" opacity="0.6"/>
+<line x1="131.0" y1="208" x2="131.0" y2="160.0" stroke="#D4A24C" stroke-width="3" stroke-linecap="round"/>
+<circle cx="131.0" cy="208" r="3" fill="#D4A24C"/>
+<text x="131.0" y="298" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="12" fill="#2A1F12" letter-spacing="2">SYNC · OFF</text>
+<text x="131.0" y="320" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#2A1F12" opacity="0.7">tap dial to enable</text>
+<rect x="254" y="98" width="198" height="796" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.5" rx="3"/>
+<text x="268" y="122" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="2">OPEN</text>
+<circle cx="353.0" cy="208" r="56" fill="#3B2A1A" stroke="#D4A24C" stroke-width="2"/>
+<circle cx="353.0" cy="208" r="50" fill="#1B120A"/>
+<circle cx="353.0" cy="208" r="44" fill="none" stroke="#D4A24C" stroke-width="0.6" opacity="0.5"/>
+<line x1="353.0" y1="156.0" x2="353.0" y2="162.0" stroke="#D4A24C" stroke-width="1" opacity="0.6"/>
+<line x1="405.0" y1="208.0" x2="399.0" y2="208.0" stroke="#D4A24C" stroke-width="1" opacity="0.6"/>
+<line x1="353.0" y1="260.0" x2="353.0" y2="254.0" stroke="#D4A24C" stroke-width="1" opacity="0.6"/>
+<line x1="301.0" y1="208.0" x2="307.0" y2="208.0" stroke="#D4A24C" stroke-width="1" opacity="0.6"/>
+<line x1="353.0" y1="208" x2="353.0" y2="256.0" stroke="#D4A24C" stroke-width="3" stroke-linecap="round"/>
+<circle cx="353.0" cy="208" r="3" fill="#D4A24C"/>
+<text x="353.0" y="298" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="12" fill="#2A1F12" letter-spacing="2">SYNC · GIST</text>
+<text x="353.0" y="320" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#2A1F12" opacity="0.7">last synced 4m ago</text>
+<g transform="rotate(-1 353.0 488.0)">
+<rect x="268" y="348" width="170" height="280" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.6"/>
+<text x="282" y="370" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="2">— TELEGRAM —</text>
+<line x1="282" y1="378" x2="424" y2="378" stroke="#2A1F12" stroke-width="0.5"/>
+<rect x="298.0" y="392" width="110" height="110" fill="#F1E4C8" stroke="#2A1F12" stroke-width="1"/>
+<rect x="299.0" y="393.0" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="311.22222222222223" y="393.0" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="323.44444444444446" y="393.0" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="335.6666666666667" y="393.0" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="360.1111111111111" y="393.0" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="372.3333333333333" y="393.0" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="384.55555555555554" y="393.0" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="396.77777777777777" y="393.0" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="299.0" y="405.22222222222223" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="396.77777777777777" y="405.22222222222223" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="299.0" y="417.44444444444446" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="323.44444444444446" y="417.44444444444446" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="335.6666666666667" y="417.44444444444446" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="360.1111111111111" y="417.44444444444446" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="372.3333333333333" y="417.44444444444446" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="396.77777777777777" y="417.44444444444446" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="299.0" y="429.6666666666667" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="323.44444444444446" y="429.6666666666667" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="335.6666666666667" y="429.6666666666667" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="360.1111111111111" y="429.6666666666667" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="372.3333333333333" y="429.6666666666667" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="396.77777777777777" y="429.6666666666667" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="311.22222222222223" y="441.8888888888889" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="335.6666666666667" y="441.8888888888889" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="347.8888888888889" y="441.8888888888889" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="372.3333333333333" y="441.8888888888889" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="384.55555555555554" y="441.8888888888889" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="299.0" y="454.1111111111111" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="323.44444444444446" y="454.1111111111111" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="347.8888888888889" y="454.1111111111111" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="360.1111111111111" y="454.1111111111111" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="384.55555555555554" y="454.1111111111111" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="396.77777777777777" y="454.1111111111111" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="299.0" y="466.3333333333333" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="323.44444444444446" y="466.3333333333333" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="335.6666666666667" y="466.3333333333333" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="360.1111111111111" y="466.3333333333333" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="372.3333333333333" y="466.3333333333333" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="396.77777777777777" y="466.3333333333333" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="299.0" y="478.55555555555554" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="396.77777777777777" y="478.55555555555554" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="299.0" y="490.77777777777777" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="311.22222222222223" y="490.77777777777777" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="323.44444444444446" y="490.77777777777777" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="335.6666666666667" y="490.77777777777777" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="360.1111111111111" y="490.77777777777777" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="372.3333333333333" y="490.77777777777777" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="384.55555555555554" y="490.77777777777777" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<rect x="396.77777777777777" y="490.77777777777777" width="10.222222222222221" height="10.222222222222221" fill="#2A1F12"/>
+<text x="353.0" y="604" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12">SCAN ON OTHER DEVICE</text>
+<text x="353.0" y="618" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="8" fill="#2A1F12" opacity="0.6">or copy link below</text>
+</g>
+<rect x="476" y="98" width="198" height="796" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1.4" rx="3"/>
+<text x="490" y="122" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="2">CONFLICT</text>
+<circle cx="575.0" cy="208" r="64" fill="none" stroke="#7E1E1E" stroke-width="6" opacity="0.4"/>
+<circle cx="575.0" cy="208" r="56" fill="#3B2A1A" stroke="#D4A24C" stroke-width="2"/>
+<circle cx="575.0" cy="208" r="50" fill="#1B120A"/>
+<circle cx="575.0" cy="208" r="44" fill="none" stroke="#D4A24C" stroke-width="0.6" opacity="0.5"/>
+<line x1="575.0" y1="156.0" x2="575.0" y2="162.0" stroke="#D4A24C" stroke-width="1" opacity="0.6"/>
+<line x1="627.0" y1="208.0" x2="621.0" y2="208.0" stroke="#D4A24C" stroke-width="1" opacity="0.6"/>
+<line x1="575.0" y1="260.0" x2="575.0" y2="254.0" stroke="#D4A24C" stroke-width="1" opacity="0.6"/>
+<line x1="523.0" y1="208.0" x2="529.0" y2="208.0" stroke="#D4A24C" stroke-width="1" opacity="0.6"/>
+<line x1="575.0" y1="208" x2="575.0" y2="256.0" stroke="#D4A24C" stroke-width="3" stroke-linecap="round"/>
+<circle cx="575.0" cy="208" r="3" fill="#D4A24C"/>
+<text x="575.0" y="298" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="12" fill="#7E1E1E" letter-spacing="2">CONFLICT</text>
+<text x="575.0" y="320" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#2A1F12" opacity="0.7">review needed</text>
+<rect x="572" y="348" width="6" height="280" fill="#1B120A"/>
+<rect x="490" y="348" width="82" height="280" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.5"/>
+<rect x="578" y="348" width="82" height="280" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.5"/>
+<text x="498" y="364" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="9" fill="#2A1F12" letter-spacing="2">LOCAL</text>
+<text x="586" y="364" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="9" fill="#2A1F12" letter-spacing="2">REMOTE</text>
+<rect x="494" y="378" width="162" height="14" fill="#7E1E1E" opacity="0.18"/>
+<text x="498" y="389" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12">food: 5</text>
+<text x="586" y="389" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12">food: 3</text>
+<rect x="494" y="396" width="162" height="14" fill="#7E1E1E" opacity="0.18"/>
+<text x="498" y="407" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12">morale: high</text>
+<text x="586" y="407" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12">morale: low</text>
+<text x="498" y="425" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12">events: 2 entries</text>
+<text x="586" y="425" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12">events: 2 entries</text>
+<text x="498" y="443" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12">plague hearts: 2</text>
+<text x="586" y="443" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12">plague hearts: 2</text>
+<rect x="494" y="602" width="73" height="20" fill="#2A1F12" rx="2"/>
+<text x="532" y="616" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="9" fill="#F1E4C8" letter-spacing="1">KEEP LOCAL</text>
+<rect x="583" y="602" width="73" height="20" fill="#2A1F12" rx="2"/>
+<text x="619" y="616" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="9" fill="#F1E4C8" letter-spacing="1">TAKE REMOTE</text>
+<path d="M694 98 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="702" y="134.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">PEOPLE</text>
+<path d="M694 170 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="702" y="206.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">PLACES</text>
+<path d="M694 242 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="702" y="278.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">RES</text>
+<path d="M694 314 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="702" y="350.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">EVENTS</text>
+<path d="M690 386 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#F1E4C8" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="698" y="422.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">DISP</text>
+<line x1="690" y1="449" x2="750" y2="449" stroke="#D4A24C" stroke-width="2"/>
+    <rect x="768" y="0" width="320" height="1024" fill="#FAF6EC"/>
+<line x1="768" y1="0" x2="768" y2="1024" stroke="#C9B388" stroke-width="1"/>
+<text x="784" y="28" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="2">ANNOTATIONS</text>
+<line x1="784" y1="36" x2="1072" y2="36" stroke="#2A1F12" stroke-width="0.6" opacity="0.5"/>
+<line x1="132" y1="138" x2="768" y2="68" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="132" cy="138" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="132" y="142" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">1</text>
+<circle cx="792" cy="68" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="792" y="72" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">1</text>
+<text x="808" y="72" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§8 Dial · CLOSED</text>
+<text x="808" y="88" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--leather · --amber 50%</text>
+<text x="808" y="102" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Pointer at 12 o'clock = 'Sync: off'.</text>
+<line x1="392" y1="138" x2="768" y2="225" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="392" cy="138" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="392" y="142" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">2</text>
+<circle cx="792" cy="225" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="792" y="229" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">2</text>
+<text x="808" y="229" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§8 Dial · OPEN · GIST</text>
+<text x="808" y="245" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--amber pointer · 6 o'clock</text>
+<text x="808" y="259" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Status text 'last synced 4m ago' rendered</text>
+<text x="808" y="271" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">redundantly.</text>
+<line x1="392" y1="358" x2="768" y2="382" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="392" cy="358" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="392" y="362" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">3</text>
+<circle cx="792" cy="382" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="792" y="386" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">3</text>
+<text x="808" y="386" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§9 QR telegram</text>
+<text x="808" y="402" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--paper · --ink-brown · ±1°</text>
+<text x="808" y="416" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">QR + canonical &lt;input readonly&gt; for the share</text>
+<text x="808" y="428" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">URL.</text>
+<line x1="652" y1="138" x2="768" y2="539" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="652" cy="138" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="652" y="142" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">4</text>
+<circle cx="792" cy="539" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="792" y="543" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">4</text>
+<text x="808" y="543" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§8 Dial · CONFLICT</text>
+<text x="808" y="559" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--ink-red halo · --amber pointer</text>
+<text x="808" y="573" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Conflict text in role=alert; red is paired,</text>
+<text x="808" y="585" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">never alone.</text>
+<line x1="652" y1="398" x2="768" y2="696" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="652" cy="398" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="652" y="402" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">5</text>
+<circle cx="792" cy="696" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="792" y="700" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">5</text>
+<text x="808" y="700" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§10 Conflict spread preview</text>
+<text x="808" y="716" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--paper · --leather-shadow spine · --ink-red 18% wash</text>
+<text x="808" y="730" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Tap → opens full spread (modal &lt;dialog&gt; with</text>
+<text x="808" y="742" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">KEEP LOCAL / TAKE REMOTE chips).</text>
+<line x1="678" y1="238" x2="768" y2="853" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="678" cy="238" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="678" y="242" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">6</text>
+<circle cx="792" cy="853" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="792" y="857" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">6</text>
+<text x="808" y="857" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§5 Tab · DISP</text>
+<text x="808" y="873" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--paper · --amber</text>
+<text x="808" y="887" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Sync surface lives under DISPATCH.</text>
+    <!-- mockup metadata header (rendered at top of annotation rail in PNGs) -->
+<text x="784" y="996" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11"
+      fill="#2A1F12" letter-spacing="2">PHA-348 · Sync radio · closed/open/conflict · Tablet · 641–1024px</text>
+<text x="784" y="1010" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9"
+      fill="#2A1F12" opacity="0.7">viewBox 768×1024 device + 320px rail · tokens from design/tokens.css · components from design/components.md</text>
+
+    </svg>

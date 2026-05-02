@@ -1,0 +1,208 @@
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 900" width="1800"
+         height="900" role="img"
+         aria-label="PHA-348 · People · pencil-line overlay · Desktop · ≥1025px mockup">
+      <title>PHA-348 · People · pencil-line overlay · Desktop · ≥1025px</title>
+      <desc>viewBox 1440×900 device + 360px rail · tokens from design/tokens.css · components from design/components.md</desc>
+    <defs>
+  <pattern id="paperGrain" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+    <rect width="60" height="60" fill="#F1E4C8"/>
+    <circle cx="11" cy="14" r="0.6" fill="#C9B388" opacity="0.5"/>
+    <circle cx="42" cy="22" r="0.5" fill="#C9B388" opacity="0.4"/>
+    <circle cx="29" cy="48" r="0.7" fill="#C9B388" opacity="0.45"/>
+    <circle cx="55" cy="51" r="0.4" fill="#C9B388" opacity="0.3"/>
+  </pattern>
+  <pattern id="leatherGrain" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+    <rect width="80" height="80" fill="#3B2A1A"/>
+    <path d="M0 13 q40 -3 80 0 M0 41 q40 4 80 0 M0 67 q40 -4 80 0" stroke="#1B120A"
+          stroke-width="0.6" fill="none" opacity="0.5"/>
+  </pattern>
+  <radialGradient id="lamp" cx="18%" cy="12%" r="65%">
+    <stop offset="0%" stop-color="#D4A24C" stop-opacity="0.18"/>
+    <stop offset="55%" stop-color="#D4A24C" stop-opacity="0.06"/>
+    <stop offset="100%" stop-color="#D4A24C" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="hand" x="-2%" y="-50%" width="104%" height="200%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="3"/>
+    <feDisplacementMap in="SourceGraphic" scale="0.6"/>
+  </filter>
+  <symbol id="paperclip" viewBox="0 0 40 60">
+    <path d="M20 4 q-9 0 -9 9 v36 q0 9 9 9 t9 -9 v-30 q0 -5 -5 -5 t-5 5 v22"
+          fill="none" stroke="#D4A24C" stroke-width="2.2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="touchHint" viewBox="0 0 44 44">
+    <rect x="0" y="0" width="44" height="44" fill="none" stroke="#D4A24C"
+          stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+  </symbol>
+</defs>
+
+      <!-- backdrop matches body chrome (leather over texture-leather) -->
+      <rect x="0" y="0" width="1800" height="900" fill="#3B2A1A"/>
+      <rect x="0" y="0" width="1440" height="900" fill="url(#leatherGrain)"/>
+    <!-- leather book chrome -->
+<rect x="0" y="0" width="1440" height="900" fill="url(#leatherGrain)"/>
+<rect x="0" y="0" width="1440" height="900" fill="#3B2A1A" opacity="0.15"/>
+<!-- spine inset shadow -->
+<rect x="0" y="0" width="1440" height="3" fill="#1B120A"/>
+<rect x="0" y="897" width="1440" height="3" fill="#1B120A"/>
+<rect x="0" y="0" width="3" height="900" fill="#1B120A"/>
+<rect x="1437" y="0" width="3" height="900" fill="#1B120A"/>
+<!-- paper page -->
+<rect x="18" y="18" width="1404" height="864"
+      fill="url(#paperGrain)" stroke="#C9B388" stroke-width="0.5"/>
+<!-- amber lamp wash from top-left -->
+<rect x="18" y="18" width="1404" height="864" fill="url(#lamp)"/>
+
+    <text x="36" y="56" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="2">PEOPLE · PENCIL OVERLAY · DESKTOP ONLY</text>
+<rect x="716" y="18" width="8" height="864" fill="#1B120A" opacity="0.4"/>
+<g transform="rotate(None 176.0 207.0)">
+<rect x="36" y="122" width="280" height="170" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.6" rx="4"/>
+<line x1="50" y1="152" x2="302" y2="152" stroke="#C9B388" stroke-width="0.6"/>
+<text x="50" y="146" font-family="'Caveat', 'Patrick Hand', 'Bradley Hand', cursive" font-size="20" fill="#1F2A4A">Maya, 28</text>
+<text x="302" y="146" text-anchor="end" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#2A1F12">D1</text>
+<text x="50" y="172" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">TRAITS  Tough · Leader</text>
+<text x="50" y="190" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">SKILLS  Shoot · Med</text>
+<text x="50" y="208" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">MORALE  high</text>
+</g>
+<use href="#paperclip" x="162.0" y="108" width="28" height="44"/>
+<g transform="rotate(None 480.0 207.0)">
+<rect x="340" y="122" width="280" height="170" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.6" rx="4"/>
+<line x1="354" y1="152" x2="606" y2="152" stroke="#C9B388" stroke-width="0.6"/>
+<text x="354" y="146" font-family="'Caveat', 'Patrick Hand', 'Bradley Hand', cursive" font-size="20" fill="#1F2A4A">Ed, 31</text>
+<text x="606" y="146" text-anchor="end" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#2A1F12">D1</text>
+<text x="354" y="172" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">TRAITS  Loyal</text>
+<text x="354" y="190" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">SKILLS  Scout</text>
+<text x="354" y="208" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">MORALE  ok</text>
+</g>
+<use href="#paperclip" x="466.0" y="108" width="28" height="44"/>
+<g transform="rotate(None 784.0 207.0)">
+<rect x="644" y="122" width="280" height="170" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.6" rx="4"/>
+<line x1="658" y1="152" x2="910" y2="152" stroke="#C9B388" stroke-width="0.6"/>
+<text x="658" y="146" font-family="'Caveat', 'Patrick Hand', 'Bradley Hand', cursive" font-size="20" fill="#1F2A4A">Marcus, 44</text>
+<text x="910" y="146" text-anchor="end" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#2A1F12">D5</text>
+<text x="658" y="172" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">TRAITS  Vet · Mechanic</text>
+<text x="658" y="190" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">SKILLS  Repair</text>
+<text x="658" y="208" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">MORALE  low</text>
+</g>
+<use href="#paperclip" x="770.0" y="108" width="28" height="44"/>
+<g transform="rotate(None 176.0 405.0)">
+<rect x="36" y="320" width="280" height="170" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.6" rx="4"/>
+<line x1="50" y1="350" x2="302" y2="350" stroke="#C9B388" stroke-width="0.6"/>
+<text x="50" y="344" font-family="'Caveat', 'Patrick Hand', 'Bradley Hand', cursive" font-size="20" fill="#1F2A4A">Lena, 22</text>
+<text x="302" y="344" text-anchor="end" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#2A1F12">D7</text>
+<text x="50" y="370" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">TRAITS  Quick</text>
+<text x="50" y="388" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">SKILLS  Cardio</text>
+<text x="50" y="406" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">MORALE  high</text>
+</g>
+<use href="#paperclip" x="162.0" y="306" width="28" height="44"/>
+<g transform="rotate(None 480.0 405.0)">
+<rect x="340" y="320" width="280" height="170" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.6" rx="4"/>
+<line x1="354" y1="350" x2="606" y2="350" stroke="#C9B388" stroke-width="0.6"/>
+<text x="354" y="344" font-family="'Caveat', 'Patrick Hand', 'Bradley Hand', cursive" font-size="20" fill="#1F2A4A">Sam, 39</text>
+<text x="606" y="344" text-anchor="end" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#2A1F12">D9</text>
+<text x="354" y="370" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">TRAITS  Stoic</text>
+<text x="354" y="388" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">SKILLS  Garden</text>
+<text x="354" y="406" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">MORALE  ok</text>
+</g>
+<use href="#paperclip" x="466.0" y="306" width="28" height="44"/>
+<g transform="rotate(KIA 784.0 405.0)">
+<rect x="644" y="320" width="280" height="170" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.6" rx="4"/>
+<line x1="658" y1="350" x2="910" y2="350" stroke="#C9B388" stroke-width="0.6"/>
+<text x="658" y="344" font-family="'Caveat', 'Patrick Hand', 'Bradley Hand', cursive" font-size="20" fill="#1F2A4A">Reyes, 26</text>
+<text x="910" y="344" text-anchor="end" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#2A1F12">D11</text>
+<text x="658" y="370" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">TRAITS  Sharp</text>
+<text x="658" y="388" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">SKILLS  Shoot</text>
+<text x="658" y="406" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">MORALE  —</text>
+</g>
+<use href="#paperclip" x="770.0" y="306" width="28" height="44"/>
+<path d="M176.0 207.0 Q328.0 179.0 480.0 207.0" stroke="#2A1F12" stroke-width="1.2" fill="none" opacity="0.55" />
+<rect x="300.0" y="169.0" width="56" height="14" fill="#F1E4C8" opacity="0.85"/>
+<text x="328.0" y="180.0" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="9" fill="#2A1F12" letter-spacing="1">PARTNER</text>
+<path d="M176.0 207.0 Q480.0 179.0 784.0 207.0" stroke="#2A1F12" stroke-width="1.2" fill="none" opacity="0.55" />
+<rect x="452.0" y="169.0" width="56" height="14" fill="#F1E4C8" opacity="0.85"/>
+<text x="480.0" y="180.0" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="9" fill="#2A1F12" letter-spacing="1">MENTOR</text>
+<path d="M176.0 207.0 Q176.0 278.0 176.0 405.0" stroke="#2A1F12" stroke-width="1.2" fill="none" opacity="0.55" />
+<rect x="148.0" y="268.0" width="56" height="14" fill="#F1E4C8" opacity="0.85"/>
+<text x="176.0" y="279.0" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="9" fill="#2A1F12" letter-spacing="1">FRIEND</text>
+<path d="M480.0 207.0 Q632.0 179.0 784.0 207.0" stroke="#2A1F12" stroke-width="1.2" fill="none" opacity="0.55" />
+<rect x="604.0" y="169.0" width="56" height="14" fill="#F1E4C8" opacity="0.85"/>
+<text x="632.0" y="180.0" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="9" fill="#2A1F12" letter-spacing="1">ALLY</text>
+<path d="M176.0 405.0 Q328.0 377.0 480.0 405.0" stroke="#2A1F12" stroke-width="1.2" fill="none" opacity="0.55" />
+<rect x="300.0" y="367.0" width="56" height="14" fill="#F1E4C8" opacity="0.85"/>
+<text x="328.0" y="378.0" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="9" fill="#2A1F12" letter-spacing="1">ALLY</text>
+<path d="M176.0 207.0 Q480.0 278.0 784.0 405.0" stroke="#7E1E1E" stroke-width="1.2" fill="none" opacity="0.7" stroke-dasharray="4 4"/>
+<rect x="452.0" y="268.0" width="56" height="14" fill="#F1E4C8" opacity="0.85"/>
+<text x="480.0" y="279.0" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="9" fill="#7E1E1E" letter-spacing="1">MOURNED</text>
+<path d="M1358 122 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#F1E4C8" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="1366" y="158.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">PEOPLE</text>
+<line x1="1358" y1="185" x2="1418" y2="185" stroke="#D4A24C" stroke-width="2"/>
+<path d="M1362 194 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="1370" y="230.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">PLACES</text>
+<path d="M1362 266 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="1370" y="302.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">RES</text>
+<path d="M1362 338 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="1370" y="374.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">EVENTS</text>
+<path d="M1362 410 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="1370" y="446.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">DISP</text>
+<rect x="1202" y="752" width="200" height="100" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.5"/>
+<text x="1214" y="772" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="2">LEGEND</text>
+<line x1="1214" y1="788" x2="1262" y2="788" stroke="#2A1F12" stroke-width="1.2" opacity="0.55"/>
+<text x="1272" y="792" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#2A1F12">strongest tie</text>
+<line x1="1214" y1="808" x2="1262" y2="808" stroke="#7E1E1E" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.7"/>
+<text x="1272" y="812" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="10" fill="#2A1F12">mourned tie</text>
+<text x="1214" y="834" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.7">canonical: card-back rows.</text>
+    <rect x="1440" y="0" width="360" height="900" fill="#FAF6EC"/>
+<line x1="1440" y1="0" x2="1440" y2="900" stroke="#C9B388" stroke-width="1"/>
+<text x="1456" y="28" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="2">ANNOTATIONS</text>
+<line x1="1456" y1="36" x2="1784" y2="36" stroke="#2A1F12" stroke-width="0.6" opacity="0.5"/>
+<line x1="316" y1="242" x2="1440" y2="68" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="316" cy="242" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="316" y="246" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">1</text>
+<circle cx="1464" cy="68" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="1464" y="72" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">1</text>
+<text x="1480" y="72" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">Pencil tie · PARTNER</text>
+<text x="1480" y="88" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--ink-brown 1.2px · 0.55 opacity · curved</text>
+<text x="1480" y="102" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Tie label rendered over a --paper opacity:0.85 chip so</text>
+<text x="1480" y="114" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">it stays readable on any card.</text>
+<line x1="616" y1="322" x2="1440" y2="232" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="616" cy="322" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="616" y="326" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">2</text>
+<circle cx="1464" cy="232" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="1464" y="236" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">2</text>
+<text x="1480" y="236" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">Pencil tie · MENTOR</text>
+<text x="1480" y="252" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--ink-brown · QBezier midpoint label</text>
+<text x="1480" y="266" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Curve sits above midpoint by 28px so labels don't</text>
+<text x="1480" y="278" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">collide.</text>
+<line x1="836" y1="422" x2="1440" y2="396" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="836" cy="422" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="836" y="426" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">3</text>
+<circle cx="1464" cy="396" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="1464" y="400" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">3</text>
+<text x="1480" y="400" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">Pencil tie · MOURNED</text>
+<text x="1480" y="416" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--ink-red 1.2px dashed · 0.7 opacity</text>
+<text x="1480" y="430" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Mourned ties get red dashed pencil; same data also</text>
+<text x="1480" y="442" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">visible on KIA card-back.</text>
+<line x1="1220" y1="812" x2="1440" y2="560" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="1220" cy="812" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="1220" y="816" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">4</text>
+<circle cx="1464" cy="560" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="1464" y="564" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">4</text>
+<text x="1480" y="564" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">Legend</text>
+<text x="1480" y="580" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--paper sub-card · --font-mono</text>
+<text x="1480" y="594" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Reads even with chrome stripped; canonical tie data is</text>
+<text x="1480" y="606" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">on card-backs.</text>
+<line x1="1350" y1="242" x2="1440" y2="724" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="1350" cy="242" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="1350" y="246" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">5</text>
+<circle cx="1464" cy="724" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="1464" y="728" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">5</text>
+<text x="1480" y="728" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§5 Right-edge tabs · PEOPLE</text>
+<text x="1480" y="744" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--paper active · --amber underline</text>
+<text x="1480" y="758" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Overlay shares the People surface; toggle hides the</text>
+<text x="1480" y="770" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">web cleanly.</text>
+    <!-- mockup metadata header (rendered at top of annotation rail in PNGs) -->
+<text x="1456" y="872" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11"
+      fill="#2A1F12" letter-spacing="2">PHA-348 · People · pencil-line overlay · Desktop · ≥1025px</text>
+<text x="1456" y="886" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9"
+      fill="#2A1F12" opacity="0.7">viewBox 1440×900 device + 360px rail · tokens from design/tokens.css · components from design/components.md</text>
+
+    </svg>

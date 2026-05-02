@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SoD2 Diary v2 — Annotated Mockups (PHA-348)</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <style>
+    body { padding: 32px; max-width: 1500px; margin: 0 auto; }
+    h1 { font-family: var(--font-typewriter); color: var(--paper); margin: 0 0 8px; }
+    p.lede { font-family: var(--font-mono); color: var(--paper); opacity: 0.85; max-width: 800px; }
+    h2 { font-family: var(--font-typewriter); color: var(--paper); letter-spacing: 2px;
+         margin-top: 56px; padding-top: 8px; border-top: 1px solid var(--paper-stained); }
+    h2 small { font-family: var(--font-mono); font-size: 11px; opacity: 0.6; margin-left: 12px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 16px; }
+    figure { margin: 0; background: var(--paper); padding: 12px; border: 1px solid var(--paper-stained); }
+    figcaption { font-family: var(--font-typewriter); font-size: 12px; color: var(--ink-brown);
+                 letter-spacing: 1.5px; margin-bottom: 8px; }
+    figure object, figure img { display: block; width: 100%; height: auto; }
+    a { color: var(--amber); }
+    a:hover { color: var(--paper); }
+  </style>
+</head>
+<body>
+  <h1>SoD2 Diary v2 — Annotated Mockups</h1>
+  <p class="lede">
+    Twenty-one annotated mockups (seven screens × three breakpoints) per
+    <a href="https://github.com/phatt-tech/state-of-decay-2-diary/issues/348">PHA-348</a>.
+    Every callout cites a component § from
+    <a href="../components.md"><code>components.md</code></a> and one or more tokens from
+    <a href="../tokens.css"><code>tokens.css</code></a>. The mockups are generated from
+    <a href="_render.py"><code>_render.py</code></a> — re-run after touching the catalogues
+    so spec and image stay in lockstep.
+  </p>
+
+  <h2>Today's page <small>main daily form</small></h2>
+  <div class="row">
+    <figure><figcaption>MOBILE · ≤640PX</figcaption><object data="today-mobile.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>TABLET · 641–1024PX</figcaption><object data="today-tablet.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>DESKTOP · ≥1025PX</figcaption><object data="today-desktop.svg" type="image/svg+xml"></object></figure>
+  </div>
+
+  <h2>People · front <small>index-card stack with status filters</small></h2>
+  <div class="row">
+    <figure><figcaption>MOBILE</figcaption><object data="people-front-mobile.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>TABLET</figcaption><object data="people-front-tablet.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>DESKTOP</figcaption><object data="people-front-desktop.svg" type="image/svg+xml"></object></figure>
+  </div>
+
+  <h2>People · card-back · TIES <small>relationship rows with edit affordance</small></h2>
+  <div class="row">
+    <figure><figcaption>MOBILE</figcaption><object data="people-back-mobile.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>TABLET</figcaption><object data="people-back-tablet.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>DESKTOP</figcaption><object data="people-back-desktop.svg" type="image/svg+xml"></object></figure>
+  </div>
+
+  <h2>People · pencil-line overlay <small>desktop only · mobile/tablet show fallback</small></h2>
+  <div class="row">
+    <figure><figcaption>MOBILE · FALLBACK</figcaption><object data="people-pencil-overlay-mobile.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>TABLET · FALLBACK</figcaption><object data="people-pencil-overlay-tablet.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>DESKTOP</figcaption><object data="people-pencil-overlay-desktop.svg" type="image/svg+xml"></object></figure>
+  </div>
+
+  <h2>History <small>past pages stack</small></h2>
+  <div class="row">
+    <figure><figcaption>MOBILE</figcaption><object data="history-mobile.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>TABLET</figcaption><object data="history-tablet.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>DESKTOP</figcaption><object data="history-desktop.svg" type="image/svg+xml"></object></figure>
+  </div>
+
+  <h2>Generated report <small>TRANSMIT TO NETWORK output, plain-mono</small></h2>
+  <div class="row">
+    <figure><figcaption>MOBILE</figcaption><object data="report-mobile.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>TABLET</figcaption><object data="report-tablet.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>DESKTOP</figcaption><object data="report-desktop.svg" type="image/svg+xml"></object></figure>
+  </div>
+
+  <h2>Sync radio panel <small>closed · open · conflict (per §8 + §10)</small></h2>
+  <div class="row">
+    <figure><figcaption>MOBILE</figcaption><object data="sync-mobile.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>TABLET</figcaption><object data="sync-tablet.svg" type="image/svg+xml"></object></figure>
+    <figure><figcaption>DESKTOP</figcaption><object data="sync-desktop.svg" type="image/svg+xml"></object></figure>
+  </div>
+</body>
+</html>

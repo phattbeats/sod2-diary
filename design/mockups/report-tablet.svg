@@ -1,0 +1,167 @@
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1088 1024" width="1088"
+         height="1024" role="img"
+         aria-label="PHA-348 · Generated report · TRANSMIT · Tablet · 641–1024px mockup">
+      <title>PHA-348 · Generated report · TRANSMIT · Tablet · 641–1024px</title>
+      <desc>viewBox 768×1024 device + 320px rail · tokens from design/tokens.css · components from design/components.md</desc>
+    <defs>
+  <pattern id="paperGrain" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+    <rect width="60" height="60" fill="#F1E4C8"/>
+    <circle cx="11" cy="14" r="0.6" fill="#C9B388" opacity="0.5"/>
+    <circle cx="42" cy="22" r="0.5" fill="#C9B388" opacity="0.4"/>
+    <circle cx="29" cy="48" r="0.7" fill="#C9B388" opacity="0.45"/>
+    <circle cx="55" cy="51" r="0.4" fill="#C9B388" opacity="0.3"/>
+  </pattern>
+  <pattern id="leatherGrain" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+    <rect width="80" height="80" fill="#3B2A1A"/>
+    <path d="M0 13 q40 -3 80 0 M0 41 q40 4 80 0 M0 67 q40 -4 80 0" stroke="#1B120A"
+          stroke-width="0.6" fill="none" opacity="0.5"/>
+  </pattern>
+  <radialGradient id="lamp" cx="18%" cy="12%" r="65%">
+    <stop offset="0%" stop-color="#D4A24C" stop-opacity="0.18"/>
+    <stop offset="55%" stop-color="#D4A24C" stop-opacity="0.06"/>
+    <stop offset="100%" stop-color="#D4A24C" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="hand" x="-2%" y="-50%" width="104%" height="200%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="3"/>
+    <feDisplacementMap in="SourceGraphic" scale="0.6"/>
+  </filter>
+  <symbol id="paperclip" viewBox="0 0 40 60">
+    <path d="M20 4 q-9 0 -9 9 v36 q0 9 9 9 t9 -9 v-30 q0 -5 -5 -5 t-5 5 v22"
+          fill="none" stroke="#D4A24C" stroke-width="2.2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="touchHint" viewBox="0 0 44 44">
+    <rect x="0" y="0" width="44" height="44" fill="none" stroke="#D4A24C"
+          stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+  </symbol>
+</defs>
+
+      <!-- backdrop matches body chrome (leather over texture-leather) -->
+      <rect x="0" y="0" width="1088" height="1024" fill="#3B2A1A"/>
+      <rect x="0" y="0" width="768" height="1024" fill="url(#leatherGrain)"/>
+    <!-- leather book chrome -->
+<rect x="0" y="0" width="768" height="1024" fill="url(#leatherGrain)"/>
+<rect x="0" y="0" width="768" height="1024" fill="#3B2A1A" opacity="0.15"/>
+<!-- spine inset shadow -->
+<rect x="0" y="0" width="768" height="3" fill="#1B120A"/>
+<rect x="0" y="1021" width="768" height="3" fill="#1B120A"/>
+<rect x="0" y="0" width="3" height="1024" fill="#1B120A"/>
+<rect x="765" y="0" width="3" height="1024" fill="#1B120A"/>
+<!-- paper page -->
+<rect x="14" y="14" width="740" height="996"
+      fill="url(#paperGrain)" stroke="#C9B388" stroke-width="0.5"/>
+<!-- amber lamp wash from top-left -->
+<rect x="14" y="14" width="740" height="996" fill="url(#lamp)"/>
+
+    <text x="32" y="52" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="2">GENERATED REPORT · TRANSMIT TO NETWORK</text>
+<rect x="32" y="98" width="660" height="756" fill="#F1E4C8" stroke="#C9B388" stroke-width="0.5" rx="3"/>
+<text x="50" y="126" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">════════════════════════════════════</text>
+<text x="50" y="144" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">  NETWORK DISPATCH · DAY 14</text>
+<text x="50" y="162" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">  Trumbull Pt. · Maya, broadcasting</text>
+<text x="50" y="180" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">════════════════════════════════════</text>
+<text x="50" y="198" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12"></text>
+<text x="50" y="216" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">WEATHER ··· clear, 62°F</text>
+<text x="50" y="234" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">MORALE  ··· high</text>
+<text x="50" y="252" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12"></text>
+<text x="50" y="270" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">RESOURCES</text>
+<text x="50" y="288" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">  food          5</text>
+<text x="50" y="306" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">  meds          2</text>
+<text x="50" y="324" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">  ammo         11</text>
+<text x="50" y="342" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">  fuel          3</text>
+<text x="50" y="360" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">  materials     8</text>
+<text x="50" y="378" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12"></text>
+<text x="50" y="396" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">PLAGUE HEARTS  2 · west sector</text>
+<text x="50" y="414" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12"></text>
+<text x="50" y="432" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">EVENTS</text>
+<text x="50" y="450" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">  - Maya killed a feral on the highway.</text>
+<text x="50" y="468" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">  - Ed scavenged the gas station, +2 medkits.</text>
+<text x="50" y="486" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">  - Reyes laid to rest. Day 11 dispatch.</text>
+<text x="50" y="504" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12"></text>
+<text x="50" y="522" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">TIES UPDATED</text>
+<text x="50" y="540" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">  - Maya → Marcus    MENTOR</text>
+<text x="50" y="558" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">  - Lena → Sam       ALLY</text>
+<text x="50" y="576" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12"></text>
+<text x="50" y="594" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" fill="#2A1F12">SHARED TODAY, STRONGER TOMORROW.</text>
+<g transform="rotate(-1.2 132.0 904.0)">
+  <rect x="32" y="878" width="200" height="52" fill="#2A1F12" rx="2"
+        opacity="0.95"/>
+  <text x="132.0" y="909.0" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace"
+        font-size="14" fill="#F1E4C8" letter-spacing="2">COPY AS MARKDOWN</text>
+</g>
+
+<g transform="rotate(-1.2 342.0 904.0)">
+  <rect x="252" y="878" width="180" height="52" fill="#2A1F12" rx="2"
+        opacity="0.95"/>
+  <text x="342.0" y="909.0" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace"
+        font-size="14" fill="#F1E4C8" letter-spacing="2">REGENERATE</text>
+</g>
+
+<g>
+  <path d="M544 962 q53 -10 94 0 v18 q-53 10 -94 0 z"
+        fill="#7E1E1E" opacity="0.85"/>
+  <circle cx="597" cy="915" r="53" fill="#7E1E1E"/>
+  <circle cx="591" cy="907" r="53" fill="#F1E4C8" opacity="0.18"/>
+  <circle cx="597" cy="915" r="29" fill="none" stroke="#F1E4C8" stroke-width="1.5"/>
+  <line x1="597" y1="886" x2="597" y2="944"
+        stroke="#F1E4C8" stroke-width="1.5"/>
+  <line x1="568" y1="915" x2="626" y2="915"
+        stroke="#F1E4C8" stroke-width="1.5"/>
+  <text x="597" y="982" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace"
+        font-size="11" fill="#F1E4C8" letter-spacing="2.5">TRANSMIT</text>
+</g>
+
+<path d="M694 98 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="702" y="134.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">PEOPLE</text>
+<path d="M694 170 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="702" y="206.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">PLACES</text>
+<path d="M694 242 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="702" y="278.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">RES</text>
+<path d="M694 314 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#C9B388" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="702" y="350.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">EVENTS</text>
+<path d="M690 386 h52 q12 0 12 12 v40 q0 12 -12 12 h-52 z" fill="#F1E4C8" stroke="#3B2A1A" stroke-width="0.6"/>
+<text x="698" y="422.0" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#2A1F12" letter-spacing="1.5">DISP</text>
+<line x1="690" y1="449" x2="750" y2="449" stroke="#D4A24C" stroke-width="2"/>
+    <rect x="768" y="0" width="320" height="1024" fill="#FAF6EC"/>
+<line x1="768" y1="0" x2="768" y2="1024" stroke="#C9B388" stroke-width="1"/>
+<text x="784" y="28" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="2">ANNOTATIONS</text>
+<line x1="784" y1="36" x2="1072" y2="36" stroke="#2A1F12" stroke-width="0.6" opacity="0.5"/>
+<line x1="232" y1="238" x2="768" y2="68" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="232" cy="238" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="232" y="242" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">1</text>
+<circle cx="792" cy="68" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="792" y="72" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">1</text>
+<text x="808" y="72" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">Mono report block</text>
+<text x="808" y="88" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--font-mono 11px · --ink-brown</text>
+<text x="808" y="102" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Always plain pre-formatted — never decorate the</text>
+<text x="808" y="114" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">report itself.</text>
+<line x1="132" y1="738" x2="768" y2="304" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="132" cy="738" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="132" y="742" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">2</text>
+<circle cx="792" cy="304" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="792" y="308" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">2</text>
+<text x="808" y="308" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§2 COPY AS MARKDOWN</text>
+<text x="808" y="324" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--ink-brown · --paper · letter-spacing 2</text>
+<text x="808" y="338" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Two-stamp footer: copy + regenerate. Real</text>
+<text x="808" y="350" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">&lt;button&gt;s underneath.</text>
+<line x1="572" y1="738" x2="768" y2="540" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="572" cy="738" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="572" y="742" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">3</text>
+<circle cx="792" cy="540" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="792" y="544" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">3</text>
+<text x="808" y="544" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§13 Wax seal · TRANSMIT</text>
+<text x="808" y="560" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--ink-red · --paper crosshair</text>
+<text x="808" y="574" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">Single dominant CTA on the page.</text>
+<line x1="678" y1="238" x2="768" y2="776" stroke="#7E1E1E" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.7"/>
+<circle cx="678" cy="238" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="678" y="242" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">4</text>
+<circle cx="792" cy="776" r="9" fill="#F1E4C8" stroke="#7E1E1E" stroke-width="1"/>
+<text x="792" y="780" text-anchor="middle" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="10" fill="#7E1E1E">4</text>
+<text x="808" y="780" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11" fill="#2A1F12" letter-spacing="1">§5 Tab · DISP active</text>
+<text x="808" y="796" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9.5" fill="#1F2A4A">--paper · --amber</text>
+<text x="808" y="810" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9" fill="#2A1F12" opacity="0.85">DISPATCH section badge — three active cues.</text>
+    <!-- mockup metadata header (rendered at top of annotation rail in PNGs) -->
+<text x="784" y="996" font-family="'Special Elite', 'Courier New', Courier, monospace" font-size="11"
+      fill="#2A1F12" letter-spacing="2">PHA-348 · Generated report · TRANSMIT · Tablet · 641–1024px</text>
+<text x="784" y="1010" font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="9"
+      fill="#2A1F12" opacity="0.7">viewBox 768×1024 device + 320px rail · tokens from design/tokens.css · components from design/components.md</text>
+
+    </svg>
