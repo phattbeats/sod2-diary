@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SoD2 Diary v2 — Design Token Preview</title>
+
+<!-- Google Fonts: Special Elite, IBM Plex Mono, Caveat (Latin only) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=IBM+Plex+Mono:wght@400;600&family=Special+Elite&display=swap&subset=latin">
+
+<link rel="stylesheet" href="./tokens.css" />
+
+<style>
+  /* Page-local layout. Token usage only — no raw hex. */
+  body {
+    /* tokens.css already sets the leather background; we just lay out. */
+    padding: var(--space-5) var(--space-4);
+  }
+  .frame {
+    max-width: 1100px;
+    margin: 0 auto;
+    background-color: var(--paper);
+    background-image: var(--texture-noise);
+    background-repeat: repeat;
+    color: var(--ink-brown);
+    padding: var(--space-6) var(--space-5);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+  h1 {
+    font-family: var(--font-typewriter);
+    font-size: var(--text-2xl);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 var(--space-2);
+  }
+  h2 {
+    font-family: var(--font-typewriter);
+    font-size: var(--text-xl);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: var(--space-7) 0 var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px dashed var(--leather);
+  }
+  h3 {
+    font-family: var(--font-typewriter);
+    font-size: var(--text-lg);
+    margin: var(--space-5) 0 var(--space-2);
+  }
+  p, li, td, th {
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    line-height: var(--leading-base);
+  }
+  small { font-size: var(--text-xs); }
+  .sub {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink-brown);
+    opacity: 0.75;
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+    display: block;
+    margin-top: var(--space-1);
+  }
+
+  /* Palette grid */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--space-3);
+  }
+  .swatch {
+    border: 1px solid var(--leather);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--paper);
+    box-shadow: var(--shadow-card);
+  }
+  .swatch .chip {
+    height: 96px;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-3);
+    font-family: var(--font-typewriter);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: var(--text-sm);
+  }
+  .swatch .meta {
+    padding: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: var(--leading-base);
+  }
+  .swatch .meta b { font-weight: var(--weight-bold); }
+  /* Per-swatch: uses var() refs so swap-in is automatic. */
+  .sw-paper           .chip { background: var(--paper);          color: var(--ink-brown); }
+  .sw-paper-stained   .chip { background: var(--paper-stained);  color: var(--ink-brown); }
+  .sw-leather         .chip { background: var(--leather);        color: var(--paper); }
+  .sw-leather-shadow  .chip { background: var(--leather-shadow); color: var(--paper); }
+  .sw-ink-blue        .chip { background: var(--ink-blue);       color: var(--paper); }
+  .sw-ink-brown       .chip { background: var(--ink-brown);      color: var(--paper); }
+  .sw-ink-red         .chip { background: var(--ink-red);        color: var(--paper); }
+  .sw-amber           .chip { background: var(--amber);          color: var(--leather); }
+
+  /* Contrast table */
+  table.contrast {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
+  table.contrast th, table.contrast td {
+    border-bottom: 1px solid var(--paper-stained);
+    padding: var(--space-2) var(--space-3);
+    text-align: left;
+  }
+  table.contrast th {
+    font-family: var(--font-typewriter);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: var(--text-xs);
+  }
+  .badge {
+    display: inline-block;
+    padding: 0 var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    background: var(--paper-stained);
+    color: var(--ink-brown);
+  }
+  .badge.pass  { background: var(--ink-blue);  color: var(--paper); }
+  .badge.aaa   { background: var(--leather);   color: var(--amber); }
+  .badge.fail  { background: var(--ink-red);   color: var(--paper); }
+
+  /* Type specimens */
+  .specimen {
+    background: var(--paper);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--space-3);
+  }
+  .specimen .label {
+    font-family: var(--font-typewriter);
+    text-transform: uppercase;
+    font-size: var(--text-xs);
+    letter-spacing: 0.05em;
+    color: var(--ink-brown);
+    opacity: 0.7;
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+  .typewriter   { font-family: var(--font-typewriter); font-size: var(--text-xl); text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-brown); }
+  .mono         { font-family: var(--font-mono);       font-size: var(--text-base); color: var(--ink-brown); }
+  .mono-bold    { font-family: var(--font-mono);       font-size: var(--text-base); font-weight: var(--weight-bold); color: var(--ink-brown); }
+  .hand         { font-family: var(--font-hand);       font-size: var(--text-2xl); color: var(--ink-blue); }
+
+  /* Buttons / stamps */
+  .btn-row { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+  .btn-stamp {
+    min-height: var(--touch-min);
+    min-width: var(--touch-min);
+    padding: var(--space-2) var(--space-4);
+    background: var(--paper);
+    color: var(--ink-brown);
+    border: 1.5px solid var(--leather);
+    border-radius: var(--radius-md);
+    font-family: var(--font-typewriter);
+    font-size: var(--text-base);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: var(--shadow-card);
+    cursor: pointer;
+    transition: box-shadow var(--ink-bleed-duration) var(--ink-bleed-easing),
+                transform var(--press-duration) ease-out;
+  }
+  .btn-stamp:hover { transform: translateY(-1px); }
+  .btn-stamp:active {
+    box-shadow: var(--shadow-press);
+    transform: translateY(1px);
+  }
+  .btn-stamp.kia    { color: var(--ink-red);  border-color: var(--ink-red); }
+  .btn-stamp.legacy { color: var(--ink-brown); background: var(--amber); border-color: var(--leather); }
+
+  /* Form slot */
+  .slot {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin-bottom: var(--space-3);
+  }
+  .slot label {
+    font-family: var(--font-typewriter);
+    text-transform: uppercase;
+    font-size: var(--text-xs);
+    letter-spacing: 0.05em;
+    color: var(--ink-brown);
+  }
+  .slot input {
+    min-height: var(--touch-min);
+    padding: var(--space-2) var(--space-3);
+    border: 1.5px solid var(--leather);
+    border-radius: var(--radius-sm);
+    background: var(--paper);
+    color: var(--ink-brown);
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+  }
+  .slot input:focus {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(212, 162, 76, 0.25);
+  }
+
+  /* Index card */
+  .card-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+  .card {
+    background: var(--paper);
+    background-image: var(--texture-noise);
+    border: 1px solid var(--paper-stained);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-card);
+    position: relative;
+  }
+  .card .clip {
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    width: 28px;
+    height: 28px;
+    background: var(--amber);
+    border: 1px solid var(--leather);
+    border-radius: 50%;
+    box-shadow: var(--shadow-card);
+  }
+  .card .name {
+    font-family: var(--font-hand);
+    font-size: var(--text-2xl);
+    color: var(--ink-blue);
+    line-height: 1;
+  }
+  .card .meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--ink-brown);
+    margin-top: var(--space-1);
+  }
+  .card .ties {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink-brown);
+    border-top: 1px dashed var(--paper-stained);
+    margin-top: var(--space-3);
+    padding-top: var(--space-2);
+  }
+
+  /* Sync amber bar */
+  .spine {
+    height: 6px;
+    background: var(--leather);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    position: relative;
+    margin: var(--space-3) 0;
+  }
+  .spine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 60%;
+    background: var(--amber);
+  }
+
+  /* Footnote */
+  footer {
+    margin-top: var(--space-7);
+    padding-top: var(--space-4);
+    border-top: 1px dashed var(--leather);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink-brown);
+    opacity: 0.85;
+  }
+  code { font-family: var(--font-mono); font-size: 0.9em; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <h1>SoD2 Diary v2 — Token Preview</h1>
+  <p class="sub">design/preview.html · live render of design/tokens.css · PHA-346</p>
+  <p>This page renders the locked v2 vocabulary with zero raw hex in markup — every color, font, shadow, and spacing pulls from <code>tokens.css</code>. If something here looks wrong, the fix lands in the token sheet, not in components.</p>
+
+  <h2>1 · Palette</h2>
+  <div class="palette">
+    <div class="swatch sw-paper">
+      <div class="chip">paper</div>
+      <div class="meta"><b>--paper</b><br/>#F1E4C8<br/>Page surface — the canvas.</div>
+    </div>
+    <div class="swatch sw-paper-stained">
+      <div class="chip">paper-stained</div>
+      <div class="meta"><b>--paper-stained</b><br/>#C9B388<br/>Edge of paper, water rings, dog-ears.</div>
+    </div>
+    <div class="swatch sw-leather">
+      <div class="chip">leather</div>
+      <div class="meta"><b>--leather</b><br/>#3B2A1A<br/>Book chrome — outside the page.</div>
+    </div>
+    <div class="swatch sw-leather-shadow">
+      <div class="chip">leather-shadow</div>
+      <div class="meta"><b>--leather-shadow</b><br/>#1B120A<br/>Spine fold, deepest ambient.</div>
+    </div>
+    <div class="swatch sw-ink-blue">
+      <div class="chip">ink-blue</div>
+      <div class="meta"><b>--ink-blue</b><br/>#1F2A4A<br/>Handwriting accents — names, dates, mood.</div>
+    </div>
+    <div class="swatch sw-ink-brown">
+      <div class="chip">ink-brown</div>
+      <div class="meta"><b>--ink-brown</b><br/>#2A1F12<br/>Default body / typewriter labels.</div>
+    </div>
+    <div class="swatch sw-ink-red">
+      <div class="chip">ink-red</div>
+      <div class="meta"><b>--ink-red</b><br/>#7E1E1E<br/>KIA, plague hearts, alerts.</div>
+    </div>
+    <div class="swatch sw-amber">
+      <div class="chip">amber</div>
+      <div class="meta"><b>--amber</b><br/>#D4A24C<br/><b>Decorative-only on paper.</b> Focus rings, active tab.</div>
+    </div>
+  </div>
+
+  <h2>2 · WCAG-AA Contrast vs --paper</h2>
+  <table class="contrast">
+    <thead><tr><th>Pair</th><th>Ratio</th><th>AA body</th><th>AA large</th><th>AAA</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>--ink-brown on --paper</td><td>12.79:1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td><span class="badge aaa">AAA</span></td><td>Default body / labels.</td></tr>
+      <tr><td>--ink-blue on --paper</td><td>11.20:1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td><span class="badge aaa">AAA</span></td><td>Handwriting accents.</td></tr>
+      <tr><td>--leather on --paper</td><td>10.88:1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td><span class="badge aaa">AAA</span></td><td>Divider tabs / hairlines.</td></tr>
+      <tr><td>--ink-red on --paper</td><td>7.97:1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td><span class="badge aaa">AAA</span></td><td>KIA, plague hearts.</td></tr>
+      <tr><td>--ink-brown on --paper-stained</td><td>7.89:1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td><span class="badge aaa">AAA</span></td><td>Body over stains.</td></tr>
+      <tr><td>--ink-blue on --paper-stained</td><td>6.91:1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>—</td><td>Handwriting over stains.</td></tr>
+      <tr><td>--leather on --paper-stained</td><td>6.71:1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>—</td><td>Tabs over stained margin.</td></tr>
+      <tr><td>--ink-red on --paper-stained</td><td>4.92:1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>—</td><td>KIA stamp, body size safe.</td></tr>
+      <tr><td>--amber on --paper</td><td>1.84:1</td><td><span class="badge fail">FAIL</span></td><td><span class="badge fail">FAIL</span></td><td><span class="badge fail">FAIL</span></td><td>Decorative-only — never sole carrier.</td></tr>
+      <tr><td>--amber on --paper-stained</td><td>1.13:1</td><td><span class="badge fail">FAIL</span></td><td><span class="badge fail">FAIL</span></td><td><span class="badge fail">FAIL</span></td><td>Decorative-only.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3 · Type Specimens</h2>
+
+  <div class="specimen">
+    <span class="label">--font-typewriter · Special Elite · 400</span>
+    <div class="typewriter">THE PEOPLE — DAY 12</div>
+    <small class="sub">Section labels, button captions, tab titles. Always uppercase.</small>
+  </div>
+
+  <div class="specimen">
+    <span class="label">--font-mono · IBM Plex Mono · 400 / 600</span>
+    <div class="mono">Plague Hearts: 9 → 8. Food: 3 → 5. Medicine: 5 → 4.</div>
+    <div class="mono-bold">Plague Hearts: 9 → 8. Food: 3 → 5. Medicine: 5 → 4. (bold 600)</div>
+    <small class="sub">Body text, form data, generated dispatch block.</small>
+  </div>
+
+  <div class="specimen">
+    <span class="label">--font-hand · Caveat · 400 (decorative-only)</span>
+    <div class="hand">Rosa Vargas — mourned husband Marco</div>
+    <small class="sub">Names, mood label, the date scrawl. Never sole carrier of meaning — always pair with a typewriter sub-label.</small>
+  </div>
+
+  <h2>4 · Buttons / Stamps</h2>
+  <p class="sub">Every stamp has --touch-min: 44px. Press states use --shadow-press + --press-duration. Hover/focus uses --ink-bleed-duration ≤200ms.</p>
+  <div class="btn-row">
+    <button class="btn-stamp">TRANSMIT</button>
+    <button class="btn-stamp kia">KIA STAMP</button>
+    <button class="btn-stamp legacy">LEGACY SEAL</button>
+    <button class="btn-stamp">COPY DISPATCH</button>
+  </div>
+
+  <h2>5 · Form Slot (clarity-wins fallback)</h2>
+  <p class="sub">Real &lt;input&gt;/&lt;label&gt; under every painted control — Plan §0. Focus ring = amber halo + ink-brown inner.</p>
+  <div class="slot">
+    <label for="day">DAY <span class="sub" style="display:inline">&nbsp;day-counter</span></label>
+    <input id="day" type="number" inputmode="numeric" value="12" />
+  </div>
+  <div class="slot">
+    <label for="event">TODAY'S EVENTS <span class="sub" style="display:inline">&nbsp;events log</span></label>
+    <input id="event" type="text" placeholder="Cleared the police station. Lost Marcus to a feral ambush." />
+  </div>
+
+  <h2>6 · Index Card (People tab — card front)</h2>
+  <div class="card-row">
+    <article class="card">
+      <span class="clip" aria-hidden="true"></span>
+      <div class="name">Rosa Vargas</div>
+      <div class="meta">28 · Latina F · Joined Day 1<br/>Tough · Leader · Shooting · Medicine</div>
+      <div class="ties">★ Marco — husband (KIA d47, mourned)<br/>↗ Luz — daughter (alive, strained d51)</div>
+    </article>
+    <article class="card">
+      <span class="clip" aria-hidden="true"></span>
+      <div class="name">Ed Donovan</div>
+      <div class="meta">42 · White M · Joined Day 1<br/>Asthma · Wits · Repair</div>
+      <div class="ties">↗ Maya — trained me on guns</div>
+    </article>
+    <article class="card">
+      <span class="clip" aria-hidden="true"></span>
+      <div class="name" style="color:var(--ink-red); text-decoration:line-through;">Marcus Hill</div>
+      <div class="meta">35 · Black M · Joined Day 1 · <b style="color:var(--ink-red)">KIA Day 3</b><br/>Endurance · Cardio</div>
+      <div class="ties">— ties severed. Mourned by Rosa.</div>
+    </article>
+  </div>
+
+  <h2>7 · Sync "Last Contact" Bar (--amber on --leather)</h2>
+  <p class="sub">5.92:1 contrast on leather — only safe place amber can carry meaning.</p>
+  <div class="spine" aria-label="Last contact 4 minutes ago"></div>
+  <div class="mono">Last contact: 4m ago.</div>
+
+  <h2>8 · Generated Dispatch Block (must paste plain)</h2>
+  <pre class="specimen mono" style="white-space:pre-wrap;background:var(--paper);">
+The Survivors - Day 12 Report
+Cascade Hills | Dread | Vogel House (Starter)
+Plague Hearts: 8
+Food: 3 -> 5
+Medicine: 5 -> 4
+
+Events: Cleared the police station. Lost Marcus to a feral ambush.
+
+Active Roster:
+- Rosa Vargas, 28, Latina F | Tough, Leader | Shooting, Medicine | Joined Day 1
+  TIES: husband Marco (KIA day 47, mourned), daughter Luz (alive, strained since day 51)
+- Ed Donovan, 42, White M | Asthma | Wits, Repair | Joined Day 1
+
+Lost:
+- Marcus Hill, 35, Black M | Killed Day 3
+  </pre>
+
+  <footer>
+    Tokens: <code>design/tokens.css</code> · Rationale: <code>design/tokens.md</code> · Mood board: <code>design/moodboard.md</code><br/>
+    Plan: PHA-336 rev 3 · Issue: PHA-346 · Commit: see git log on <code>main</code>.<br/>
+    Texture PNGs (paper, leather) are not yet sourced — preview uses flat color + SVG noise overlay only. PNG drop-in is part of the next milestone (PHA-347).
+  </footer>
+</div>
+</body>
+</html>
