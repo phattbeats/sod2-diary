@@ -1768,7 +1768,179 @@
                 grid-template-columns: repeat(4, 1fr);
             }
         }
-    </style>
+    
+/* ── Sync Panel ── */
+.sync-radio-dial {
+  position: fixed;
+  bottom: 14px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #d4a43a, #9b7220 50%, #5c3d06);
+  border: 2px solid #c8a030;
+  box-shadow: 0 3px 10px rgba(0,0,0,.5), inset 0 1px 3px rgba(255,225,130,.4), inset 0 -2px 4px rgba(0,0,0,.35);
+  cursor: pointer;
+  z-index: 950;
+  transition: box-shadow .2s ease, transform .15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sync-radio-dial:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,.6), inset 0 1px 3px rgba(255,225,130,.4), inset 0 -2px 4px rgba(0,0,0,.35);
+  transform: scale(1.07);
+}
+.sync-radio-dial:active { transform: scale(.93); }
+.sync-radio-dial::before {
+  content: '';
+  display: block;
+  width: 58%;
+  height: 58%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 38%, rgba(255,215,90,.55), rgba(180,95,15,.35) 70%);
+}
+.sync-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.72);
+  z-index: 960;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 0 20px;
+}
+.sync-panel-overlay.open { display: flex; }
+@media (min-width: 540px) {
+  .sync-panel-overlay { align-items: center; padding: 24px; }
+}
+.sync-panel {
+  background: #111208;
+  border: 1px solid #5a4010;
+  box-shadow: 0 -4px 32px rgba(0,0,0,.9), inset 0 0 0 1px rgba(255,200,80,.05);
+  width: 100%;
+  max-width: 480px;
+  max-height: 92dvh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: 4px;
+}
+.sync-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid rgba(180,140,50,.18);
+  flex-shrink: 0;
+}
+.sync-panel-title {
+  font-family: 'Special Elite', serif;
+  font-size: 1.1rem;
+  letter-spacing: .08em;
+  color: #c8a030;
+  text-shadow: 0 0 12px rgba(200,160,48,.3);
+  margin: 0;
+}
+.sync-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(180,140,50,.15);
+  flex-shrink: 0;
+}
+.sync-tab {
+  flex: 1;
+  padding: 10px 8px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #8a7040;
+  font-family: 'Special Elite', serif;
+  font-size: .82rem;
+  letter-spacing: .1em;
+  cursor: pointer;
+  transition: color .18s, border-color .18s;
+}
+.sync-tab.active {
+  color: #e0b840;
+  border-bottom-color: #c8a030;
+}
+.sync-tab:hover:not(.active) { color: #b09040; }
+.sync-panel-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.sync-panel-body.hidden { display: none; }
+.qr-display {
+  background: white;
+  border-radius: 2px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+}
+.qr-display svg { max-width: 100%; height: auto; display: block; }
+.share-link-section { display: flex; flex-direction: column; gap: 8px; }
+.share-link-row { display: flex; gap: 8px; }
+.share-link-input {
+  flex: 1;
+  background: #0d0b06;
+  border: 1px solid #3a2a0a;
+  color: #8a7850;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .72rem;
+  padding: 8px 10px;
+  border-radius: 2px;
+  word-break: break-all;
+  resize: none;
+  min-height: 52px;
+  max-height: 90px;
+}
+.sync-warn { color: #c07030; font-family: 'Special Elite', serif; font-size: .82rem; line-height: 1.5; }
+.sync-error { color: #c04030; font-family: 'Special Elite', serif; font-size: .82rem; }
+.sync-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.sync-btn {
+  flex: 1;
+  padding: 9px 14px;
+  background: #1a1208;
+  border: 1px solid #4a3510;
+  color: #b89030;
+  font-family: 'Special Elite', serif;
+  font-size: .82rem;
+  letter-spacing: .06em;
+  cursor: pointer;
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.4);
+  transition: background .18s, transform .12s;
+}
+.sync-btn:hover { background: #231808; transform: translateY(-1px); }
+.sync-btn:active { transform: translateY(0); box-shadow: 0 1px 3px rgba(0,0,0,.4); }
+.sync-btn.copy-success { background: #0a2010; border-color: #306040; color: #60c080; }
+.sync-btn.primary { background: #1c1208; border-color: #6a4a18; color: #d4a840; }
+.sync-import-area {
+  background: rgba(255,200,80,.04);
+  border: 1px dashed rgba(180,140,50,.25);
+  border-radius: 2px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sync-import-label { color: #8a7040; font-family: 'Special Elite', serif; font-size: .82rem; }
+.sync-close-btn {
+  background: transparent;
+  border: none;
+  color: #7a6040;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 2px;
+  line-height: 1;
+  transition: background .18s, color .18s;
+}
+.sync-close-btn:hover { background: rgba(180,140,50,.12); color: #c8a030; }
+@media (prefers-reduced-motion: reduce) {
+  .sync-radio-dial, .sync-panel, .sync-tab, .sync-btn { transition: none; }
+}
+</style>
 </head>
 <body>
     <div class="book">
@@ -2207,6 +2379,53 @@
         
         <div class="button-container">
             <button onclick="generateReport()">Generate Report</button>
+        </div>
+
+<!-- Sync Radio Dial (PHA-355) -->
+        <button class="sync-radio-dial" onclick="showSyncPanel()" title="QR Snapshot / Share Link"></button>
+
+        <!-- Sync Panel (PHA-355) -->
+        <div class="sync-panel-overlay" id="syncOverlay" onclick="if(event.target===this)hideSyncPanel()">
+          <div class="sync-panel">
+            <div class="sync-panel-header">
+              <h3 class="sync-panel-title">&#x260A; Raise the Other Radio</h3>
+              <button class="sync-close-btn" onclick="hideSyncPanel()">&#x2715;</button>
+            </div>
+            <div class="sync-tabs">
+              <button class="sync-tab active" id="syncTabTransmit" onclick="switchSyncTab('transmit')">&#x1F4F2; TRANSMIT</button>
+              <button class="sync-tab" id="syncTabReceive" onclick="switchSyncTab('receive')">&#x1F4E5; RECEIVE</button>
+            </div>
+
+            <!-- TRANSMIT TAB -->
+            <div class="sync-panel-body" id="syncTransmit">
+              <div class="qr-display" id="qrDisplay">
+                <span style="color:#6a5030;font-family:'Special Elite',serif;font-size:.85rem">Loading...</span>
+              </div>
+              <div class="share-link-section">
+                <div class="share-link-row">
+                  <textarea class="share-link-input" id="shareLinkInput" readonly placeholder="Share link generates here..."></textarea>
+                </div>
+                <div class="sync-actions">
+                  <button class="sync-btn" id="copyLinkBtn" onclick="copyShareLink()">Copy Link</button>
+                  <button class="sync-btn" onclick="hideSyncPanel()">Done</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- RECEIVE TAB -->
+            <div class="sync-panel-body hidden" id="syncReceive">
+              <div class="sync-import-area">
+                <span class="sync-import-label">Paste a share link or scan a QR code:</span>
+                <div class="share-link-row">
+                  <textarea class="share-link-input" id="receiveLinkInput" placeholder="Paste share link here..."></textarea>
+                </div>
+                <div class="sync-actions">
+                  <button class="sync-btn primary" onclick="importFromShareLink()">Import Link</button>
+                </div>
+                <div id="syncImportFeedback" style="margin-top:4px"></div>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
         </div>
@@ -3377,6 +3596,224 @@ Events: ${events}` + generateRosterText();
                 button.style.opacity = '1';
             }, 1500);
         }
+    </script>
+
+    <script>
+var m=(function(){var _=String.fromCharCode,M="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",S="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",x={};function O(o,r){if(!x[o]){x[o]={};for(var c=0;c<o.length;c++)x[o][o.charAt(c)]=c}return x[o][r]}var h={compressToBase64:function(o){if(o==null)return"";var r=h._compress(o,6,function(c){return M.charAt(c)});switch(r.length%4){default:case 0:return r;case 1:return r+"===";case 2:return r+"==";case 3:return r+"="}},decompressFromBase64:function(o){return o==null?"":o==""?null:h._decompress(o.length,32,function(r){return O(M,o.charAt(r))})},compressToUTF16:function(o){return o==null?"":h._compress(o,15,function(r){return _(r+32)})+" "},decompressFromUTF16:function(o){return o==null?"":o==""?null:h._decompress(o.length,16384,function(r){return o.charCodeAt(r)-32})},compressToUint8Array:function(o){for(var r=h.compress(o),c=new Uint8Array(r.length*2),i=0,f=r.length;i<f;i++){var a=r.charCodeAt(i);c[i*2]=a>>>8,c[i*2+1]=a%256}return c},decompressFromUint8Array:function(o){if(o==null)return h.decompress(o);for(var r=new Array(o.length/2),c=0,i=r.length;c<i;c++)r[c]=o[c*2]*256+o[c*2+1];var f=[];return r.forEach(function(a){f.push(_(a))}),h.decompress(f.join(""))},compressToEncodedURIComponent:function(o){return o==null?"":h._compress(o,6,function(r){return S.charAt(r)})},decompressFromEncodedURIComponent:function(o){return o==null?"":o==""?null:(o=o.replace(/ /g,"+"),h._decompress(o.length,32,function(r){return O(S,o.charAt(r))}))},compress:function(o){return h._compress(o,16,function(r){return _(r)})},_compress:function(o,r,c){if(o==null)return"";var i,f,a={},w={},v="",y="",u="",p=2,A=3,s=2,l=[],n=0,e=0,d;for(d=0;d<o.length;d+=1)if(v=o.charAt(d),Object.prototype.hasOwnProperty.call(a,v)||(a[v]=A++,w[v]=!0),y=u+v,Object.prototype.hasOwnProperty.call(a,y))u=y;else{if(Object.prototype.hasOwnProperty.call(w,u)){if(u.charCodeAt(0)<256){for(i=0;i<s;i++)n=n<<1,e==r-1?(e=0,l.push(c(n)),n=0):e++;for(f=u.charCodeAt(0),i=0;i<8;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}else{for(f=1,i=0;i<s;i++)n=n<<1|f,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=0;for(f=u.charCodeAt(0),i=0;i<16;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}p--,p==0&&(p=Math.pow(2,s),s++),delete w[u]}else for(f=a[u],i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;p--,p==0&&(p=Math.pow(2,s),s++),a[y]=A++,u=String(v)}if(u!==""){if(Object.prototype.hasOwnProperty.call(w,u)){if(u.charCodeAt(0)<256){for(i=0;i<s;i++)n=n<<1,e==r-1?(e=0,l.push(c(n)),n=0):e++;for(f=u.charCodeAt(0),i=0;i<8;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}else{for(f=1,i=0;i<s;i++)n=n<<1|f,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=0;for(f=u.charCodeAt(0),i=0;i<16;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}p--,p==0&&(p=Math.pow(2,s),s++),delete w[u]}else for(f=a[u],i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;p--,p==0&&(p=Math.pow(2,s),s++)}for(f=2,i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;for(;;)if(n=n<<1,e==r-1){l.push(c(n));break}else e++;return l.join("")},decompress:function(o){return o==null?"":o==""?null:h._decompress(o.length,32768,function(r){return o.charCodeAt(r)})},_decompress:function(o,r,c){var i=[],f,a=4,w=4,v=3,y="",u=[],p,A,s,l,n,e,d,t={val:c(0),position:r,index:1};for(p=0;p<3;p+=1)i[p]=p;for(s=0,n=Math.pow(2,2),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;switch(f=s){case 0:for(s=0,n=Math.pow(2,8),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;d=_(s);break;case 1:for(s=0,n=Math.pow(2,16),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;d=_(s);break;case 2:return""}for(i[3]=d,A=d,u.push(d);;){if(t.index>o)return"";for(s=0,n=Math.pow(2,v),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;switch(d=s){case 0:for(s=0,n=Math.pow(2,8),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;i[w++]=_(s),d=w-1,a--;break;case 1:for(s=0,n=Math.pow(2,16),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;i[w++]=_(s),d=w-1,a--;break;case 2:return u.join("")}if(a==0&&(a=Math.pow(2,v),v++),i[d])y=i[d];else if(d===w)y=A+A.charAt(0);else return null;u.push(y),i[w++]=A+y.charAt(0),a--,A=y,a==0&&(a=Math.pow(2,v),v++)}}};return h})();typeof define=="function"&&define.amd?define(function(){return m}):typeof module<"u"&&module!=null?module.exports=m:typeof angular<"u"&&angular!=null&&angular.module("LZString",[]).factory("LZString",function(){return m});
+var MiniQR=(()=>{var $=Object.defineProperty;var A=Object.getOwnPropertyDescriptor;var p=Object.getOwnPropertyNames;var v=Object.prototype.hasOwnProperty;var M=(e,n)=>{for(var t in n)$(e,t,{get:n[t],enumerable:!0})},I=(e,n,t,o)=>{if(n&&typeof n=="object"||typeof n=="function")for(let i of p(n))!v.call(e,i)&&i!==t&&$(e,i,{get:()=>n[i],enumerable:!(o=A(n,i))||o.enumerable});return e};var L=e=>I($({},"__esModule",{value:!0}),e);var C={};M(C,{gen:()=>U});function w(e){return new Uint8Array(e)}var d=class{constructor(){this.d=w(16),this.l=0}_e(n){if(this.l+n>this.d.byteLength*8){let t=w(this.d.byteLength*2);t.set(this.d),this.d=t}}b(n,t){this._e(t);for(let o=t-1;o>=0;o--)n&1<<o&&(this.d[this.l>>3]|=1<<7-(this.l&7)),this.l++}u(){return this.d.slice(0,Math.ceil(this.l/8))}},z="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+./:-";function m(e){return/^\d+$/.test(e)?1:/^[A-Z0-9 $%*+./:-]+$/.test(e)?2:4}function x(e,n){let t=new d;t.b(n,4);let o=[10,9,8][n-1]||8;if(t.b(e.length,o),n===1)for(let i=0;i<e.length;i+=3){let c=e.slice(i,i+3);t.b(parseInt(c),c.length*3+1)}else if(n===2)for(let i=0;i<e.length;i+=2){let c=z.indexOf(e[i]),f=i+1<e.length?z.indexOf(e[i+1]):0;t.b(c*45+f,11)}else for(let i=0;i<e.length;i++)t.b(e.charCodeAt(i),8);return t}function O(e){let t=Array.from({length:21},()=>new Array(21).fill(null));function o(s,h){for(let l=0;l<7;l++)for(let r=0;r<7;r++)t[h+l][s+r]=l===0||l===6||r===0||r===6||l>=2&&l<=4&&r>=2&&r<=4?1:0;for(let l=0;l<8;l++){let r=(g,b)=>{g>=0&&g<21&&b>=0&&b<21&&t[g][b]===null&&(t[g][b]=0)};r(h+l,s),r(h+l,s+7),r(h,s+l),r(h+7,s+l)}}o(0,0),o(14,0),o(0,14);for(let s=8;s<13;s++)t[6][s]===null&&(t[6][s]=s%2===0?1:0),t[s][6]===null&&(t[s][6]=s%2===0?1:0);let i=m(e),c=x(e,i),f=c.u(),u=c.l,a=0;for(let s=20;s>0;s-=2){s===6&&(s=5);for(let h=20;h>=0;h--)for(let l=s;l>s-2;l--)if(t[h][l]===null){let r=a>>3,g=7-(a&7);a<u&&r<f.length?t[h][l]=f[r]>>g&1:t[h][l]=0,a++}}return{matrix:t,size:21}}function S(e,n,t){let o="";for(let c=0;c<n;c++){let f=-1;for(let u=0;u<=n;u++){let a=u<n&&e[c][u]===1;a&&f===-1?f=u:!a&&f!==-1&&(o+=`M${f},${c}h${u-f}v1H${f}z`,f=-1)}}let i=n*t;return`<svg xmlns="http://www.w3.org/2000/svg" width="${i}" height="${i}" viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges"><path fill="#000" d="${o}"/></svg>`}function U(e,n){let t=n&&n.cellSize||4,{matrix:o,size:i}=O(e);return S(o,i,t)}return L(C);})();
+// Sync Panel app — PHA-355
+(function () {
+  'use strict';
+
+  var ORIGIN_KEY = 'sod2_origin_id';
+
+  function getOriginId() {
+    var id = localStorage.getItem(ORIGIN_KEY);
+    if (!id) {
+      id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0;
+        return 'x' === c ? r.toString(16) : (r & 0x3 | 0x8).toString(16);
+      });
+      localStorage.setItem(ORIGIN_KEY, id);
+    }
+    return id;
+  }
+
+  function getSyncState() {
+    var keys = ['last_community','last_day','last_difficulty','last_base','last_map','last_morale','last_survivors','last_plague_hearts','autosave_last_saved_at','report_history','survivor_roster'];
+    var state = { o: getOriginId(), v: 1, t: Date.now() };
+    for (var i = 0; i < keys.length; i++) {
+      var v = localStorage.getItem(keys[i]);
+      if (null !== v) state[keys[i]] = v;
+    }
+    return state;
+  }
+
+  function encodeState(state) {
+    try {
+      return LZString.compressToEncodedURIComponent(JSON.stringify(state));
+    } catch (e) { return null; }
+  }
+
+  function decodeState(encoded) {
+    try {
+      var json = LZString.decompressFromEncodedURIComponent(encoded);
+      if (!json) return null;
+      var st = JSON.parse(json);
+      if (!st.o) return null;
+      return st;
+    } catch (e) { return null; }
+  }
+
+  function showSyncPanel() {
+    document.getElementById('syncOverlay').classList.add('open');
+    switchSyncTab('transmit');
+  }
+
+  function hideSyncPanel() {
+    document.getElementById('syncOverlay').classList.remove('open');
+  }
+
+  function switchSyncTab(tab) {
+    var tEl = document.getElementById('syncTabTransmit');
+    var rEl = document.getElementById('syncTabReceive');
+    var tBody = document.getElementById('syncTransmit');
+    var rBody = document.getElementById('syncReceive');
+    if (tab === 'transmit') {
+      tEl.classList.add('active'); rEl.classList.remove('active');
+      tBody.classList.remove('hidden'); rBody.classList.add('hidden');
+      regenerateQR();
+    } else {
+      rEl.classList.add('active'); tEl.classList.remove('active');
+      rBody.classList.remove('hidden'); tBody.classList.add('hidden');
+      document.getElementById('receiveLinkInput').value = '';
+      document.getElementById('syncImportFeedback').innerHTML = '';
+    }
+  }
+
+  function regenerateQR() {
+    var display = document.getElementById('qrDisplay');
+    var linkInput = document.getElementById('shareLinkInput');
+    var state = getSyncState();
+    var encoded = encodeState(state);
+    if (!encoded) {
+      display.innerHTML = '<span style="color:#c04030;font-family:\'Special Elite\',serif;font-size:.85rem">Compression failed</span>';
+      linkInput.value = '';
+      return;
+    }
+    var base = window.location.href.split('#')[0];
+    var shareLink = base + '#' + encoded;
+    linkInput.value = shareLink;
+    var qrData = shareLink.length > 1500 ? encoded : shareLink;
+    try {
+      var svg = MiniQR.gen(qrData, { cellSize: 4 });
+      display.innerHTML = svg;
+    } catch (err) {
+      display.innerHTML = '<span style="color:#c04030;font-family:\'Special Elite\',serif;font-size:.85rem">QR error</span>';
+    }
+  }
+
+  function copyShareLink() {
+    var input = document.getElementById('shareLinkInput');
+    var btn = document.getElementById('copyLinkBtn');
+    if (!input.value) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(input.value).then(afterCopy).catch(function () { fallbackCopy(input, btn); });
+    } else {
+      fallbackCopy(input, btn);
+    }
+  }
+
+  function afterCopy() {
+    var btn = document.getElementById('copyLinkBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copy-success');
+    setTimeout(function () {
+      btn.textContent = 'Copy Link';
+      btn.classList.remove('copy-success');
+    }, 1800);
+  }
+
+  function fallbackCopy(input, btn) {
+    input.select();
+    if (document.execCommand('copy')) afterCopy();
+  }
+
+  function importFromShareLink() {
+    var input = document.getElementById('receiveLinkInput');
+    var feedback = document.getElementById('syncImportFeedback');
+    var raw = input.value.trim();
+    if (!raw) {
+      feedback.innerHTML = '<span class="sync-error">Paste a link first.</span>';
+      return;
+    }
+    var hashIdx = raw.indexOf('#');
+    var encoded = hashIdx >= 0 ? raw.substring(hashIdx + 1) : raw;
+    try { encoded = decodeURIComponent(encoded); } catch (e) {}
+    var state = decodeState(encoded);
+    if (!state) {
+      feedback.innerHTML = '<span class="sync-error">Could not decode state from link.</span>';
+      return;
+    }
+    var community = state.last_community || 'unknown';
+    var day = state.last_day || '?';
+    feedback.innerHTML = '<span class="sync-warn">Found: ' + community + ' \u2014 Day ' + day + '. <button class="sync-btn primary" id="ciBtn">Yes, Import</button> <button class="sync-btn" onclick="this.parentElement.innerHTML=\'\'">Cancel</button></span>';
+    document.getElementById('ciBtn').onclick = function () { confirmImport(encoded); };
+  }
+
+  function confirmImport(encoded) {
+    var state = decodeState(encoded);
+    if (!state) return;
+    var keys = ['last_community','last_day','last_difficulty','last_base','last_map','last_morale','last_survivors','last_plague_hearts','autosave_last_saved_at','report_history','survivor_roster'];
+    for (var i = 0; i < keys.length; i++) {
+      if (state.hasOwnProperty(keys[i])) localStorage.setItem(keys[i], state[keys[i]]);
+    }
+    document.getElementById('syncImportFeedback').innerHTML = '<span class="sync-warn" style="color:#60c080">Imported! Reload page to see changes.</span>';
+    setTimeout(hideSyncPanel, 1500);
+  }
+
+  // BarcodeDetector QR scan (Chrome/Edge with native BarcodeDetector)
+  if (typeof BarcodeDetector !== 'undefined') {
+    var scanBtn = document.createElement('button');
+    scanBtn.className = 'sync-btn';
+    scanBtn.style.marginTop = '8px';
+    scanBtn.textContent = '\u{1F4F7} Scan QR from Camera';
+    scanBtn.onclick = function () {
+      var v = document.createElement('video');
+      v.style.cssText = 'position:fixed;inset:0;width:100vw;height:100vh;z-index:1000;background:#000;object-fit:cover';
+      v.autoplay = true;
+      document.body.appendChild(v);
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then(function (stream) {
+        v.srcObject = stream;
+        return v.play();
+      }).then(function () {
+        var detector = new BarcodeDetector({ formats: ['qr_code'] });
+        var found = false;
+        var iv = setInterval(function () {
+          if (found) return;
+          detector.detect(v).then(function (results) {
+            if (results && results.length > 0) {
+              found = true;
+              clearInterval(iv);
+              stream.getTracks().forEach(function (t) { t.stop(); });
+              v.remove();
+              document.getElementById('receiveLinkInput').value = results[0].rawValue;
+              switchSyncTab('receive');
+            }
+          }).catch(function () {});
+        }, 500);
+        setTimeout(function () {
+          if (!found) { clearInterval(iv); stream.getTracks().forEach(function (t) { t.stop(); }); v.remove(); }
+        }, 20000);
+      }).catch(function (e) { v.remove(); });
+    };
+    var area = document.querySelector('.sync-import-area');
+    if (area) area.appendChild(scanBtn);
+  }
+
+  // Read hash on load to detect incoming share link
+  if (window.location.hash && window.location.hash.length > 1) {
+    var encoded = window.location.hash.substring(1);
+    var state = decodeState(encoded);
+    if (state) {
+      setTimeout(function () {
+        if (confirm('Incoming state found for "' + (state.last_community || 'community') + '" (Day ' + (state.last_day || '?') + '). Import now?')) {
+          confirmImport(encoded);
+        }
+      }, 500);
+    }
+  }
+
+  window.showSyncPanel = showSyncPanel;
+  window.hideSyncPanel = hideSyncPanel;
+  window.switchSyncTab = switchSyncTab;
+  window.copyShareLink = copyShareLink;
+  window.importFromShareLink = importFromShareLink;
+  window.confirmImport = confirmImport;
+  window.getSyncState = getSyncState;
+
+})();
+
     </script>
 </body>
 </html>
