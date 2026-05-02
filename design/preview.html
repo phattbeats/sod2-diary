@@ -23,7 +23,10 @@
     max-width: 1100px;
     margin: 0 auto;
     background-color: var(--paper);
-    background-image: var(--texture-noise);
+    /* tokens.md §3 layering recipe: noise (top) over paper texture (multiply)
+       over flat --paper. Demonstrates --texture-paper in the preview. */
+    background-image: var(--texture-noise), var(--texture-paper);
+    background-blend-mode: normal, multiply;
     background-repeat: repeat;
     color: var(--ink-brown);
     padding: var(--space-6) var(--space-5);
