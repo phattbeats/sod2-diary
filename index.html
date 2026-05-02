@@ -1321,8 +1321,8 @@
         select.styled-select:focus,
         textarea:focus {
             outline: none;
-            border-color: var(--amber);
-            box-shadow: 0 0 0 3px var(--amber-glow);
+            border-color: var(--ink-red);
+            box-shadow: 0 0 0 3px rgba(126, 30, 30, 0.18);
         }
 
         select.styled-select {
@@ -1354,7 +1354,7 @@
             width: auto;
             max-width: 100%;
             padding: 10px 20px;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 13px;
             font-weight: 700;
             letter-spacing: 1.5px;
@@ -1406,7 +1406,7 @@
             width: 44px;
             height: 44px;
             padding: 0;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 16px;
             font-weight: 700;
             color: var(--ink);
@@ -1447,7 +1447,7 @@
             max-width: none;
             margin: 0;
             padding: 0;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 16px;
             font-weight: 700;
             color: var(--ink);
@@ -1495,13 +1495,117 @@
         }
 
         .morale-gauge-label {
+            display: block;
             text-align: center;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 11px;
             letter-spacing: 1px;
             text-transform: uppercase;
             color: var(--muted);
             margin-bottom: 8px;
+        }
+
+        .morale-gauge-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            padding: 14px 16px;
+            background: rgba(245, 240, 232, 0.06);
+            border: 1px solid rgba(26, 26, 46, 0.5);
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .morale-face {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            opacity: 0.3;
+            filter: grayscale(1);
+            transition: opacity 0.25s ease, filter 0.25s ease;
+        }
+
+        .morale-face.active {
+            opacity: 1;
+            filter: none;
+        }
+
+        .morale-face svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        .morale-face-label {
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .morale-slider-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 100px;
+        }
+
+        .morale-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right,
+                var(--red) 0%,
+                var(--gold) 50%,
+                var(--green) 100%);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .morale-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--paper-warm);
+            border: 2px solid var(--ink);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .morale-slider::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--paper-warm);
+            border: 2px solid var(--ink);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .morale-slider:focus {
+            box-shadow: 0 0 0 3px rgba(126, 30, 30, 0.18);
+        }
+
+        .morale-value {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
+            color: var(--gold);
+            margin-top: 8px;
+        }
+
+        /* Reduced motion: show only slider + value, no faces */
+        @media (prefers-reduced-motion: reduce) {
+            .morale-face { display: none; }
+            .morale-gauge-wrap { flex-direction: column; }
+            .morale-slider-wrap { width: 100%; }
         }
 
         .morale-slider {
@@ -1548,7 +1652,7 @@
             text-align: center;
             font-size: 22px;
             font-weight: 700;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             color: var(--gold);
             margin-top: 8px;
         }
@@ -1570,13 +1674,13 @@
         input[type="number"]:focus,
         input[type="text"]:focus {
             outline: none;
-            border-color: var(--amber);
+            border-color: var(--ink-red);
             box-shadow: 0 0 0 3px var(--amber-glow);
         }
 
         /* ── Form field label ───────────────────────────────────── */
         .form-field label {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 11px;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -1585,7 +1689,7 @@
 
         /* ── Resume Banner Buttons ──────────────────────────────── */
         .resume-yes-btn {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 12px;
             font-weight: 700;
             letter-spacing: 1px;
@@ -1607,7 +1711,7 @@
         }
 
         .resume-no-btn {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 12px;
             font-weight: 700;
             letter-spacing: 1px;
@@ -1628,7 +1732,7 @@
         /* ── Copy / Clear / Export / Import / Reset ──────────────── */
         .copy-button,
         .clear-button {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 12px;
             font-weight: 700;
             letter-spacing: 1px;
@@ -1654,7 +1758,7 @@
         }
 
         .export-button {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 12px;
             font-weight: 700;
             letter-spacing: 1px;
@@ -1678,7 +1782,7 @@
         }
 
         .import-button {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 12px;
             font-weight: 700;
             letter-spacing: 1px;
@@ -1702,7 +1806,7 @@
         }
 
         .reset-button {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 12px;
             font-weight: 700;
             letter-spacing: 1px;
@@ -1727,7 +1831,7 @@
 
         /* Global button base — stamp-style */
         button {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
             font-size: 13px;
             font-weight: 700;
             letter-spacing: 1px;
@@ -2006,7 +2110,7 @@
 .tab-dividers-item.active button.tab-dividers-btn::before {
   opacity: 1;
   background: var(--paper);
-  border-color: var(--amber);
+  border-color: var(--ink-red);
 }
 .tab-dividers-item button.tab-dividers-btn:hover {
   background: var(--paper);
@@ -2165,7 +2269,7 @@
             <div class="section-title">Community Info</div>
             <div class="compact-row" style="margin-bottom: 10px;">
                 <div class="compact-item" style="flex: 1;">
-                    <div class="compact-label">Community Name</div>
+                    <label class="compact-label" for="communityName">Community Name</label>
                     <input type="text" id="communityName" placeholder="The Survivors..." style="width: 100%;">
                 </div>
             </div>
@@ -2206,7 +2310,7 @@
                     <div class="compact-label">Plague Hearts Remaining</div>
                     <div class="number-control">
                         <button class="pm-button" onclick="adjustPlagueHearts(-1)">&#x2212;</button>
-                        <input type="number" id="plagueHearts" placeholder="0" style="width: 60px;">
+                        <label for="plagueHearts" class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Plague Hearts</label><input type="number" id="plagueHearts" aria-label="Plague Hearts" placeholder="0" style="width: 60px;">
                         <button class="pm-button" onclick="adjustPlagueHearts(1)">+</button>
                     </div>
                 </div>
@@ -2220,7 +2324,7 @@
                     <div class="compact-label">Day</div>
                     <div class="number-control">
                         <button class="pm-button" onclick="adjustDay(-1)">&#x2212;</button>
-                        <input type="number" id="dayNumber" placeholder="1" style="width: 60px;">
+                        <label for="dayNumber" class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Day</label><input type="number" id="dayNumber" aria-label="Day Number" placeholder="1" style="width: 60px;">
                         <button class="pm-button" onclick="adjustDay(1)">+</button>
                     </div>
                 </div>
@@ -2241,7 +2345,7 @@
             <div class="resource-grid">
                 <div class="resource-item">
                     <div class="resource-label">
-                        <span>Food</span>
+                        <label for="foodFrom" class="resource-label-text">Food</label>
                         <div style="display: flex; gap: 4px;">
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('food', -1)">&#x2212;</button>
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('food', 1)">+</button>
@@ -2255,7 +2359,7 @@
                 </div>
                 <div class="resource-item">
                     <div class="resource-label">
-                        <span>Medicine</span>
+                        <label for="medFrom" class="resource-label-text">Medicine</label>
                         <div style="display: flex; gap: 4px;">
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('med', -1)">&#x2212;</button>
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('med', 1)">+</button>
@@ -2269,7 +2373,7 @@
                 </div>
                 <div class="resource-item">
                     <div class="resource-label">
-                        <span>Ammo</span>
+                        <label for="ammoFrom" class="resource-label-text">Ammo</label>
                         <div style="display: flex; gap: 4px;">
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('ammo', -1)">&#x2212;</button>
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('ammo', 1)">+</button>
@@ -2283,7 +2387,7 @@
                 </div>
                 <div class="resource-item">
                     <div class="resource-label">
-                        <span>Materials</span>
+                        <label for="matFrom" class="resource-label-text">Materials</label>
                         <div style="display: flex; gap: 4px;">
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('mat', -1)">&#x2212;</button>
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('mat', 1)">+</button>
@@ -2297,7 +2401,7 @@
                 </div>
                 <div class="resource-item">
                     <div class="resource-label">
-                        <span>Fuel</span>
+                        <label for="fuelFrom" class="resource-label-text">Fuel</label>
                         <div style="display: flex; gap: 4px;">
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('fuel', -1)">&#x2212;</button>
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('fuel', 1)">+</button>
@@ -2311,7 +2415,7 @@
                 </div>
                 <div class="resource-item">
                     <div class="resource-label">
-                        <span>Parts</span>
+                        <label for="partsFrom" class="resource-label-text">Parts</label>
                         <div style="display: flex; gap: 4px;">
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('parts', -100)">&#x2212;</button>
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('parts', 100)">+</button>
@@ -2325,7 +2429,7 @@
                 </div>
                 <div class="resource-item">
                     <div class="resource-label">
-                        <span>Influence</span>
+                        <label for="influenceFrom" class="resource-label-text">Influence</label>
                         <div style="display: flex; gap: 4px;">
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('influence', -100)">&#x2212;</button>
                             <button class="pm-button" style="width: 24px; height: 24px; font-size: 14px;" onclick="adjustResource('influence', 100)">+</button>
@@ -2340,24 +2444,67 @@
             </div>
         </div>
         
-        <!-- Morale -->
+        <!-- Morale — penned smiley gauge -->
         <div class="section">
-            <div class="section-title">Morale</div>
-            <div class="morale-container">
-                <input type="range" id="morale" min="-100" max="100" value="0" class="morale-slider" oninput="updateMoraleValue()">
-                <div class="morale-value" id="moraleValue">0</div>
+            <label class="section-title morale-gauge-label" for="morale">Morale</label>
+            <div class="morale-gauge-wrap" id="moraleGaugeWrap">
+                <!-- Frown face (value ≤ -33) -->
+                <div class="morale-face morale-face-neg" id="moraleFaceNeg">
+                    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <!-- Frown: arc from left to right curving downward -->
+                        <path d="M 10 28 Q 24 20 38 28" stroke="#2A1F12" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                        <!-- Left eye -->
+                        <circle cx="18" cy="22" r="2" fill="#2A1F12"/>
+                        <!-- Right eye -->
+                        <circle cx="30" cy="22" r="2" fill="#2A1F12"/>
+                        <!-- Optional: slight pentimento scribble feel -->
+                        <path d="M 8 27 Q 24 17 40 27" stroke="#2A1F12" stroke-width="0.6" fill="none" opacity="0.3"/>
+                    </svg>
+                    <span class="morale-face-label">Low</span>
+                </div>
+                <!-- Neutral face (value between -33 and +33) -->
+                <div class="morale-face morale-face-neutral" id="moraleFaceNeutral">
+                    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <!-- Flat line (neutral mouth) -->
+                        <line x1="12" y1="28" x2="36" y2="28" stroke="#2A1F12" stroke-width="2.2" stroke-linecap="round"/>
+                        <!-- Left eye -->
+                        <circle cx="18" cy="22" r="2" fill="#2A1F12"/>
+                        <!-- Right eye -->
+                        <circle cx="30" cy="22" r="2" fill="#2A1F12"/>
+                        <path d="M 10 27 Q 24 18 38 27" stroke="#2A1F12" stroke-width="0.6" fill="none" opacity="0.3"/>
+                    </svg>
+                    <span class="morale-face-label">Neutral</span>
+                </div>
+                <!-- Smile face (value ≥ +33) -->
+                <div class="morale-face morale-face-pos" id="moraleFacePos">
+                    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <!-- Smile: arc from left to right curving upward -->
+                        <path d="M 10 26 Q 24 34 38 26" stroke="#2A1F12" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                        <!-- Left eye -->
+                        <circle cx="18" cy="22" r="2" fill="#2A1F12"/>
+                        <!-- Right eye -->
+                        <circle cx="30" cy="22" r="2" fill="#2A1F12"/>
+                        <path d="M 8 27 Q 24 37 40 27" stroke="#2A1F12" stroke-width="0.6" fill="none" opacity="0.3"/>
+                    </svg>
+                    <span class="morale-face-label">High</span>
+                </div>
+                <!-- Slider -->
+                <div class="morale-slider-wrap">
+                    <input type="range" id="morale" min="-100" max="100" value="0" class="morale-slider" oninput="updateMoraleValue()">
+                    <div class="morale-value" id="moraleValue">0</div>
+                </div>
             </div>
         </div>
         
         <!-- Deaths and New Survivors -->
         <div class="section">
             <div class="section-title">Deaths</div>
-            <textarea id="deaths" placeholder="None, or list names..."></textarea>
+            <label for="deaths" class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Deaths</label><textarea id="deaths" aria-label="Deaths" placeholder="None, or list names..."></textarea>
         </div>
         
         <div class="section">
             <div class="section-title">New Survivors</div>
-            <textarea id="newSurvivors" placeholder="None, or list names..."></textarea>
+            <label for="newSurvivors" class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">New Survivors</label><textarea id="newSurvivors" aria-label="New Survivors" placeholder="None, or list names..."></textarea>
         </div>
         
         <!-- Events -->
@@ -2376,17 +2523,17 @@
             <div class="roster-form">
                 <div class="roster-form-row">
                     <div class="form-field" style="flex: 2;">
-                        <label>Name</label>
+                        <label for="survivorName">Name</label>
                         <input type="text" id="survivorName" placeholder="Full name...">
                     </div>
                     <div class="form-field" style="flex: 0.7;">
-                        <label>Age</label>
+                        <label for="survivorAge">Age</label>
                         <input type="number" id="survivorAge" placeholder="25">
                     </div>
                 </div>
                 <div class="roster-form-row">
                     <div class="form-field">
-                        <label>Race</label>
+                        <label for="survivorRace">Race</label>
                         <select id="survivorRace">
                             <option value="">Select...</option>
                             <option value="White">White</option>
@@ -2399,7 +2546,7 @@
                         </select>
                     </div>
                     <div class="form-field">
-                        <label>Gender</label>
+                        <label for="survivorGender">Gender</label>
                         <select id="survivorGender">
                             <option value="">Select...</option>
                             <option value="M">Male</option>
@@ -2409,19 +2556,19 @@
                 </div>
                 <div class="roster-form-row">
                     <div class="form-field" style="flex: 1;">
-                        <label>Traits</label>
+                        <label for="survivorTraits">Traits</label>
                         <input type="text" id="survivorTraits" placeholder="Optimist, Former Soldier...">
                     </div>
                 </div>
                 <div class="roster-form-row">
                     <div class="form-field" style="flex: 1;">
-                        <label>Skills</label>
+                        <label for="survivorSkills">Skills</label>
                         <input type="text" id="survivorSkills" placeholder="Shooting, Mechanics...">
                     </div>
                 </div>
                 <div class="roster-form-row">
                     <div class="form-field" style="flex: 0.5;">
-                        <label>Day Joined</label>
+                        <label for="survivorDayJoined">Day Joined</label>
                         <input type="number" id="survivorDayJoined" placeholder="1">
                     </div>
                 </div>
@@ -2454,17 +2601,17 @@
                 <div class="roster-form" style="border: none; padding: 0; margin: 0;">
                     <div class="roster-form-row">
                         <div class="form-field" style="flex: 2;">
-                            <label>Name</label>
+                            <label for="survivorName">Name</label>
                             <input type="text" id="editName">
                         </div>
                         <div class="form-field" style="flex: 0.7;">
-                            <label>Age</label>
+                            <label for="survivorAge">Age</label>
                             <input type="number" id="editAge">
                         </div>
                     </div>
                     <div class="roster-form-row">
                         <div class="form-field">
-                            <label>Race</label>
+                            <label for="survivorRace">Race</label>
                             <select id="editRace">
                                 <option value="">Select...</option>
                                 <option value="White">White</option>
@@ -2477,7 +2624,7 @@
                             </select>
                         </div>
                         <div class="form-field">
-                            <label>Gender</label>
+                            <label for="survivorGender">Gender</label>
                             <select id="editGender">
                                 <option value="">Select...</option>
                                 <option value="M">Male</option>
@@ -2487,19 +2634,19 @@
                     </div>
                     <div class="roster-form-row">
                         <div class="form-field" style="flex: 1;">
-                            <label>Traits</label>
+                            <label for="survivorTraits">Traits</label>
                             <input type="text" id="editTraits">
                         </div>
                     </div>
                     <div class="roster-form-row">
                         <div class="form-field" style="flex: 1;">
-                            <label>Skills</label>
+                            <label for="survivorSkills">Skills</label>
                             <input type="text" id="editSkills">
                         </div>
                     </div>
                     <div class="roster-form-row">
                         <div class="form-field" style="flex: 0.5;">
-                            <label>Day Joined</label>
+                            <label for="survivorDayJoined">Day Joined</label>
                             <input type="number" id="editDayJoined">
                         </div>
                     </div>
@@ -3103,8 +3250,26 @@
         
         // Morale display
         function updateMoraleValue() {
-            const value = document.getElementById('morale').value;
-            document.getElementById('moraleValue').textContent = value > 0 ? '+' + value : value;
+            const value = parseInt(document.getElementById('morale').value, 10);
+            const display = value > 0 ? '+' + value : value;
+            document.getElementById('moraleValue').textContent = display;
+
+            // Update smiley face highlighting (if faces present)
+            if (document.getElementById('moraleFaceNeg')) {
+                var neg = document.getElementById('moraleFaceNeg');
+                var neutral = document.getElementById('moraleFaceNeutral');
+                var pos = document.getElementById('moraleFacePos');
+                neg.classList.remove('active');
+                neutral.classList.remove('active');
+                pos.classList.remove('active');
+                if (value <= -33) {
+                    neg.classList.add('active');
+                } else if (value >= 33) {
+                    pos.classList.add('active');
+                } else {
+                    neutral.classList.add('active');
+                }
+            }
         }
         
         // Auto-save system — debounced saves + crash recovery
