@@ -1940,6 +1940,175 @@
 @media (prefers-reduced-motion: reduce) {
   .sync-radio-dial, .sync-panel, .sync-tab, .sync-btn { transition: none; }
 }
+
+/* ── Tab Dividers + Mobile Ribbon Nav — PHA-352 ── */
+
+/* ── Tab dividers (desktop/tablet section labels) ── */
+.tab-dividers {
+  display: none;
+}
+@media (min-width: 641px) {
+  .tab-dividers {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+/* Each tab is a clickable cut-label that scrolls to / opens its section */
+.tab-dividers-item {
+  display: block;
+}
+.tab-dividers-item button.tab-dividers-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  width: 100%;
+  padding: 9px var(--space-3, 16px);
+  background: var(--paper);
+  border: none;
+  border-left: 3px solid transparent;
+  color: var(--ink-brown);
+  font-family: var(--font-typewriter, 'Special Elite', serif);
+  font-size: var(--text-xs, 0.72rem);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  position: relative;
+}
+.tab-dividers-item button.tab-dividers-btn::before {
+  content: '';
+  display: block;
+  width: 14px;
+  height: 14px;
+  background: var(--paper);
+  border: 1px solid var(--leather);
+  border-radius: 2px 0 0 0;
+  position: absolute;
+  left: -3px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  z-index: 1;
+  opacity: 0.4;
+  transition: opacity 0.15s, background 0.15s;
+}
+.tab-dividers-item.active button.tab-dividers-btn {
+  background: var(--paper);
+  border-left-color: var(--amber);
+  color: var(--ink);
+}
+.tab-dividers-item.active button.tab-dividers-btn::before {
+  opacity: 1;
+  background: var(--paper);
+  border-color: var(--amber);
+}
+.tab-dividers-item button.tab-dividers-btn:hover {
+  background: var(--paper);
+  color: var(--ink);
+  border-left-color: var(--amber-dim);
+}
+.tab-dividers-item button.tab-dividers-btn:active {
+  background: var(--paper);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tab-dividers-item button.tab-dividers-btn,
+  .tab-dividers-item button.tab-dividers-btn::before {
+    transition: none;
+  }
+}
+
+/* ── Mobile ribbon nav ── */
+.ribbon-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-tab, 40);
+  height: 56px;
+  background: var(--leather-dark, #3B2A1A);
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.5), 0 -1px 0 rgba(212,162,76,0.3);
+}
+@media (max-width: 640px) {
+  .ribbon-nav { display: flex; }
+  .page { padding-bottom: 60px; } /* space for ribbon */
+}
+.ribbon-nav-inner {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(44px, 1fr);
+  width: 100%;
+  height: 100%;
+}
+.ribbon-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  background: transparent;
+  border: none;
+  border-top: 2px solid transparent;
+  color: var(--paper);
+  font-family: var(--font-typewriter, 'Special Elite', serif);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s, color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.ribbon-nav-item:hover,
+.ribbon-nav-item:focus-visible {
+  background: rgba(212,162,76,0.12);
+  color: var(--paper);
+  outline: none;
+}
+.ribbon-nav-item:active {
+  background: rgba(212,162,76,0.2);
+}
+.ribbon-nav-item.active {
+  color: var(--amber);
+  border-top-color: var(--amber);
+}
+.ribbon-nav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: var(--amber);
+  border-radius: 50%;
+}
+.ribbon-nav-item-label {
+  display: block;
+  text-align: center;
+  line-height: 1.1;
+}
+/* Settings cog — rightmost, always visible */
+.ribbon-nav-item.ribbon-settings {
+  color: var(--paper);
+  opacity: 0.7;
+}
+.ribbon-nav-item.ribbon-settings:hover,
+.ribbon-nav-item.ribbon-settings:focus-visible {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-nav-item,
+  .ribbon-nav-item::after {
+    transition: none;
+  }
+}
 </style>
 </head>
 <body>
@@ -2427,6 +2596,52 @@
             </div>
           </div>
         </div>
+
+<!-- Tab Dividers (desktop/tablet ≥641px) -->
+<div class="tab-dividers" id="tabDividers" role="navigation" aria-label="Sections">
+  <div class="tab-dividers-item" id="tab-community">
+    <button class="tab-dividers-btn" onclick="scrollToSection('community')">Community</button>
+  </div>
+  <div class="tab-dividers-item" id="tab-resources">
+    <button class="tab-dividers-btn" onclick="scrollToSection('resources')">Resources</button>
+  </div>
+  <div class="tab-dividers-item" id="tab-morale">
+    <button class="tab-dividers-btn" onclick="scrollToSection('morale')">Morale</button>
+  </div>
+  <div class="tab-dividers-item" id="tab-deaths">
+    <button class="tab-dividers-btn" onclick="scrollToSection('deaths')">Deaths</button>
+  </div>
+  <div class="tab-dividers-item" id="tab-survivors">
+    <button class="tab-dividers-btn" onclick="toggleCollapsible('roster'); scrollToSection('roster')">Survivors</button>
+  </div>
+  <div class="tab-dividers-item" id="tab-events">
+    <button class="tab-dividers-btn" onclick="scrollToSection('events')">Events</button>
+  </div>
+  <div class="tab-dividers-item" id="tab-history">
+    <button class="tab-dividers-btn" onclick="toggleCollapsible('history'); scrollToSection('history')">History</button>
+  </div>
+</div>
+
+<!-- Mobile Ribbon Nav (≤640px) -->
+<nav class="ribbon-nav" id="ribbonNav" role="navigation" aria-label="Mobile sections">
+  <div class="ribbon-nav-inner">
+    <button class="ribbon-nav-item active" id="rbn-community" onclick="ribbonNavClick('community')" aria-current="page">
+      <span class="ribbon-nav-item-label">People</span>
+    </button>
+    <button class="ribbon-nav-item" id="rbn-resources" onclick="ribbonNavClick('resources')" aria-label="Resources">
+      <span class="ribbon-nav-item-label">Res</span>
+    </button>
+    <button class="ribbon-nav-item" id="rbn-events" onclick="ribbonNavClick('events')" aria-label="Events">
+      <span class="ribbon-nav-item-label">Events</span>
+    </button>
+    <button class="ribbon-nav-item" id="rbn-disp" onclick="ribbonNavClick('dispatch')" aria-label="Dispatch">
+      <span class="ribbon-nav-item-label">Disp</span>
+    </button>
+    <button class="ribbon-nav-item ribbon-settings" id="rbn-settings" onclick="showSyncPanel()" aria-label="Settings — open sync panel">
+      <span class="ribbon-nav-item-label">&#x2699;</span>
+    </button>
+  </div>
+</nav>
     </div>
         </div>
     </div>
@@ -3811,6 +4026,138 @@ var MiniQR=(()=>{var $=Object.defineProperty;var A=Object.getOwnPropertyDescript
   window.importFromShareLink = importFromShareLink;
   window.confirmImport = confirmImport;
   window.getSyncState = getSyncState;
+
+
+  // ── Tab Dividers + Ribbon Nav (PHA-352) ────────────────────────────
+  var RIBBON_SECTIONS = ['community','resources','events','dispatch'];
+  var activeSection = 'community';
+
+  function scrollToSection(id) {
+    var el = document.getElementById(id + 'Section');
+    if (!el) {
+      // Try section class
+      var sections = document.querySelectorAll('.section');
+      for (var i = 0; i < sections.length; i++) {
+        var title = sections[i].querySelector('.section-title');
+        if (title && title.textContent.toLowerCase().indexOf(id) >= 0) {
+          el = sections[i]; break;
+        }
+      }
+    }
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // On mobile, collapse other collapsibles
+      if (window.innerWidth <= 640) {
+        // Ribbon nav handles this via active state
+      }
+    }
+    // Update active tab
+    updateTabActive(id);
+  }
+
+  function updateTabActive(id) {
+    // tab dividers
+    var tabs = document.querySelectorAll('.tab-dividers-item');
+    for (var i = 0; i < tabs.length; i++) {
+      tabs[i].classList.remove('active');
+      var btn = tabs[i].querySelector('.tab-dividers-btn');
+      if (btn && btn.getAttribute('onclick').indexOf(id) >= 0) {
+        tabs[i].classList.add('active');
+      }
+    }
+    // ribbon nav
+    var rbn = document.querySelectorAll('.ribbon-nav-item');
+    for (var i = 0; i < rbn.length; i++) {
+      rbn[i].classList.remove('active');
+      rbn[i].removeAttribute('aria-current');
+    }
+    var rbnId = 'rbn-' + id;
+    var activeRbn = document.getElementById(rbnId);
+    if (activeRbn) {
+      activeRbn.classList.add('active');
+      activeRbn.setAttribute('aria-current', 'page');
+    }
+    activeSection = id;
+  }
+
+  function ribbonNavClick(id) {
+    updateTabActive(id);
+    // Expand the collapsible for roster/history
+    if (id === 'survivors') {
+      var roster = document.getElementById('roster-content');
+      if (roster && !roster.classList.contains('open')) toggleCollapsible('roster');
+    } else if (id === 'history') {
+      var hist = document.getElementById('history-content');
+      if (hist && !hist.classList.contains('open')) toggleCollapsible('history');
+    }
+    scrollToSection(id);
+  }
+
+  // On page load, set initial ribbon state for the first visible section
+  function initNavState() {
+    if (window.innerWidth <= 640) {
+      // Show ribbon, highlight community
+      updateTabActive('community');
+    } else {
+      // Show tab dividers, highlight community
+      updateTabActive('community');
+    }
+  }
+
+  // Listen to scroll to update active tab based on visible section
+  var navScrollTimer = null;
+  function onSectionScroll() {
+    if (navScrollTimer) clearTimeout(navScrollTimer);
+    navScrollTimer = setTimeout(function() {
+      if (window.innerWidth <= 640) return; // ribbon nav only on desktop/tablet
+      var sections = document.querySelectorAll('.section, .collapsible-content');
+      for (var i = 0; i < sections.length; i++) {
+        var rect = sections[i].getBoundingClientRect();
+        if (rect.top <= 120 && rect.bottom >= 120) {
+          var id = sections[i].id.replace('-content', '').replace('Section', '');
+          // Match to known section
+          var match = null;
+          if (sections[i].querySelector('.section-title')) {
+            var title = sections[i].querySelector('.section-title').textContent.toLowerCase();
+            if (title.indexOf('community') >= 0 || title.indexOf('info') >= 0) match = 'community';
+            else if (title.indexOf('resource') >= 0) match = 'resources';
+            else if (title.indexOf('morale') >= 0) match = 'morale';
+            else if (title.indexOf('death') >= 0) match = 'deaths';
+            else if (title.indexOf('survivor') >= 0) match = 'survivors';
+            else if (title.indexOf('event') >= 0) match = 'events';
+          } else if (sections[i].id === 'history-content') {
+            match = 'history';
+          }
+          if (match) {
+            updateTabActive(match);
+            return;
+          }
+        }
+      }
+    }, 80);
+  }
+  window.addEventListener('scroll', onSectionScroll, { passive: true });
+
+  // Wire collapsible opens/closes to tab dividers
+  var origToggle = window.toggleCollapsible;
+  if (origToggle) {
+    window.toggleCollapsible = function(id) {
+      origToggle(id);
+      // After toggle, update ribbon nav for roster/history
+      if (id === 'roster' || id === 'history') {
+        var match = id === 'roster' ? 'survivors' : 'history';
+        updateTabActive(match);
+      }
+    };
+  }
+
+  // Init on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNavState);
+  } else {
+    initNavState();
+  }
+
 
 })();
 
