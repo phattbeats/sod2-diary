@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * Capture preview screenshots for docs/.
- * Runs in CI from .github/workflows/screenshots.yml — Ubuntu has the
- * shared libs Chromium needs, which the Paperclip dev container does not.
+ * Runs in CI from .github/workflows/screenshots.yml on every push to main.
+ * Ubuntu has the shared libs Chromium needs.
  *
  * Local run (if you have system Chrome):
  *   PREVIEW_URL=https://phattbeats.github.io/sod2-diary/design/preview.html \
