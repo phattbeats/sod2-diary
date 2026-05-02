@@ -2006,6 +2006,13 @@
                 const diff = Date.now() - parseInt(savedAt);
                 if (diff < 10000) {
                     timeEl.textContent = 'just now';
+                    // Hide bar after 5s when showing 'just now' — sleek, no clutter
+                    setTimeout(() => {
+                        const b = document.getElementById('lastSavedBar');
+                        if (b && b.style.display !== 'none') {
+                            b.style.display = 'none';
+                        }
+                    }, 5000);
                 } else if (diff < 60000) {
                     timeEl.textContent = Math.floor(diff / 1000) + 's ago';
                 } else if (diff < 3600000) {
