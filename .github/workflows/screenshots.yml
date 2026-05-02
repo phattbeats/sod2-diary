@@ -1,0 +1,65 @@
+name: Screenshots
+
+# Captures docs/screenshots/* from the live preview after every push to main.
+# Re-runs on workflow_dispatch so a manual refresh is one click in the
+# Actions tab.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'design/preview.html'
+      - 'design/tokens.css'
+      - 'scripts/capture-screenshots.js'
+      - '.github/workflows/screenshots.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: screenshots-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install puppeteer
+        working-directory: scripts
+        run: npm install --no-fund --no-audit
+
+      - name: Wait for GitHub Pages to redeploy this commit
+        env:
+          SHA: ${{ github.sha }}
+          # Pages serves the file we screenshot. We don't have a clean
+          # "is-pages-ready" probe, so just sleep generously the first time.
+          # For workflow_dispatch we still wait so a human-triggered run
+          # always picks up the latest deploy.
+        run: |
+          echo "Sleeping 90s to let Pages catch up to ${SHA}"
+          sleep 90
+
+      - name: Capture screenshots
+        env:
+          PREVIEW_URL: https://phattbeats.github.io/sod2-diary/design/preview.html
+          OUT_DIR: docs/screenshots
+        run: node scripts/capture-screenshots.js
+
+      - name: Commit refreshed screenshots if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/screenshots/*.png
+          if git diff --cached --quiet; then
+            echo "No screenshot changes."
+            exit 0
+          fi
+          git commit -m "docs: refresh design preview screenshots [skip ci]"
+          git push

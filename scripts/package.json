@@ -1,0 +1,9 @@
+{
+  "name": "sod2-diary-scripts",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Auxiliary scripts (CI screenshot capture, etc).",
+  "dependencies": {
+    "puppeteer": "^24.0.0"
+  }
+}

@@ -2,6 +2,8 @@
 
 Narrative tracking tool for State of Decay 2 playthroughs. Generate daily reports to paste into LLM chats (Claude, ChatGPT, SillyTavern, etc.).
 
+**Design source of truth:** [`/docs`](./docs/) — design philosophy, palette, type, motion, screenshots, and concept art live there. Live design preview: https://phattbeats.github.io/sod2-diary/design/preview.html
+
 ## Features
 
 - **Daily Reports** - Resources, morale, plague hearts, events. Auto-copies on generate.
@@ -33,6 +35,16 @@ Lost:
 ## Hosting
 
 Single HTML file. Open locally or deploy to GitHub Pages.
+
+## Design
+
+The v2 visual foundation (palette, typography, motion, spacing) lives in:
+
+- [`docs/`](./docs/) — public-facing design reference (start here).
+- [`design/tokens.css`](./design/tokens.css) — every CSS custom property the app uses.
+- [`design/tokens.md`](./design/tokens.md) — rationale + WCAG-AA contrast proofs.
+- [`design/moodboard.md`](./design/moodboard.md) — five reference surfaces with annotations.
+- Live preview: https://phattbeats.github.io/sod2-diary/design/preview.html
 
 ## License
 
