@@ -424,6 +424,11 @@
             box-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
         }
         
+        .output-buttons {
+            text-align: center;
+            margin-top: 10px;
+        }
+
         .copy-button {
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
             margin-top: 10px;
@@ -437,7 +442,6 @@
         .copy-markdown-btn {
             background: linear-gradient(135deg, #4ecdc4 0%, #44b8b0 100%);
             box-shadow: 0 4px 12px rgba(78, 205, 196, 0.25);
-            margin-left: 6px;
         }
 
         .copy-markdown-btn:hover {
@@ -1455,8 +1459,10 @@
         <div id="outputSection" class="section" style="display: none;">
             <div class="section-title">Generated Report</div>
             <div id="output" class="output"></div>
-            <button class="copy-button" onclick="copyToClipboard()">Copy Report</button>
-            <button class="copy-button copy-markdown-btn" onclick="copyToClipboardMarkdown()">Copy as Markdown</button>
+            <div class="output-buttons">
+                <button class="copy-button" onclick="copyToClipboard()">Copy Report</button>
+                <button class="copy-button copy-markdown-btn" onclick="copyToClipboardMarkdown()">Copy as Markdown</button>
+            </div>
         </div>
         
         <!-- History Section -->
