@@ -2123,10 +2123,31 @@
         }
     
 /* ── Sync Panel ── */
+/* Inside-back-cover pocket — clips the brass dial to the diary's last page,
+   not the viewport. The dial only appears once you have scrolled to the
+   back of the book; mobile users still get the cog in the ribbon nav. */
+.sync-back-cover {
+  position: relative;
+  margin-top: 32px;
+  padding: 28px 18px 22px;
+  border-top: 1px dashed rgba(120, 90, 40, .25);
+  min-height: 64px;
+  font-family: 'Special Elite', 'Courier New', monospace;
+  color: rgba(90, 60, 20, .55);
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.sync-back-cover-label {
+  position: absolute;
+  left: 18px;
+  bottom: 22px;
+  pointer-events: none;
+}
 .sync-radio-dial {
-  position: fixed;
-  bottom: 14px;
-  right: 14px;
+  position: absolute;
+  bottom: 16px;
+  right: 18px;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -2134,12 +2155,13 @@
   border: 2px solid #c8a030;
   box-shadow: 0 3px 10px rgba(0,0,0,.5), inset 0 1px 3px rgba(255,225,130,.4), inset 0 -2px 4px rgba(0,0,0,.35);
   cursor: pointer;
-  z-index: 950;
+  z-index: 5;
   transition: box-shadow .2s ease, transform .15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+.sync-meta { color: #6a5030; font-family: 'Special Elite', serif; font-size: .72rem; opacity: .8; }
 .sync-radio-dial:hover {
   box-shadow: 0 4px 16px rgba(0,0,0,.6), inset 0 1px 3px rgba(255,225,130,.4), inset 0 -2px 4px rgba(0,0,0,.35);
   transform: scale(1.07);
@@ -3232,8 +3254,11 @@
             <button onclick="generateReport()">Generate Report</button>
         </div>
 
-<!-- Sync Radio Dial (PHA-355) -->
-        <button class="sync-radio-dial" onclick="showSyncPanel()" title="QR Snapshot / Share Link"></button>
+<!-- Inside back cover — Sync Radio Dial (PHA-355) -->
+        <div class="sync-back-cover" aria-label="Inside back cover">
+          <span class="sync-back-cover-label">Inside back cover</span>
+          <button class="sync-radio-dial" onclick="showSyncPanel()" title="Raise the Other Radio — QR / Share Link" aria-label="Raise the Other Radio — QR / Share Link"></button>
+        </div>
 
         <!-- Sync Panel (PHA-355) -->
         <div class="sync-panel-overlay" id="syncOverlay" onclick="if(event.target===this)hideSyncPanel()">
@@ -3256,6 +3281,7 @@
                 <div class="share-link-row">
                   <textarea class="share-link-input" id="shareLinkInput" readonly placeholder="Share link generates here..."></textarea>
                 </div>
+                <span class="sync-meta" id="shareLinkMeta"></span>
                 <div class="sync-actions">
                   <button class="sync-btn" id="copyLinkBtn" onclick="copyShareLink()">Copy Link</button>
                   <button class="sync-btn" onclick="hideSyncPanel()">Done</button>
@@ -3487,6 +3513,7 @@
         
         function saveSurvivors(survivors) {
             localStorage.setItem('survivor_roster', JSON.stringify(survivors));
+            if (typeof window.markStateEdited === 'function') window.markStateEdited();
             renderRoster();
         }
         
@@ -3940,6 +3967,9 @@
             showAutoSaveIndicator('saving');
             saveValues();
             localStorage.setItem('autosave_last_saved_at', Date.now().toString());
+            // PHA-355: stamp lastEditedAt + originId on every save so the
+            // sync panel can compare two devices by edit time, not transmit time.
+            if (typeof window.markStateEdited === 'function') window.markStateEdited();
             showAutoSaveIndicator('saved');
             updateLastSavedBar();
         }
@@ -4184,6 +4214,7 @@ Events: ${events}` + generateRosterText();
                 report: report
             });
             localStorage.setItem('report_history', JSON.stringify(history));
+            if (typeof window.markStateEdited === 'function') window.markStateEdited();
             loadHistory();
         }
         
@@ -4407,7 +4438,8 @@ Events: ${events}` + generateRosterText();
                             localStorage.setItem('survivor_roster', JSON.stringify(validSurvivors));
                         }
                     }
-                    
+                    if (typeof window.markStateEdited === 'function') window.markStateEdited();
+
                     loadHistory();
                     renderRoster();
                     alert(`Successfully imported ${validReports.length} reports and ${validSurvivors.length} survivors!`);
@@ -4576,13 +4608,17 @@ Events: ${events}` + generateRosterText();
     </script>
 
     <script>
-var m=(function(){var _=String.fromCharCode,M="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",S="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",x={};function O(o,r){if(!x[o]){x[o]={};for(var c=0;c<o.length;c++)x[o][o.charAt(c)]=c}return x[o][r]}var h={compressToBase64:function(o){if(o==null)return"";var r=h._compress(o,6,function(c){return M.charAt(c)});switch(r.length%4){default:case 0:return r;case 1:return r+"===";case 2:return r+"==";case 3:return r+"="}},decompressFromBase64:function(o){return o==null?"":o==""?null:h._decompress(o.length,32,function(r){return O(M,o.charAt(r))})},compressToUTF16:function(o){return o==null?"":h._compress(o,15,function(r){return _(r+32)})+" "},decompressFromUTF16:function(o){return o==null?"":o==""?null:h._decompress(o.length,16384,function(r){return o.charCodeAt(r)-32})},compressToUint8Array:function(o){for(var r=h.compress(o),c=new Uint8Array(r.length*2),i=0,f=r.length;i<f;i++){var a=r.charCodeAt(i);c[i*2]=a>>>8,c[i*2+1]=a%256}return c},decompressFromUint8Array:function(o){if(o==null)return h.decompress(o);for(var r=new Array(o.length/2),c=0,i=r.length;c<i;c++)r[c]=o[c*2]*256+o[c*2+1];var f=[];return r.forEach(function(a){f.push(_(a))}),h.decompress(f.join(""))},compressToEncodedURIComponent:function(o){return o==null?"":h._compress(o,6,function(r){return S.charAt(r)})},decompressFromEncodedURIComponent:function(o){return o==null?"":o==""?null:(o=o.replace(/ /g,"+"),h._decompress(o.length,32,function(r){return O(S,o.charAt(r))}))},compress:function(o){return h._compress(o,16,function(r){return _(r)})},_compress:function(o,r,c){if(o==null)return"";var i,f,a={},w={},v="",y="",u="",p=2,A=3,s=2,l=[],n=0,e=0,d;for(d=0;d<o.length;d+=1)if(v=o.charAt(d),Object.prototype.hasOwnProperty.call(a,v)||(a[v]=A++,w[v]=!0),y=u+v,Object.prototype.hasOwnProperty.call(a,y))u=y;else{if(Object.prototype.hasOwnProperty.call(w,u)){if(u.charCodeAt(0)<256){for(i=0;i<s;i++)n=n<<1,e==r-1?(e=0,l.push(c(n)),n=0):e++;for(f=u.charCodeAt(0),i=0;i<8;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}else{for(f=1,i=0;i<s;i++)n=n<<1|f,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=0;for(f=u.charCodeAt(0),i=0;i<16;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}p--,p==0&&(p=Math.pow(2,s),s++),delete w[u]}else for(f=a[u],i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;p--,p==0&&(p=Math.pow(2,s),s++),a[y]=A++,u=String(v)}if(u!==""){if(Object.prototype.hasOwnProperty.call(w,u)){if(u.charCodeAt(0)<256){for(i=0;i<s;i++)n=n<<1,e==r-1?(e=0,l.push(c(n)),n=0):e++;for(f=u.charCodeAt(0),i=0;i<8;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}else{for(f=1,i=0;i<s;i++)n=n<<1|f,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=0;for(f=u.charCodeAt(0),i=0;i<16;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}p--,p==0&&(p=Math.pow(2,s),s++),delete w[u]}else for(f=a[u],i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;p--,p==0&&(p=Math.pow(2,s),s++)}for(f=2,i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;for(;;)if(n=n<<1,e==r-1){l.push(c(n));break}else e++;return l.join("")},decompress:function(o){return o==null?"":o==""?null:h._decompress(o.length,32768,function(r){return o.charCodeAt(r)})},_decompress:function(o,r,c){var i=[],f,a=4,w=4,v=3,y="",u=[],p,A,s,l,n,e,d,t={val:c(0),position:r,index:1};for(p=0;p<3;p+=1)i[p]=p;for(s=0,n=Math.pow(2,2),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;switch(f=s){case 0:for(s=0,n=Math.pow(2,8),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;d=_(s);break;case 1:for(s=0,n=Math.pow(2,16),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;d=_(s);break;case 2:return""}for(i[3]=d,A=d,u.push(d);;){if(t.index>o)return"";for(s=0,n=Math.pow(2,v),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;switch(d=s){case 0:for(s=0,n=Math.pow(2,8),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;i[w++]=_(s),d=w-1,a--;break;case 1:for(s=0,n=Math.pow(2,16),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;i[w++]=_(s),d=w-1,a--;break;case 2:return u.join("")}if(a==0&&(a=Math.pow(2,v),v++),i[d])y=i[d];else if(d===w)y=A+A.charAt(0);else return null;u.push(y),i[w++]=A+y.charAt(0),a--,A=y,a==0&&(a=Math.pow(2,v),v++)}}};return h})();typeof define=="function"&&define.amd?define(function(){return m}):typeof module<"u"&&module!=null?module.exports=m:typeof angular<"u"&&angular!=null&&angular.module("LZString",[]).factory("LZString",function(){return m});
+var m=(function(){var _=String.fromCharCode,M="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",S="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",x={};function O(o,r){if(!x[o]){x[o]={};for(var c=0;c<o.length;c++)x[o][o.charAt(c)]=c}return x[o][r]}var h={compressToBase64:function(o){if(o==null)return"";var r=h._compress(o,6,function(c){return M.charAt(c)});switch(r.length%4){default:case 0:return r;case 1:return r+"===";case 2:return r+"==";case 3:return r+"="}},decompressFromBase64:function(o){return o==null?"":o==""?null:h._decompress(o.length,32,function(r){return O(M,o.charAt(r))})},compressToUTF16:function(o){return o==null?"":h._compress(o,15,function(r){return _(r+32)})+" "},decompressFromUTF16:function(o){return o==null?"":o==""?null:h._decompress(o.length,16384,function(r){return o.charCodeAt(r)-32})},compressToUint8Array:function(o){for(var r=h.compress(o),c=new Uint8Array(r.length*2),i=0,f=r.length;i<f;i++){var a=r.charCodeAt(i);c[i*2]=a>>>8,c[i*2+1]=a%256}return c},decompressFromUint8Array:function(o){if(o==null)return h.decompress(o);for(var r=new Array(o.length/2),c=0,i=r.length;c<i;c++)r[c]=o[c*2]*256+o[c*2+1];var f=[];return r.forEach(function(a){f.push(_(a))}),h.decompress(f.join(""))},compressToEncodedURIComponent:function(o){return o==null?"":h._compress(o,6,function(r){return S.charAt(r)})},decompressFromEncodedURIComponent:function(o){return o==null?"":o==""?null:(o=o.replace(/ /g,"+"),h._decompress(o.length,32,function(r){return O(S,o.charAt(r))}))},compress:function(o){return h._compress(o,16,function(r){return _(r)})},_compress:function(o,r,c){if(o==null)return"";var i,f,a={},w={},v="",y="",u="",p=2,A=3,s=2,l=[],n=0,e=0,d;for(d=0;d<o.length;d+=1)if(v=o.charAt(d),Object.prototype.hasOwnProperty.call(a,v)||(a[v]=A++,w[v]=!0),y=u+v,Object.prototype.hasOwnProperty.call(a,y))u=y;else{if(Object.prototype.hasOwnProperty.call(w,u)){if(u.charCodeAt(0)<256){for(i=0;i<s;i++)n=n<<1,e==r-1?(e=0,l.push(c(n)),n=0):e++;for(f=u.charCodeAt(0),i=0;i<8;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}else{for(f=1,i=0;i<s;i++)n=n<<1|f,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=0;for(f=u.charCodeAt(0),i=0;i<16;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}p--,p==0&&(p=Math.pow(2,s),s++),delete w[u]}else for(f=a[u],i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;p--,p==0&&(p=Math.pow(2,s),s++),a[y]=A++,u=String(v)}if(u!==""){if(Object.prototype.hasOwnProperty.call(w,u)){if(u.charCodeAt(0)<256){for(i=0;i<s;i++)n=n<<1,e==r-1?(e=0,l.push(c(n)),n=0):e++;for(f=u.charCodeAt(0),i=0;i<8;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}else{for(f=1,i=0;i<s;i++)n=n<<1|f,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=0;for(f=u.charCodeAt(0),i=0;i<16;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}p--,p==0&&(p=Math.pow(2,s),s++),delete w[u]}else for(f=a[u],i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;p--,p==0&&(p=Math.pow(2,s),s++)}for(f=2,i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;for(;;)if(n=n<<1,e==r-1){l.push(c(n));break}else e++;return l.join("")},decompress:function(o){return o==null?"":o==""?null:h._decompress(o.length,32768,function(r){return o.charCodeAt(r)})},_decompress:function(o,r,c){var i=[],f,a=4,w=4,v=3,y="",u=[],p,A,s,l,n,e,d,t={val:c(0),position:r,index:1};for(p=0;p<3;p+=1)i[p]=p;for(s=0,n=Math.pow(2,2),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;switch(f=s){case 0:for(s=0,n=Math.pow(2,8),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;d=_(s);break;case 1:for(s=0,n=Math.pow(2,16),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;d=_(s);break;case 2:return""}for(i[3]=d,A=d,u.push(d);;){if(t.index>o)return"";for(s=0,n=Math.pow(2,v),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;switch(d=s){case 0:for(s=0,n=Math.pow(2,8),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;i[w++]=_(s),d=w-1,a--;break;case 1:for(s=0,n=Math.pow(2,16),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;i[w++]=_(s),d=w-1,a--;break;case 2:return u.join("")}if(a==0&&(a=Math.pow(2,v),v++),i[d])y=i[d];else if(d===w)y=A+A.charAt(0);else return null;u.push(y),i[w++]=A+y.charAt(0),a--,A=y,a==0&&(a=Math.pow(2,v),v++)}}};return h})();typeof define=="function"&&define.amd?define(function(){return m}):typeof module<"u"&&module!=null?module.exports=m:typeof angular<"u"&&angular!=null&&angular.module("LZString",[]).factory("LZString",function(){return m});window.LZString=m;
 var MiniQR=(()=>{var $=Object.defineProperty;var A=Object.getOwnPropertyDescriptor;var p=Object.getOwnPropertyNames;var v=Object.prototype.hasOwnProperty;var M=(e,n)=>{for(var t in n)$(e,t,{get:n[t],enumerable:!0})},I=(e,n,t,o)=>{if(n&&typeof n=="object"||typeof n=="function")for(let i of p(n))!v.call(e,i)&&i!==t&&$(e,i,{get:()=>n[i],enumerable:!(o=A(n,i))||o.enumerable});return e};var L=e=>I($({},"__esModule",{value:!0}),e);var C={};M(C,{gen:()=>U});function w(e){return new Uint8Array(e)}var d=class{constructor(){this.d=w(16),this.l=0}_e(n){if(this.l+n>this.d.byteLength*8){let t=w(this.d.byteLength*2);t.set(this.d),this.d=t}}b(n,t){this._e(t);for(let o=t-1;o>=0;o--)n&1<<o&&(this.d[this.l>>3]|=1<<7-(this.l&7)),this.l++}u(){return this.d.slice(0,Math.ceil(this.l/8))}},z="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+./:-";function m(e){return/^\d+$/.test(e)?1:/^[A-Z0-9 $%*+./:-]+$/.test(e)?2:4}function x(e,n){let t=new d;t.b(n,4);let o=[10,9,8][n-1]||8;if(t.b(e.length,o),n===1)for(let i=0;i<e.length;i+=3){let c=e.slice(i,i+3);t.b(parseInt(c),c.length*3+1)}else if(n===2)for(let i=0;i<e.length;i+=2){let c=z.indexOf(e[i]),f=i+1<e.length?z.indexOf(e[i+1]):0;t.b(c*45+f,11)}else for(let i=0;i<e.length;i++)t.b(e.charCodeAt(i),8);return t}function O(e){let t=Array.from({length:21},()=>new Array(21).fill(null));function o(s,h){for(let l=0;l<7;l++)for(let r=0;r<7;r++)t[h+l][s+r]=l===0||l===6||r===0||r===6||l>=2&&l<=4&&r>=2&&r<=4?1:0;for(let l=0;l<8;l++){let r=(g,b)=>{g>=0&&g<21&&b>=0&&b<21&&t[g][b]===null&&(t[g][b]=0)};r(h+l,s),r(h+l,s+7),r(h,s+l),r(h+7,s+l)}}o(0,0),o(14,0),o(0,14);for(let s=8;s<13;s++)t[6][s]===null&&(t[6][s]=s%2===0?1:0),t[s][6]===null&&(t[s][6]=s%2===0?1:0);let i=m(e),c=x(e,i),f=c.u(),u=c.l,a=0;for(let s=20;s>0;s-=2){s===6&&(s=5);for(let h=20;h>=0;h--)for(let l=s;l>s-2;l--)if(t[h][l]===null){let r=a>>3,g=7-(a&7);a<u&&r<f.length?t[h][l]=f[r]>>g&1:t[h][l]=0,a++}}return{matrix:t,size:21}}function S(e,n,t){let o="";for(let c=0;c<n;c++){let f=-1;for(let u=0;u<=n;u++){let a=u<n&&e[c][u]===1;a&&f===-1?f=u:!a&&f!==-1&&(o+=`M${f},${c}h${u-f}v1H${f}z`,f=-1)}}let i=n*t;return`<svg xmlns="http://www.w3.org/2000/svg" width="${i}" height="${i}" viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges"><path fill="#000" d="${o}"/></svg>`}function U(e,n){let t=n&&n.cellSize||4,{matrix:o,size:i}=O(e);return S(o,i,t)}return L(C);})();
-// Sync Panel app — PHA-355
+// Sync Panel app — PHA-355 (fixes pass: lastEditedAt, integrity, merge, XSS, gate)
 (function () {
   'use strict';
 
   var ORIGIN_KEY = 'sod2_origin_id';
+  var EDITED_KEY = 'sod2_last_edited_at';
+  var TRACKED = ['last_community','last_day','last_difficulty','last_base','last_map','last_morale','last_survivors','last_plague_hearts','autosave_last_saved_at','report_history','survivor_roster'];
+  var ARRAY_KEYS = { report_history: 1, survivor_roster: 1 };
+  var SHARE_BUDGET = 2048;
 
   function getOriginId() {
     var id = localStorage.getItem(ORIGIN_KEY);
@@ -4596,30 +4632,65 @@ var MiniQR=(()=>{var $=Object.defineProperty;var A=Object.getOwnPropertyDescript
     return id;
   }
 
+  function markStateEdited() {
+    localStorage.setItem(EDITED_KEY, Date.now().toString());
+    getOriginId();
+  }
+
   function getSyncState() {
-    var keys = ['last_community','last_day','last_difficulty','last_base','last_map','last_morale','last_survivors','last_plague_hearts','autosave_last_saved_at','report_history','survivor_roster'];
-    var state = { o: getOriginId(), v: 1, t: Date.now() };
-    for (var i = 0; i < keys.length; i++) {
-      var v = localStorage.getItem(keys[i]);
-      if (null !== v) state[keys[i]] = v;
+    var lastEdited = parseInt(localStorage.getItem(EDITED_KEY) || '0', 10) || Date.now();
+    var state = { o: getOriginId(), v: 1, t: lastEdited };
+    for (var i = 0; i < TRACKED.length; i++) {
+      var v = localStorage.getItem(TRACKED[i]);
+      if (v !== null) state[TRACKED[i]] = v;
     }
     return state;
   }
 
+  // 32-bit SHA-256 prefix via SubtleCrypto. Detects truncation/corruption;
+  // not a MAC (no shared secret), so it does not claim authenticity.
+  function digestHex(str) {
+    if (!(window.crypto && window.crypto.subtle)) return Promise.resolve('');
+    var bytes = new TextEncoder().encode(str);
+    return window.crypto.subtle.digest('SHA-256', bytes).then(function (buf) {
+      var arr = new Uint8Array(buf).slice(0, 4);
+      var hex = '';
+      for (var i = 0; i < arr.length; i++) hex += ('0' + arr[i].toString(16)).slice(-2);
+      return hex;
+    });
+  }
+
   function encodeState(state) {
-    try {
-      return LZString.compressToEncodedURIComponent(JSON.stringify(state));
-    } catch (e) { return null; }
+    return new Promise(function (resolve) {
+      var json;
+      try { json = JSON.stringify(state); } catch (e) { return resolve(null); }
+      var compressed;
+      try { compressed = LZString.compressToEncodedURIComponent(json); } catch (e) { return resolve(null); }
+      digestHex(json).then(function (sum) {
+        resolve(sum ? compressed + '.' + sum : compressed);
+      }, function () { resolve(compressed); });
+    });
   }
 
   function decodeState(encoded) {
-    try {
-      var json = LZString.decompressFromEncodedURIComponent(encoded);
-      if (!json) return null;
-      var st = JSON.parse(json);
-      if (!st.o) return null;
-      return st;
-    } catch (e) { return null; }
+    return new Promise(function (resolve) {
+      var checksum = '', body = encoded;
+      var dot = encoded.lastIndexOf('.');
+      if (dot >= 0 && encoded.length - dot - 1 === 8) {
+        checksum = encoded.slice(dot + 1);
+        body = encoded.slice(0, dot);
+      }
+      var json;
+      try { json = LZString.decompressFromEncodedURIComponent(body); } catch (e) { return resolve(null); }
+      if (!json) return resolve(null);
+      var st;
+      try { st = JSON.parse(json); } catch (e) { return resolve(null); }
+      if (!st || !st.o) return resolve(null);
+      if (!checksum) return resolve({ state: st, integrity: 'none' });
+      digestHex(json).then(function (sum) {
+        resolve({ state: st, integrity: sum === checksum ? 'ok' : 'mismatch' });
+      }, function () { resolve({ state: st, integrity: 'unknown' }); });
+    });
   }
 
   function showSyncPanel() {
@@ -4644,40 +4715,59 @@ var MiniQR=(()=>{var $=Object.defineProperty;var A=Object.getOwnPropertyDescript
       rEl.classList.add('active'); tEl.classList.remove('active');
       rBody.classList.remove('hidden'); tBody.classList.add('hidden');
       document.getElementById('receiveLinkInput').value = '';
-      document.getElementById('syncImportFeedback').innerHTML = '';
+      document.getElementById('syncImportFeedback').textContent = '';
     }
+  }
+
+  function setQrError(msg) {
+    var d = document.getElementById('qrDisplay');
+    d.textContent = '';
+    var s = document.createElement('span');
+    s.className = 'sync-error';
+    s.textContent = msg;
+    d.appendChild(s);
   }
 
   function regenerateQR() {
     var display = document.getElementById('qrDisplay');
     var linkInput = document.getElementById('shareLinkInput');
+    var meta = document.getElementById('shareLinkMeta');
+    var copyBtn = document.getElementById('copyLinkBtn');
     var state = getSyncState();
-    var encoded = encodeState(state);
-    if (!encoded) {
-      display.innerHTML = '<span style="color:#c04030;font-family:\'Special Elite\',serif;font-size:.85rem">Compression failed</span>';
-      linkInput.value = '';
-      return;
-    }
-    var base = window.location.href.split('#')[0];
-    var shareLink = base + '#' + encoded;
-    linkInput.value = shareLink;
-    var qrData = shareLink.length > 1500 ? encoded : shareLink;
-    try {
-      var svg = MiniQR.gen(qrData, { cellSize: 4 });
-      display.innerHTML = svg;
-    } catch (err) {
-      display.innerHTML = '<span style="color:#c04030;font-family:\'Special Elite\',serif;font-size:.85rem">QR error</span>';
-    }
+    encodeState(state).then(function (encoded) {
+      if (!encoded) { setQrError('Compression failed'); linkInput.value = ''; return; }
+      var base = window.location.href.split('#')[0];
+      var shareLink = base + '#' + encoded;
+      var bytes = encoded.length;
+      var tooBig = bytes > SHARE_BUDGET;
+      linkInput.value = tooBig ? '' : shareLink;
+      linkInput.disabled = tooBig;
+      linkInput.placeholder = tooBig
+        ? 'State too large for share link — use the QR above.'
+        : 'Share link generates here...';
+      copyBtn.disabled = tooBig;
+      copyBtn.style.opacity = tooBig ? '.4' : '';
+      copyBtn.style.cursor = tooBig ? 'not-allowed' : '';
+      meta.className = tooBig ? 'sync-warn' : 'sync-meta';
+      meta.textContent = tooBig
+        ? 'Share link disabled (' + bytes + ' B > ' + SHARE_BUDGET + ' B). QR still works.'
+        : bytes + ' B compressed.';
+      try {
+        // MiniQR.gen returns a self-contained SVG string we built locally; safe to insert.
+        display.innerHTML = '';
+        display.insertAdjacentHTML('beforeend', MiniQR.gen(encoded, { cellSize: 4 }));
+      } catch (err) { setQrError('QR error'); }
+    });
   }
 
   function copyShareLink() {
     var input = document.getElementById('shareLinkInput');
     var btn = document.getElementById('copyLinkBtn');
-    if (!input.value) return;
+    if (!input.value || btn.disabled) return;
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(input.value).then(afterCopy).catch(function () { fallbackCopy(input, btn); });
+      navigator.clipboard.writeText(input.value).then(afterCopy).catch(function () { fallbackCopy(input); });
     } else {
-      fallbackCopy(input, btn);
+      fallbackCopy(input);
     }
   }
 
@@ -4691,94 +4781,202 @@ var MiniQR=(()=>{var $=Object.defineProperty;var A=Object.getOwnPropertyDescript
     }, 1800);
   }
 
-  function fallbackCopy(input, btn) {
+  function fallbackCopy(input) {
     input.select();
     if (document.execCommand('copy')) afterCopy();
   }
 
+  function renderError(msg) {
+    var feedback = document.getElementById('syncImportFeedback');
+    feedback.textContent = '';
+    var span = document.createElement('span');
+    span.className = 'sync-error';
+    span.textContent = msg;
+    feedback.appendChild(span);
+  }
+
   function importFromShareLink() {
     var input = document.getElementById('receiveLinkInput');
-    var feedback = document.getElementById('syncImportFeedback');
     var raw = input.value.trim();
-    if (!raw) {
-      feedback.innerHTML = '<span class="sync-error">Paste a link first.</span>';
-      return;
-    }
+    if (!raw) { renderError('Paste a link first.'); return; }
     var hashIdx = raw.indexOf('#');
     var encoded = hashIdx >= 0 ? raw.substring(hashIdx + 1) : raw;
     try { encoded = decodeURIComponent(encoded); } catch (e) {}
-    var state = decodeState(encoded);
-    if (!state) {
-      feedback.innerHTML = '<span class="sync-error">Could not decode state from link.</span>';
-      return;
-    }
-    var community = state.last_community || 'unknown';
-    var day = state.last_day || '?';
-    feedback.innerHTML = '<span class="sync-warn">Found: ' + community + ' \u2014 Day ' + day + '. <button class="sync-btn primary" id="ciBtn">Yes, Import</button> <button class="sync-btn" onclick="this.parentElement.innerHTML=\'\'">Cancel</button></span>';
-    document.getElementById('ciBtn').onclick = function () { confirmImport(encoded); };
+    decodeState(encoded).then(function (result) {
+      if (!result) { renderError('Could not decode state from link.'); return; }
+      renderPreview(result.state, result.integrity);
+    });
   }
 
-  function confirmImport(encoded) {
-    var state = decodeState(encoded);
-    if (!state) return;
-    var keys = ['last_community','last_day','last_difficulty','last_base','last_map','last_morale','last_survivors','last_plague_hearts','autosave_last_saved_at','report_history','survivor_roster'];
-    for (var i = 0; i < keys.length; i++) {
-      if (state.hasOwnProperty(keys[i])) localStorage.setItem(keys[i], state[keys[i]]);
+  function makeBtn(label, cls, onClick) {
+    var b = document.createElement('button');
+    b.className = cls; b.textContent = label; b.onclick = onClick;
+    return b;
+  }
+
+  function renderPreview(state, integrity) {
+    var feedback = document.getElementById('syncImportFeedback');
+    feedback.textContent = '';
+    var wrap = document.createElement('div');
+    wrap.className = 'sync-warn';
+
+    if (integrity === 'mismatch') {
+      var w = document.createElement('div');
+      w.className = 'sync-error';
+      w.style.marginBottom = '6px';
+      w.textContent = 'WARNING: integrity check failed. Payload may be corrupted or tampered with.';
+      wrap.appendChild(w);
     }
-    document.getElementById('syncImportFeedback').innerHTML = '<span class="sync-warn" style="color:#60c080">Imported! Reload page to see changes.</span>';
+
+    // textContent everywhere: payload values are untrusted.
+    var summary = document.createElement('div');
+    summary.style.marginBottom = '6px';
+    var theirOrigin = state.o ? state.o.slice(0, 6) : '?';
+    var theirEdited = state.t ? new Date(state.t).toLocaleString() : '(no timestamp)';
+    summary.textContent = 'From device ' + theirOrigin + ': "' +
+      (state.last_community || 'unknown') + '" — Day ' +
+      (state.last_day || '?') + ' (edited ' + theirEdited + ')';
+    wrap.appendChild(summary);
+
+    var ourEdited = parseInt(localStorage.getItem(EDITED_KEY) || '0', 10);
+    var hint = document.createElement('div');
+    hint.style.marginBottom = '8px';
+    hint.style.fontSize = '.75rem';
+    hint.style.opacity = '.8';
+    if (ourEdited === 0) hint.textContent = 'Local diary is empty — import is safe.';
+    else if ((state.t || 0) > ourEdited) hint.textContent = 'Their copy is NEWER than yours.';
+    else if ((state.t || 0) < ourEdited) hint.textContent = 'Your copy is newer than theirs.';
+    else hint.textContent = 'Same edit timestamp on both sides.';
+    wrap.appendChild(hint);
+
+    var actions = document.createElement('div');
+    actions.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap';
+    actions.appendChild(makeBtn('Overwrite local', 'sync-btn primary', function () { performImport(state, 'overwrite'); }));
+    actions.appendChild(makeBtn('Merge (keep newer)', 'sync-btn', function () { performImport(state, 'merge'); }));
+    actions.appendChild(makeBtn('Cancel', 'sync-btn', function () { feedback.textContent = ''; }));
+    wrap.appendChild(actions);
+
+    feedback.appendChild(wrap);
+  }
+
+  function mergeJsonArrays(ours, theirs) {
+    var a = [], b = [];
+    try { a = ours ? JSON.parse(ours) : []; } catch (e) {}
+    try { b = theirs ? JSON.parse(theirs) : []; } catch (e) {}
+    if (!Array.isArray(a)) a = [];
+    if (!Array.isArray(b)) b = [];
+    var seen = {}, out = [];
+    function add(items) {
+      for (var i = 0; i < items.length; i++) {
+        var key;
+        try { key = JSON.stringify(items[i]); } catch (e) { key = String(items[i]); }
+        if (seen[key]) continue;
+        seen[key] = 1;
+        out.push(items[i]);
+      }
+    }
+    add(a); add(b);
+    return JSON.stringify(out);
+  }
+
+  function performImport(state, mode) {
+    var theirEdited = parseInt(state.t || 0, 10);
+    var ourEdited = parseInt(localStorage.getItem(EDITED_KEY) || '0', 10);
+    var theirIsNewer = theirEdited >= ourEdited;
+    for (var i = 0; i < TRACKED.length; i++) {
+      var k = TRACKED[i];
+      if (!Object.prototype.hasOwnProperty.call(state, k)) continue;
+      var theirs = state[k];
+      var ours = localStorage.getItem(k);
+      if (mode === 'overwrite') { localStorage.setItem(k, theirs); continue; }
+      if (ARRAY_KEYS[k]) {
+        localStorage.setItem(k, mergeJsonArrays(ours, theirs));
+      } else if (ours === null || theirIsNewer) {
+        localStorage.setItem(k, theirs);
+      }
+    }
+    localStorage.setItem(EDITED_KEY, Math.max(theirEdited, Date.now()).toString());
+
+    var feedback = document.getElementById('syncImportFeedback');
+    feedback.textContent = '';
+    var done = document.createElement('span');
+    done.className = 'sync-warn';
+    done.style.color = '#60c080';
+    done.textContent = 'Imported (' + mode + '). Reload to see changes.';
+    feedback.appendChild(done);
     setTimeout(hideSyncPanel, 1500);
   }
 
-  // BarcodeDetector QR scan (Chrome/Edge with native BarcodeDetector)
+  function openScanner() {
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'position:fixed;inset:0;z-index:1000;background:#000';
+    var v = document.createElement('video');
+    v.style.cssText = 'width:100vw;height:100vh;object-fit:cover';
+    v.autoplay = true; v.playsInline = true;
+    wrap.appendChild(v);
+    var close = document.createElement('button');
+    close.textContent = '✕ Close';
+    close.style.cssText = 'position:absolute;top:14px;right:14px;background:#1a1208;border:1px solid #6a4a18;color:#d4a840;font-family:Special Elite,serif;padding:8px 14px;border-radius:2px;cursor:pointer;z-index:1001';
+    wrap.appendChild(close);
+    document.body.appendChild(wrap);
+    var done = false, iv = null, stream = null, timer = null;
+    function teardown() {
+      if (done) return;
+      done = true;
+      if (iv) clearInterval(iv);
+      if (timer) clearTimeout(timer);
+      if (stream) stream.getTracks().forEach(function (t) { t.stop(); });
+      wrap.remove();
+    }
+    close.onclick = teardown;
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then(function (s) {
+      stream = s; v.srcObject = s; return v.play();
+    }).then(function () {
+      var detector = new BarcodeDetector({ formats: ['qr_code'] });
+      iv = setInterval(function () {
+        if (done) return;
+        detector.detect(v).then(function (results) {
+          if (done || !results || results.length === 0) return;
+          var raw = results[0].rawValue;
+          teardown();
+          document.getElementById('receiveLinkInput').value = raw;
+          switchSyncTab('receive');
+          importFromShareLink();
+        }).catch(function () {});
+      }, 400);
+      timer = setTimeout(teardown, 30000);
+    }).catch(teardown);
+  }
+
   if (typeof BarcodeDetector !== 'undefined') {
     var scanBtn = document.createElement('button');
     scanBtn.className = 'sync-btn';
     scanBtn.style.marginTop = '8px';
     scanBtn.textContent = '\u{1F4F7} Scan QR from Camera';
-    scanBtn.onclick = function () {
-      var v = document.createElement('video');
-      v.style.cssText = 'position:fixed;inset:0;width:100vw;height:100vh;z-index:1000;background:#000;object-fit:cover';
-      v.autoplay = true;
-      document.body.appendChild(v);
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then(function (stream) {
-        v.srcObject = stream;
-        return v.play();
-      }).then(function () {
-        var detector = new BarcodeDetector({ formats: ['qr_code'] });
-        var found = false;
-        var iv = setInterval(function () {
-          if (found) return;
-          detector.detect(v).then(function (results) {
-            if (results && results.length > 0) {
-              found = true;
-              clearInterval(iv);
-              stream.getTracks().forEach(function (t) { t.stop(); });
-              v.remove();
-              document.getElementById('receiveLinkInput').value = results[0].rawValue;
-              switchSyncTab('receive');
-            }
-          }).catch(function () {});
-        }, 500);
-        setTimeout(function () {
-          if (!found) { clearInterval(iv); stream.getTracks().forEach(function (t) { t.stop(); }); v.remove(); }
-        }, 20000);
-      }).catch(function (e) { v.remove(); });
-    };
+    scanBtn.onclick = openScanner;
     var area = document.querySelector('.sync-import-area');
     if (area) area.appendChild(scanBtn);
   }
 
-  // Read hash on load to detect incoming share link
+  // Auto-detect incoming share link on load. Clear the hash immediately so a
+  // refresh does not re-prompt; defer the dialog so the page can render first.
   if (window.location.hash && window.location.hash.length > 1) {
-    var encoded = window.location.hash.substring(1);
-    var state = decodeState(encoded);
-    if (state) {
+    var rawHash = window.location.hash.substring(1);
+    decodeState(rawHash).then(function (result) {
+      if (!result) return;
+      var st = result.state;
+      var label = (st.last_community || 'community') + ' — Day ' + (st.last_day || '?');
+      var prefix = result.integrity === 'mismatch' ? 'WARNING: integrity check failed. ' : '';
+      try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch (e) {}
       setTimeout(function () {
-        if (confirm('Incoming state found for "' + (state.last_community || 'community') + '" (Day ' + (state.last_day || '?') + '). Import now?')) {
-          confirmImport(encoded);
+        if (confirm(prefix + 'Incoming diary state for "' + label + '". Open sync panel to choose Overwrite or Merge?')) {
+          showSyncPanel();
+          switchSyncTab('receive');
+          document.getElementById('receiveLinkInput').value = window.location.origin + window.location.pathname + '#' + rawHash;
+          importFromShareLink();
         }
       }, 500);
-    }
+    });
   }
 
   window.showSyncPanel = showSyncPanel;
@@ -4786,7 +4984,7 @@ var MiniQR=(()=>{var $=Object.defineProperty;var A=Object.getOwnPropertyDescript
   window.switchSyncTab = switchSyncTab;
   window.copyShareLink = copyShareLink;
   window.importFromShareLink = importFromShareLink;
-  window.confirmImport = confirmImport;
+  window.markStateEdited = markStateEdited;
   window.getSyncState = getSyncState;
 
 

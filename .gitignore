@@ -2,3 +2,5 @@ node_modules/
 *.min.js
 package.json
 package-lock.json
+# PHA-355 build scratch — MiniQR encoder is inlined in index.html.
+miniqr*.mjs
