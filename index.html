@@ -1208,7 +1208,42 @@
             opacity: 0.6;
         }
 
-        .index-card.is-flipped .index-card__back { display: block; }
+        .index-card.is-flipped .index-card__back { display: block; opacity: 1; }
+        .index-card.is-flipped .index-card__body,
+        .index-card.is-flipped .index-card__actions,
+        .index-card.is-flipped .tie-strip { display: none; }
+
+        /* ── Flip chip — top-right corner toggles the card-back panel.
+         * Sits next to the JOINED stamp; tap-target ≥ 36px for mobile. */
+        .index-card__flip {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            min-width: 36px;
+            height: 22px;
+            padding: 0 8px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.8px;
+            color: var(--amber);
+            background: rgba(245, 158, 11, 0.06);
+            border: 0.5px dashed rgba(245, 158, 11, 0.35);
+            border-radius: 2px;
+            cursor: pointer;
+            text-transform: uppercase;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            z-index: 2;
+        }
+        .index-card__flip:hover { background: rgba(245, 158, 11, 0.14); color: #fbbf24; }
+        .index-card__flip-count {
+            font-size: 9px;
+            opacity: 0.75;
+        }
+        .index-card.is-flipped .index-card__flip { color: var(--ink-brown); border-color: rgba(139, 115, 85, 0.4); background: rgba(139, 115, 85, 0.08); }
 
         /* ── Tie strip (amber right-edge vertical strip on front face) */
         .tie-strip {
@@ -3609,15 +3644,17 @@
             checkResumeSession();
         };
         
-        // Event delegation for survivor action buttons
+        // Event delegation for survivor action buttons. Matches anything
+        // carrying [data-action] so card-action, flip chip, and the back-face
+        // + TIE button all dispatch through one path.
         function setupSurvivorActionHandlers() {
             document.getElementById('roster-content').addEventListener('click', function(e) {
-                const btn = e.target.closest('.card-action');
+                const btn = e.target.closest('[data-action]');
                 if (!btn) return;
-                
+
                 const action = btn.dataset.action;
                 const id = btn.dataset.id;
-                
+
                 if (!action || !id) return;
                 
                 switch(action) {
@@ -3638,6 +3675,17 @@
                         break;
                     case 'addTie':
                         showAddTiePanel(id);
+                        break;
+                    case 'flip':
+                        // Toggle card-back visibility. We mirror the toggle
+                        // into flippedSurvivorIds so the next renderRoster
+                        // (triggered by adding/severing a tie) restores it.
+                        const card = btn.closest('.index-card');
+                        if (card) {
+                            const isFlipped = card.classList.toggle('is-flipped');
+                            if (isFlipped) flippedSurvivorIds.add(id);
+                            else flippedSurvivorIds.delete(id);
+                        }
                         break;
                 }
             });
@@ -3691,6 +3739,14 @@
 
         // ==================== RELATIONSHIPS (TIES THAT BIND) ====================
         const KIND_PRIORITY = { partner: 0, family: 1, mentor: 2, rival: 3, friend: 4, tie: 5 };
+        // Glyph carries the kind on the front-face strip so a partner reads
+        // visually different from a family tie at a glance.
+        const KIND_GLYPHS = { partner: '★', family: '↗', mentor: '◆', rival: '⚔', friend: '•', tie: '·' };
+
+        // Flip state survives renderRoster (which rebuilds cards via innerHTML).
+        // Without this, every tie status change would close the back panel
+        // mid-cycle. Set keyed by survivor id.
+        const flippedSurvivorIds = new Set();
 
         function getRelationships() {
             return JSON.parse(localStorage.getItem('sod2.relationships') || '[]');
@@ -3698,6 +3754,8 @@
 
         function saveRelationships(relationships) {
             localStorage.setItem('sod2.relationships', JSON.stringify(relationships));
+            if (typeof window.markStateEdited === 'function') window.markStateEdited();
+            renderRoster();
         }
 
 
@@ -3708,14 +3766,12 @@
         function addTie({ fromSurvivorId, toSurvivorId, kind, label, since }) {
             const relationships = getRelationships();
             const id = generateTieId();
-            const now = Date.now();
             const ties = [
                 { id, fromSurvivorId, toSurvivorId, kind, label, since, status: 'active' },
                 { id: generateTieId(), fromSurvivorId: toSurvivorId, toSurvivorId: fromSurvivorId, kind, label, since, status: 'active' }
             ];
             relationships.push(...ties);
             saveRelationships(relationships);
-            renderRoster();
         }
 
         function updateTieStatus(tieId, newStatus) {
@@ -3734,9 +3790,8 @@
                 inv.kind === tie.kind && inv.label === tie.label
             );
             if (inverse) inverse.status = newStatus;
-            
+
             saveRelationships(relationships);
-            renderRoster();
         }
 
         function getRelationshipsForSurvivor(survivorId) {
@@ -3793,20 +3848,27 @@
             hideAddTiePanel();
         }
 
+        // Right-click: cycle through every status the long-press picker offers
+        // (active → strained → severed → mourned → active) so desktop and
+        // mobile reach the same set of states. Severed asks for confirmation
+        // because it is the only one that hides the tie from the front strip.
         function editTie(tieId) {
-            // Right-click handler — cycle status
             const relationships = getRelationships();
             const t = relationships.find(r => r.id === tieId);
             if (!t) return;
             const current = t.status || 'active';
-            if (current === 'active') {
-                updateTieStatus(tieId, 'strained');
-            } else if (current === 'strained') {
+            const nextByCurrent = {
+                active: 'strained',
+                strained: 'severed',
+                severed: 'mourned',
+                mourned: 'active'
+            };
+            const next = nextByCurrent[current] || 'active';
+            if (next === 'severed') {
                 const confirmed = confirm('Sever the tie "' + t.label + '" with ' + getSurvivorName(t.toSurvivorId) + '?');
-                if (confirmed) updateTieStatus(tieId, 'severed');
-            } else {
-                updateTieStatus(tieId, 'active');
+                if (!confirmed) return;
             }
+            updateTieStatus(tieId, next);
         }
 
         let tieLongPressTimer;
@@ -3890,8 +3952,9 @@
                 survivor.status = 'dead';
                 survivor.statusDay = currentDay;
                 survivor.statusReason = 'Killed';
-                saveSurvivors(survivors);
-                // Auto-convert all active ties to mourned
+                // Flip ties to mourned BEFORE persisting the survivor so the
+                // first render after KIA shows the corpse with mourned ties
+                // (saveRelationships and saveSurvivors each call renderRoster).
                 const relationships = getRelationships();
                 const updated = relationships.map(t => {
                     if ((t.fromSurvivorId === id || t.toSurvivorId === id) && t.status === 'active') {
@@ -3900,6 +3963,7 @@
                     return t;
                 });
                 saveRelationships(updated);
+                saveSurvivors(survivors);
                 showActionNotification(`${survivor.name} marked as killed`);
             }
         }
@@ -3917,6 +3981,25 @@
                 survivor.status = 'exiled';
                 survivor.statusDay = currentDay;
                 survivor.statusReason = 'Exiled';
+                // Per data-model.md §3: exile defaults to severing active ties,
+                // but the player may override (e.g. a partner you exile but
+                // didn't break with). Default-yes confirm keeps muscle memory.
+                const relationships = getRelationships();
+                const activeTiesForSurvivor = relationships.filter(t =>
+                    (t.fromSurvivorId === id || t.toSurvivorId === id) && t.status === 'active'
+                );
+                if (activeTiesForSurvivor.length > 0) {
+                    const sever = confirm(`Sever ${survivor.name}'s ${activeTiesForSurvivor.length / 2} active tie(s)?\n\nOK = Sever (default)\nCancel = Keep ties active`);
+                    if (sever) {
+                        const updated = relationships.map(t => {
+                            if ((t.fromSurvivorId === id || t.toSurvivorId === id) && t.status === 'active') {
+                                return { ...t, status: 'severed' };
+                            }
+                            return t;
+                        });
+                        saveRelationships(updated);
+                    }
+                }
                 saveSurvivors(survivors);
                 showActionNotification(`${survivor.name} exiled`);
             }
@@ -4071,17 +4154,46 @@
                     <button type="button" class="card-action card-action--restore" data-action="restore" data-id="${escId}" aria-label="Restore ${name} to active">Restore</button>`;
             }
 
-            // Tie strip — top 3 ties for the front face
+            // Tie strip — top 3 ties for the front face. Glyph varies by kind
+            // (★ partner, ↗ family, …) so the strip telegraphs the kind, not
+            // just the count.
             const topTies = getTopTies(s.id);
             const tieStrip = topTies.length > 0
-                ? topTies.map(t => `<span class="tie-strip__item">★ ${escapeHtml(t.label)} — ${escapeHtml(getSurvivorName(t.toSurvivorId))}</span>`).join('')
+                ? topTies.map(t => {
+                    const glyph = KIND_GLYPHS[t.kind] || '·';
+                    return `<span class="tie-strip__item">${glyph} ${escapeHtml(t.label)} — ${escapeHtml(getSurvivorName(t.toSurvivorId))}</span>`;
+                }).join('')
                 : '';
+            const allTies = getRelationshipsForSurvivor(s.id);
+            const tieCount = allTies.length;
 
+            // Flip-chip label depends on which face is showing. The same
+            // toggle on either face flips back to the other one.
+            const flipLabelFront = tieCount > 0
+                ? `TIES <span class="index-card__flip-count">${tieCount}</span>`
+                : `TIES`;
+
+            const tieRows = allTies.length > 0
+                ? allTies.map(t => `
+                    <div class="tie-row" data-tie-id="${escapeHtml(t.id)}"
+                         oncontextmenu="editTie('${escapeHtml(t.id)}'); return false;"
+                         ontouchstart="longPressTie('${escapeHtml(t.id)}')"
+                         ontouchend="clearTieLongPress()">
+                        <span class="tie-kind">${escapeHtml(t.kind)}</span>
+                        <span class="tie-label">${escapeHtml(t.label)}</span>
+                        <span class="tie-target">${escapeHtml(getSurvivorName(t.toSurvivorId))}</span>
+                        <span class="tie-status ${escapeHtml(t.status)}">${escapeHtml(t.status)}</span>
+                    </div>
+                `).join('')
+                : `<div class="tie-list-empty">No ties yet — paperclip them in.</div>`;
+
+            const flippedClass = flippedSurvivorIds.has(s.id) ? ' is-flipped' : '';
             return `
-                <article class="index-card${tieStrip ? ' has-ties' : ''}" data-status="${status}" style="--card-rot: ${rot}deg" aria-label="Survivor card · ${name}">
+                <article class="index-card${tieStrip ? ' has-ties' : ''}${flippedClass}" data-status="${status}" style="--card-rot: ${rot}deg" aria-label="Survivor card · ${name}">
                     <span class="index-card__clip" aria-hidden="true">
                         <svg viewBox="0 0 40 60" focusable="false"><use href="#sod-paperclip"/></svg>
                     </span>
+                    <button type="button" class="index-card__flip" data-action="flip" data-id="${escId}" aria-label="Flip ${name}'s card to view ties">${flipLabelFront}</button>
                     <header class="index-card__header">
                         <h3 class="index-card__name">${name}, ${age}</h3>
                         <span class="index-card__joined">JOINED D${dayJoined}</span>
@@ -4097,23 +4209,14 @@
                         ${actions}
                     </div>
                     ${stamp}
-                    <!-- Card-back: full Ties That Bind panel -->
+                    <!-- Card-back: full Ties That Bind panel. Reachable via the
+                         TIES flip chip in the top-right of the front face. -->
                     <div class="index-card__back" aria-label="relationships">
                         <h4>Ties That Bind <small>relationships</small></h4>
                         <div class="tie-list">
-                            ${getRelationshipsForSurvivor(s.id).map(t => `
-                                <div class="tie-row" data-tie-id="${escapeHtml(t.id)}"
-                                     oncontextmenu="editTie('${escapeHtml(t.id)}'); return false;"
-                                     ontouchstart="longPressTie('${escapeHtml(t.id)}')"
-                                     ontouchend="clearTieLongPress()">
-                                    <span class="tie-kind">${escapeHtml(t.kind)}</span>
-                                    <span class="tie-label">${escapeHtml(t.label)}</span>
-                                    <span class="tie-target">${escapeHtml(getSurvivorName(t.toSurvivorId))}</span>
-                                    <span class="tie-status ${escapeHtml(t.status)}">${escapeHtml(t.status)}</span>
-                                </div>
-                            `).join('')}
+                            ${tieRows}
                         </div>
-                        <button class="add-tie-btn" onclick="showAddTiePanel('${escId}')">+ TIE</button>
+                        <button type="button" class="add-tie-btn" data-action="addTie" data-id="${escId}">+ TIE</button>
                     </div>
                 </article>`;
         }
@@ -4179,10 +4282,12 @@
                 });
             }
             
-            // Ties That Bind section (PHA-354)
+            // Ties That Bind section (PHA-354). Only emit the header if at
+            // least one active tie exists — empty section with no rows looks
+            // like a bug in the LLM-paste flow.
             const relationships = getRelationships();
             if (relationships.length > 0) {
-                text += `\nTies That Bind:\n`;
+                const tieRows = [];
                 survivors.forEach(s => {
                     const ties = relationships.filter(t => t.fromSurvivorId === s.id && t.status === 'active');
                     if (ties.length > 0) {
@@ -4190,11 +4295,14 @@
                             const targetName = getSurvivorName(t.toSurvivorId);
                             return `${t.kind}: ${targetName} (${t.label})`;
                         });
-                        text += `- ${s.name} — ${tieDescriptions.join(', ')}\n`;
+                        tieRows.push(`- ${s.name} — ${tieDescriptions.join(', ')}`);
                     }
                 });
+                if (tieRows.length > 0) {
+                    text += `\nTies That Bind:\n` + tieRows.join('\n') + '\n';
+                }
             }
-            
+
             return text;
         }
         
@@ -4994,8 +5102,8 @@ var MiniQR=(()=>{var $=Object.defineProperty;var A=Object.getOwnPropertyDescript
 
   var ORIGIN_KEY = 'sod2_origin_id';
   var EDITED_KEY = 'sod2_last_edited_at';
-  var TRACKED = ['last_community','last_day','last_difficulty','last_base','last_map','last_morale','last_survivors','last_plague_hearts','autosave_last_saved_at','report_history','survivor_roster'];
-  var ARRAY_KEYS = { report_history: 1, survivor_roster: 1 };
+  var TRACKED = ['last_community','last_day','last_difficulty','last_base','last_map','last_morale','last_survivors','last_plague_hearts','autosave_last_saved_at','report_history','survivor_roster','sod2.relationships'];
+  var ARRAY_KEYS = { report_history: 1, survivor_roster: 1, 'sod2.relationships': 1 };
   var SHARE_BUDGET = 2048;
 
   function getOriginId() {
