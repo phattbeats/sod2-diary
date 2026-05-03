@@ -3453,6 +3453,9 @@
                     case 'restore':
                         restoreSurvivor(id);
                         break;
+                    case 'addTie':
+                        showAddTiePanel(id);
+                        break;
                 }
             });
         }
@@ -3502,7 +3505,141 @@
         function getSurvivors() {
             return JSON.parse(localStorage.getItem('survivor_roster') || '[]');
         }
-        
+
+        // ==================== RELATIONSHIPS (TIES THAT BIND) ====================
+        const KIND_PRIORITY = { partner: 0, family: 1, mentor: 2, rival: 3, friend: 4, tie: 5 };
+
+        function getRelationships() {
+            return JSON.parse(localStorage.getItem('sod2.relationships') || '[]');
+        }
+
+        function saveRelationships(relationships) {
+            localStorage.setItem('sod2.relationships', JSON.stringify(relationships));
+        }
+
+
+        function generateTieId() {
+            return 'tie_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function addTie({ fromSurvivorId, toSurvivorId, kind, label, since }) {
+            const relationships = getRelationships();
+            const id = generateTieId();
+            const now = Date.now();
+            const ties = [
+                { id, fromSurvivorId, toSurvivorId, kind, label, since, status: 'active' },
+                { id: generateTieId(), fromSurvivorId: toSurvivorId, toSurvivorId: fromSurvivorId, kind, label, since, status: 'active' }
+            ];
+            relationships.push(...ties);
+            saveRelationships(relationships);
+            renderRoster();
+        }
+
+        function updateTieStatus(tieId, status) {
+            const relationships = getRelationships();
+            relationships.forEach(t => {
+                if (t.id === tieId || t.fromSurvivorId === tieId) {
+                    if (t.id === tieId) t.status = status;
+                }
+                // Also update the inverse half-edge
+                const inverse = relationships.find(inv =>
+                    inv.fromSurvivorId === t.toSurvivorId &&
+                    inv.toSurvivorId === t.fromSurvivorId &&
+                    inv.kind === t.kind && inv.label === t.label
+                );
+                if (inverse) inverse.status = status;
+            });
+            saveRelationships(relationships);
+            renderRoster();
+        }
+
+        function getRelationshipsForSurvivor(survivorId) {
+            return getRelationships().filter(t => t.fromSurvivorId === survivorId);
+        }
+
+        function getTopTies(survivorId) {
+            return getRelationshipsForSurvivor(survivorId)
+                .filter(t => t.status === 'active')
+                .sort((a, b) => (KIND_PRIORITY[a.kind] ?? 5) - (KIND_PRIORITY[b.kind] ?? 5))
+                .slice(0, 3);
+        }
+
+        function getSurvivorName(survivorId) {
+            const s = getSurvivors().find(x => x.id === survivorId);
+            return s ? s.name : '[unknown survivor]';
+        }
+
+        function showAddTiePanel(survivorId) {
+            const overlay = document.getElementById('tie-overlay');
+            const form = document.getElementById('tie-form');
+            const survivorSelect = document.getElementById('tie-to-survivor');
+            const kindInput = document.getElementById('tie-kind');
+            const labelInput = document.getElementById('tie-label');
+            const sinceInput = document.getElementById('tie-since');
+
+            // Populate other survivors
+            const others = getSurvivors().filter(s => s.id !== survivorId);
+            survivorSelect.innerHTML = others.map(s => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.name)}</option>`).join('');
+            if (others.length === 0) {
+                alert('Add more survivors before creating ties.');
+                return;
+            }
+            kindInput.value = 'friend';
+            labelInput.value = '';
+            sinceInput.value = document.getElementById('dayNumber').value || '1';
+            form.dataset.fromSurvivorId = survivorId;
+            overlay.style.display = 'flex';
+        }
+
+        function hideAddTiePanel() {
+            document.getElementById('tie-overlay').style.display = 'none';
+        }
+
+        function submitAddTie() {
+            const form = document.getElementById('tie-form');
+            const fromId = form.dataset.fromSurvivorId;
+            const toId = document.getElementById('tie-to-survivor').value;
+            const kind = document.getElementById('tie-kind').value;
+            const label = document.getElementById('tie-label').value.trim();
+            const since = parseInt(document.getElementById('tie-since').value) || 1;
+            if (!label) { alert('Please enter a relationship label.'); return; }
+            addTie({ fromSurvivorId: fromId, toSurvivorId: toId, kind, label, since });
+            hideAddTiePanel();
+        }
+
+        function editTie(tieId) {
+            // Right-click handler — cycle status
+            const relationships = getRelationships();
+            const t = relationships.find(r => r.id === tieId);
+            if (!t) return;
+            const current = t.status || 'active';
+            const next = current === 'active' ? 'strained' : current === 'strained' ? 'severed' : 'active';
+            if (current === 'active' && next === 'strained') {
+                updateTieStatus(tieId, 'strained');
+            } else if (current === 'strained') {
+                const confirmed = confirm(`Sever the tie \"${t.label}\" with ${getSurvivorName(t.toSurvivorId)}?`);
+                if (confirmed) updateTieStatus(tieId, 'severed');
+            } else {
+                updateTieStatus(tieId, next);
+            }
+        }
+
+        let tieLongPressTimer;
+        function longPressTie(tieId) {
+            clearTimeout(tieLongPressTimer);
+            tieLongPressTimer = setTimeout(() => {
+                const relationships = getRelationships();
+                const t = relationships.find(r => r.id === tieId);
+                if (!t) return;
+                const choice = prompt(`Tie: ${t.label} (${t.kind})\n1 = Mark Strained\n2 = Sever Tie\n3 = Mourn\nEnter choice:`);
+                if (choice === '1') updateTieStatus(tieId, 'strained');
+                else if (choice === '2') updateTieStatus(tieId, 'severed');
+                else if (choice === '3') updateTieStatus(tieId, 'mourned');
+            }, 500);
+        }
+
+        function clearTieLongPress() { clearTimeout(tieLongPressTimer); }
+
         function saveSurvivors(survivors) {
             localStorage.setItem('survivor_roster', JSON.stringify(survivors));
             if (typeof window.markStateEdited === 'function') window.markStateEdited();
@@ -3569,6 +3706,15 @@
                 survivor.statusDay = currentDay;
                 survivor.statusReason = 'Killed';
                 saveSurvivors(survivors);
+                // Auto-convert all active ties to mourned
+                const relationships = getRelationships();
+                const updated = relationships.map(t => {
+                    if ((t.fromSurvivorId === id || t.toSurvivorId === id) && t.status === 'active') {
+                        return { ...t, status: 'mourned' };
+                    }
+                    return t;
+                });
+                saveRelationships(updated);
                 showActionNotification(`${survivor.name} marked as killed`);
             }
         }
@@ -3733,14 +3879,21 @@
                     <button type="button" class="card-action card-action--edit"   data-action="edit"   data-id="${escId}" aria-label="Edit ${name}">Edit</button>
                     <button type="button" class="card-action card-action--legacy" data-action="legacy" data-id="${escId}" aria-label="Send ${name} to Legacy Pool">Legacy</button>
                     <button type="button" class="card-action card-action--kill"   data-action="kill"   data-id="${escId}" aria-label="Mark ${name} as killed in action">Mark KIA</button>
-                    <button type="button" class="card-action card-action--exile"  data-action="exile"  data-id="${escId}" aria-label="Exile ${name}">Exile</button>`;
+                    <button type="button" class="card-action card-action--exile"  data-action="exile"  data-id="${escId}" aria-label="Exile ${name}">Exile</button>
+                    <button type="button" class="card-action card-action--tie"    data-action="addTie"  data-id="${escId}" aria-label="Add tie">+ TIE</button>`;
             } else {
                 actions = `
                     <button type="button" class="card-action card-action--restore" data-action="restore" data-id="${escId}" aria-label="Restore ${name} to active">Restore</button>`;
             }
 
+            // Tie strip — top 3 ties for the front face
+            const topTies = getTopTies(s.id);
+            const tieStrip = topTies.length > 0
+                ? topTies.map(t => `<span class="tie-strip__item">★ ${escapeHtml(t.label)} — ${escapeHtml(getSurvivorName(t.toSurvivorId))}</span>`).join('')
+                : '';
+
             return `
-                <article class="index-card" data-status="${status}" style="--card-rot: ${rot}deg" aria-label="Survivor card · ${name}">
+                <article class="index-card${tieStrip ? ' has-ties' : ''}" data-status="${status}" style="--card-rot: ${rot}deg" aria-label="Survivor card · ${name}">
                     <span class="index-card__clip" aria-hidden="true">
                         <svg viewBox="0 0 40 60" focusable="false"><use href="#sod-paperclip"/></svg>
                     </span>
@@ -3754,13 +3907,28 @@
                         <p class="index-card__line"><span class="index-card__label">Skills</span> ${skills}</p>
                         ${statusRow}
                     </div>
+                    ${tieStrip ? `<div class="tie-strip" aria-label="Relationship ties">${tieStrip}</div>` : ''}
                     <div class="index-card__actions" role="group" aria-label="${name} actions">
                         ${actions}
                     </div>
                     ${stamp}
-                    <!-- Card-back: flip target reserved for PHA-355 (Ties That Bind). -->
+                    <!-- Card-back: full Ties That Bind panel -->
                     <div class="index-card__back" aria-label="relationships">
-                        <p>TIES THAT BIND <small>relationships</small></p>
+                        <h4>Ties That Bind <small>relationships</small></h4>
+                        <div class="tie-list">
+                            ${getRelationshipsForSurvivor(s.id).map(t => `
+                                <div class="tie-row" data-tie-id="${escapeHtml(t.id)}"
+                                     oncontextmenu="editTie('${escapeHtml(t.id)}'); return false;"
+                                     ontouchstart="longPressTie('${escapeHtml(t.id)}')"
+                                     ontouchend="clearTieLongPress()">
+                                    <span class="tie-kind">${escapeHtml(t.kind)}</span>
+                                    <span class="tie-label">${escapeHtml(t.label)}</span>
+                                    <span class="tie-target">${escapeHtml(getSurvivorName(t.toSurvivorId))}</span>
+                                    <span class="tie-status ${escapeHtml(t.status)}">${escapeHtml(t.status)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="add-tie-btn" onclick="showAddTiePanel('${escId}')">+ TIE</button>
                     </div>
                 </article>`;
         }
@@ -4331,19 +4499,22 @@ Events: ${events}` + generateRosterText();
         function exportHistory() {
             const history = JSON.parse(localStorage.getItem('report_history') || '[]');
             const roster = JSON.parse(localStorage.getItem('survivor_roster') || '[]');
-            
+            const relationships = JSON.parse(localStorage.getItem('sod2.relationships') || '[]');
+
             if (history.length === 0 && roster.length === 0) {
                 alert('No data to export yet.');
                 return;
             }
-            
+
             const exportData = {
                 exportDate: new Date().toISOString(),
+                version: 2,
                 communityName: document.getElementById('communityName').value || 'Unknown',
                 reportCount: history.length,
                 survivorCount: roster.length,
                 reports: history,
-                survivors: roster
+                survivors: roster,
+                relationships: relationships
             };
             
             const dataStr = JSON.stringify(exportData, null, 2);
@@ -4400,12 +4571,13 @@ Events: ${events}` + generateRosterText();
                     
                     const existingHistory = JSON.parse(localStorage.getItem('report_history') || '[]');
                     const existingRoster = JSON.parse(localStorage.getItem('survivor_roster') || '[]');
-                    
+                    const existingRelationships = JSON.parse(localStorage.getItem('sod2.relationships') || '[]');
+
                     const hasExisting = existingHistory.length > 0 || existingRoster.length > 0;
                     const mergeChoice = hasExisting
                         ? confirm(`Found ${validReports.length} reports and ${validSurvivors.length} survivors.\n\nMerge with existing data?\n\nOK = Merge\nCancel = Replace all`)
                         : false;
-                    
+
                     if (mergeChoice) {
                         // Merge reports and sort by timestamp
                         if (validReports.length > 0) {
@@ -4413,13 +4585,21 @@ Events: ${events}` + generateRosterText();
                             merged.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
                             localStorage.setItem('report_history', JSON.stringify(merged));
                         }
-                        
+
                         // Merge survivors (skip duplicates by ID)
                         if (validSurvivors.length > 0) {
                             const existingIds = new Set(existingRoster.map(s => s.id));
                             const newSurvivors = validSurvivors.filter(s => !existingIds.has(s.id));
                             const mergedRoster = [...existingRoster, ...newSurvivors];
                             localStorage.setItem('survivor_roster', JSON.stringify(mergedRoster));
+                        }
+
+                        // Merge relationships (skip duplicates by ID)
+                        if (importData.relationships && Array.isArray(importData.relationships)) {
+                            const existingTieIds = new Set(existingRelationships.map(t => t.id));
+                            const newTies = importData.relationships.filter(t => !existingTieIds.has(t.id));
+                            const mergedRelationships = [...existingRelationships, ...newTies];
+                            localStorage.setItem('sod2.relationships', JSON.stringify(mergedRelationships));
                         }
                     } else {
                         // Replace all
@@ -4428,6 +4608,11 @@ Events: ${events}` + generateRosterText();
                         }
                         if (validSurvivors.length > 0) {
                             localStorage.setItem('survivor_roster', JSON.stringify(validSurvivors));
+                        }
+                        if (importData.relationships && Array.isArray(importData.relationships)) {
+                            localStorage.setItem('sod2.relationships', JSON.stringify(importData.relationships));
+                        } else {
+                            localStorage.setItem('sod2.relationships', JSON.stringify([]));
                         }
                     }
                     if (typeof window.markStateEdited === 'function') window.markStateEdited();
