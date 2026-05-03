@@ -1342,10 +1342,26 @@
             text-align: center;
         }
 
-        .tie-status.active  { color: #6ee7b7; background: rgba(110, 231, 183, 0.1); }
-        .tie-status.strained { color: #fcd34d; background: rgba(252, 211, 77, 0.1); }
-        .tie-status.severed { color: #f87171; background: rgba(248, 113, 113, 0.1); }
+        .tie-status.active  { color: var(--amber-dark); background: rgba(212, 162, 76, 0.10); }
+        .tie-status.strained { color: var(--ink-brown); font-style: italic; }
+        .tie-status.severed { color: var(--ink-red); background: rgba(126, 30, 30, 0.08); }
         .tie-status.mourned { color: var(--ink-brown); opacity: 0.5; }
+
+        /* Stamp buttons for edit-tie modal */
+        .tie-stamp-btn {
+            color: var(--paper-cream);
+            background: transparent;
+            border: 0.5px solid var(--ink-brown);
+            letter-spacing: 1px;
+        }
+        .tie-stamp-btn:hover {
+            background: rgba(245, 158, 11, 0.12);
+            border-color: var(--amber);
+            color: var(--amber-dark);
+        }
+        #tie-stamp-strained-btn { border-color: var(--amber); color: var(--amber-dark); }
+        #tie-stamp-severed-btn  { border-color: var(--ink-red); color: var(--ink-red); }
+        #tie-stamp-mourned-btn  { border-color: var(--ink-brown); color: var(--ink-brown); opacity: 0.6; }
 
         .add-tie-btn {
             margin-top: 8px;
@@ -3128,8 +3144,8 @@
         <!-- Tie Add/Edit Overlay -->
         <div id="tie-overlay" class="modal-overlay">
             <div class="modal-content" style="max-width: 420px;">
-                <div class="modal-title">Add Tie <small>relationships</small></div>
-                <div id="tie-form" data-from-survivor-id="">
+                <div class="modal-title" id="tie-modal-title">Add Tie <small>relationships</small></div>
+                <div id="tie-form" data-from-survivor-id=""><input type="hidden" id="tie-editing-id" value="">
                     <div class="roster-form" style="border: none; padding: 0; margin: 0;">
                         <div class="roster-form-row">
                             <div class="form-field" style="flex: 1;">
@@ -3160,6 +3176,16 @@
                             <div class="form-field" style="flex: 0.5;">
                                 <label for="tie-since">Since (Day)</label>
                                 <input type="number" id="tie-since" min="1" value="1">
+                        </div>
+                        <!-- Stamp buttons for editing existing tie status -->
+                        <div id="tie-stamp-section" style="display:none; margin-top: 10px;">
+                            <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em;">Mark Status</div>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                <button type="button" class="tie-stamp-btn" id="tie-stamp-strained-btn" onclick="submitTieStamp('strained')" style="flex:1; padding: 5px 4px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; border-radius: 2px; cursor: pointer; border: 1px solid;">STRAINED</button>
+                                <button type="button" class="tie-stamp-btn" id="tie-stamp-severed-btn" onclick="submitTieStamp('severed')" style="flex:1; padding: 5px 4px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; border-radius: 2px; cursor: pointer; border: 1px solid;">SEVER</button>
+                                <button type="button" class="tie-stamp-btn" id="tie-stamp-mourned-btn" onclick="submitTieStamp('mourned')" style="flex:1; padding: 5px 4px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; border-radius: 2px; cursor: pointer; border: 1px solid;">MOURNED</button>
+                            </div>
+                        </div>
                             </div>
                         </div>
                     </div>
@@ -3556,25 +3582,47 @@
             return s ? s.name : '[unknown survivor]';
         }
 
-        function showAddTiePanel(survivorId) {
+        function showAddTiePanel(survivorId, editTieId) {
             const overlay = document.getElementById('tie-overlay');
             const form = document.getElementById('tie-form');
             const survivorSelect = document.getElementById('tie-to-survivor');
             const kindInput = document.getElementById('tie-kind');
             const labelInput = document.getElementById('tie-label');
             const sinceInput = document.getElementById('tie-since');
+            const titleEl = document.getElementById('tie-modal-title');
+            const stampSection = document.getElementById('tie-stamp-section');
+            const editingIdInput = document.getElementById('tie-editing-id');
 
             // Populate other survivors
             const others = getSurvivors().filter(s => s.id !== survivorId);
             survivorSelect.innerHTML = others.map(s => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.name)}</option>`).join('');
             if (others.length === 0) {
-                alert('Add more survivors before creating ties.');
+                // No others to link yet — just show the panel anyway so user sees the form
                 return;
             }
-            kindInput.value = 'friend';
-            labelInput.value = '';
-            sinceInput.value = document.getElementById('dayNumber').value || '1';
-            form.dataset.fromSurvivorId = survivorId;
+
+            if (editTieId) {
+                // Edit mode — populate form with existing tie data
+                const t = getRelationships().find(r => r.id === editTieId);
+                if (!t) return;
+                survivorSelect.value = t.toSurvivorId || '';
+                kindInput.value = t.kind || 'friend';
+                labelInput.value = t.label || '';
+                sinceInput.value = t.since || 1;
+                form.dataset.fromSurvivorId = t.fromSurvivorId || survivorId;
+                editingIdInput.value = editTieId;
+                titleEl.innerHTML = 'Edit Tie <small>relationships</small>';
+                stampSection.style.display = 'block';
+            } else {
+                // Add mode
+                kindInput.value = 'friend';
+                labelInput.value = '';
+                sinceInput.value = document.getElementById('dayNumber').value || '1';
+                form.dataset.fromSurvivorId = survivorId;
+                editingIdInput.value = '';
+                titleEl.innerHTML = 'Add Tie <small>relationships</small>';
+                stampSection.style.display = 'none';
+            }
             overlay.style.display = 'flex';
         }
 
@@ -3585,12 +3633,30 @@
         function submitAddTie() {
             const form = document.getElementById('tie-form');
             const fromId = form.dataset.fromSurvivorId;
+            const editingId = document.getElementById('tie-editing-id').value;
             const toId = document.getElementById('tie-to-survivor').value;
             const kind = document.getElementById('tie-kind').value;
             const label = document.getElementById('tie-label').value.trim();
             const since = parseInt(document.getElementById('tie-since').value) || 1;
-            if (!label) { alert('Please enter a relationship label.'); return; }
-            addTie({ fromSurvivorId: fromId, toSurvivorId: toId, kind, label, since });
+            if (editingId) {
+                // Edit existing tie (but not status — use submitTieStamp for status)
+                const relationships = getRelationships();
+                const idx = relationships.findIndex(r => r.id === editingId);
+                if (idx >= 0) {
+                    relationships[idx] = { ...relationships[idx], kind, label, since, toSurvivorId: toId };
+                    saveRelationships(relationships);
+                }
+            } else {
+                if (!label) { alert('Please enter a relationship label.'); return; }
+                addTie({ fromSurvivorId: fromId, toSurvivorId: toId, kind, label, since });
+            }
+            hideAddTiePanel();
+        }
+
+        function submitTieStamp(status) {
+            const editingId = document.getElementById('tie-editing-id').value;
+            if (!editingId) return;
+            updateTieStatus(editingId, status);
             hideAddTiePanel();
         }
 
@@ -3599,35 +3665,21 @@
         // mobile reach the same set of states. Severed asks for confirmation
         // because it is the only one that hides the tie from the front strip.
         function editTie(tieId) {
+            // Desktop right-click / click on tie chip — open edit overlay directly
             const relationships = getRelationships();
             const t = relationships.find(r => r.id === tieId);
             if (!t) return;
-            const current = t.status || 'active';
-            const nextByCurrent = {
-                active: 'strained',
-                strained: 'severed',
-                severed: 'mourned',
-                mourned: 'active'
-            };
-            const next = nextByCurrent[current] || 'active';
-            if (next === 'severed') {
-                const confirmed = confirm('Sever the tie "' + t.label + '" with ' + getSurvivorName(t.toSurvivorId) + '?');
-                if (!confirmed) return;
-            }
-            updateTieStatus(tieId, next);
+            showAddTiePanel(t.fromSurvivorId, tieId);
         }
 
         let tieLongPressTimer;
         function longPressTie(tieId) {
             clearTimeout(tieLongPressTimer);
             tieLongPressTimer = setTimeout(() => {
-                const relationships = getRelationships();
-                const t = relationships.find(r => r.id === tieId);
+                const t = getRelationships().find(r => r.id === tieId);
                 if (!t) return;
-                const choice = prompt('Tie: ' + t.label + ' (' + t.kind + ')\n1 = Mark Strained\n2 = Sever Tie\n3 = Mourn\nEnter choice:');
-                if (choice === '1') updateTieStatus(tieId, 'strained');
-                else if (choice === '2') updateTieStatus(tieId, 'severed');
-                else if (choice === '3') updateTieStatus(tieId, 'mourned');
+                const currentSurvivorId = t.fromSurvivorId;
+                showAddTiePanel(currentSurvivorId, tieId);
             }, 500);
         }
 
@@ -3796,8 +3848,9 @@
                     (t.fromSurvivorId === id || t.toSurvivorId === id) && t.status === 'active'
                 );
                 if (activeTiesForSurvivor.length > 0) {
-                    const sever = confirm(`Sever ${survivor.name}'s ${activeTiesForSurvivor.length / 2} active tie(s)?\n\nOK = Sever (default)\nCancel = Keep ties active`);
-                    if (sever) {
+                    const severMsg = `Sever ${survivor.name}'s ${activeTiesForSurvivor.length / 2} active tie(s)?\n\nOK = Sever (default)\nCancel = Keep ties active`;
+                    const shouldSever = confirm(severMsg);
+                    if (shouldSever) {
                         const updated = relationships.map(t => {
                             if ((t.fromSurvivorId === id || t.toSurvivorId === id) && t.status === 'active') {
                                 return { ...t, status: 'severed' };
