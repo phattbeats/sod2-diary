@@ -2,15 +2,16 @@
 
 Narrative tracking tool for State of Decay 2 playthroughs. Generate daily reports to paste into LLM chats (Claude, ChatGPT, SillyTavern, etc.).
 
-**Design source of truth:** [`/docs`](./docs/) — design philosophy, palette, type, motion, screenshots, and concept art live there. Live design preview: https://phattbeats.github.io/sod2-diary/design/preview.html
+**Live:** https://phattbeats.github.io/sod2-diary/
 
 ## Features
 
-- **Daily Reports** - Resources, morale, plague hearts, events. Auto-copies on generate.
-- **Survivor Roster** - Track individuals with traits and skills. Kill, exile, or send to Legacy Pool.
-- **Auto-Rollover** - Values carry forward, day increments automatically.
-- **Export/Import** - JSON backup of reports and roster.
-- **Responsive** - Mobile and desktop.
+- **Daily Reports** — resources, morale, plague hearts, events. Auto-copies on generate.
+- **Survivor Roster** — track individuals with traits and skills. Kill, exile, or send to the Legacy Pool.
+- **Auto-Rollover** — values carry forward, day increments automatically.
+- **Export / Import** — JSON backup of reports and roster.
+- **Themeable** — sepia / bone / coffee / olive moods, paper grain, handwriting styles.
+- **Responsive** — mobile bottom dock + desktop layout.
 
 ## Example Output
 
@@ -32,19 +33,19 @@ Lost:
 - Marcus, 35, Black M | Killed Day 3
 ```
 
+## Layout
+
+```
+index.html        v4 — the live app (links v4/)
+v4/styles.css     visual system
+v4/app.js         app logic (no framework, no build step)
+index-v3.html     v3 — legacy single-file fallback
+docs/HANDOFF-v4.md notes on v4 + features pending re-review
+```
+
 ## Hosting
 
-Single HTML file. Open locally or deploy to GitHub Pages.
-
-## Design
-
-The v2 visual foundation (palette, typography, motion, spacing) lives in:
-
-- [`docs/`](./docs/) — public-facing design reference (start here).
-- [`design/tokens.css`](./design/tokens.css) — every CSS custom property the app uses.
-- [`design/tokens.md`](./design/tokens.md) — rationale + WCAG-AA contrast proofs.
-- [`design/moodboard.md`](./design/moodboard.md) — five reference surfaces with annotations.
-- Live preview: https://phattbeats.github.io/sod2-diary/design/preview.html
+Static files served from GitHub Pages (`main` branch root). No build step — open `index.html` locally or push to deploy.
 
 ## License
 
