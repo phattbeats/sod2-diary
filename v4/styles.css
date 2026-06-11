@@ -1233,6 +1233,9 @@ textarea:focus { background-color: rgba(255, 248, 200, 0.18); }
 .morale__value::-webkit-inner-spin-button,
 .morale__value::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .morale__value[type=number] { -moz-appearance: textfield; }
+
+/* ── 12. Focus ring ─────────────────────────────────────── */
+:focus-visible {
   outline: 3px solid var(--amber);
   outline-offset: 3px;
   box-shadow: 0 0 0 5px rgba(212, 162, 76, 0.25);
