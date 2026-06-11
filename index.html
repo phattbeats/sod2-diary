@@ -13,6 +13,13 @@
 <div class="desk">
   <main class="diary" id="diary">
 
+    <!-- Sync receive banner: shown when #sync= hash detected on load -->
+    <div class="sync-banner" id="syncBanner" hidden role="alert">
+      <span id="syncBannerMsg">Import diary state from shared link?</span>
+      <button type="button" id="syncBannerYes" class="ink-btn">Resume</button>
+      <button type="button" id="syncBannerNo" class="ink-btn ink-btn--ghost">Dismiss</button>
+    </div>
+
     <!-- ── Header ─────────────────────────────────────────── -->
     <header class="diary__head">
       <div class="diary__mark">
@@ -201,6 +208,20 @@
       <pre id="reportOutput" hidden></pre>
     </section>
 
+    <!-- ── Radio Sync ────────────────────────────────────── -->
+    <details class="sync" id="syncBlock" aria-label="Radio Sync">
+      <summary>☞ Radio Sync <small>share current state · link only</small></summary>
+      <div class="sync__body">
+        <p class="sync__desc">Generates a compressed link with your current form state, roster, and ties (history excluded). Paste on another device to resume.</p>
+        <div class="sync__link-row">
+          <label for="syncLinkOutput" class="sr-only">Share link</label>
+          <input type="text" id="syncLinkOutput" readonly class="sync__link-input" placeholder="Open to generate…" aria-readonly="true">
+          <button type="button" class="ink-btn" id="syncCopyBtn">Copy Link</button>
+        </div>
+        <div class="sync__meta" id="syncMeta" aria-live="polite" aria-atomic="true"></div>
+      </div>
+    </details>
+
     <!-- ── History ────────────────────────────────────────── -->
     <details class="history" id="historyBlock">
       <summary>History Log <small style="font-family:var(--font-mono);font-size:11px;letter-spacing:1px;color:var(--ink-soft);margin-left:8px;font-weight:400;text-transform:none;"><span id="histCount">0</span> entries</small></summary>
@@ -273,7 +294,7 @@
   </div>
 </aside>
 
-<div class="notif" id="notif">Saved</div>
+<div class="notif" id="notif" role="status" aria-live="polite" aria-atomic="true">Saved</div>
 
 <script src="v4/app.js"></script>
 </body>

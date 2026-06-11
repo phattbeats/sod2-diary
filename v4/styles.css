@@ -1245,3 +1245,259 @@ textarea:focus { background-color: rgba(255, 248, 200, 0.18); }
   .diary { box-shadow: none; }
   .dock, .tweaks, .tweaks__toggle, .stamp-btn, .ink-btn, .roster__add, .history__bar, .card-survivor .actions, .stepper button { display: none !important; }
 }
+
+/* ── 13. Ties panel ────────────────────────────────────── */
+.tie-panel {
+  margin-top: var(--sp-2);
+  border-top: 1px dashed var(--ink-pencil);
+  padding-top: var(--sp-2);
+}
+.tie-panel__toggle {
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--font-stamp);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+  min-height: 32px;
+}
+.tie-panel__toggle::-webkit-details-marker { display: none; }
+.tie-panel[open] .tie-panel__toggle { color: var(--ink); }
+.tie-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px; height: 18px;
+  padding: 0 4px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  background: var(--ink-blue);
+  color: var(--paper);
+  border-radius: 9px;
+  line-height: 1;
+}
+.tie-list {
+  margin: 4px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.tie-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--ink-pencil);
+}
+.tie-row:last-child { border-bottom: 0; }
+.tie-info {
+  font-family: var(--font-hand);
+  font-size: var(--t-sm);
+  color: var(--ink-blue);
+  line-height: 1.35;
+}
+.tie-strained {
+  display: inline-block;
+  font-family: var(--font-stamp);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--ink-red);
+  border: 1px solid var(--ink-red);
+  padding: 1px 4px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.tie-acts {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.tie-btn {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding: 4px 6px;
+  min-height: 28px;
+  min-width: 40px;
+  border: 1px solid transparent;
+  transition: color 120ms, border-color 120ms;
+}
+.tie-btn:hover { color: var(--ink); border-color: var(--ink-pencil); }
+.tie-btn--sever:hover { color: var(--ink-red); border-color: var(--ink-red); }
+.tie-btn--add {
+  color: var(--ink);
+  border-color: var(--ink-pencil);
+  background: rgba(255,248,220,0.25);
+}
+.tie-btn--add:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.tie-empty {
+  font-family: var(--font-hand);
+  font-size: var(--t-sm);
+  color: var(--ink-pencil);
+  font-style: italic;
+  padding: 4px 0;
+  margin: 0;
+}
+.tie-add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dotted var(--ink-pencil);
+}
+.tie-select {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px dashed var(--ink-pencil);
+  font-family: var(--font-hand);
+  font-size: var(--t-sm);
+  color: var(--ink-blue);
+  outline: 0;
+  padding: 2px 0;
+  max-width: 120px;
+}
+.tie-input {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px dashed var(--ink-pencil);
+  font-family: var(--font-hand);
+  font-size: var(--t-sm);
+  color: var(--ink-blue);
+  outline: 0;
+  padding: 2px 0;
+  max-width: 80px;
+}
+.tie-input--day {
+  max-width: 48px;
+  -moz-appearance: textfield;
+}
+.tie-input--day::-webkit-inner-spin-button,
+.tie-input--day::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.tie-input:focus, .tie-select:focus { border-bottom-color: var(--ink); }
+
+/* ── 14. Inline edit ───────────────────────────────────── */
+.card-survivor.is-editing {
+  outline: 2px solid var(--ink-blue);
+  outline-offset: 2px;
+  background: rgba(255, 252, 236, 0.85);
+}
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.edit-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.edit-field {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--ink-pencil);
+  font-family: var(--font-hand);
+  font-size: var(--t-md);
+  color: var(--ink-blue);
+  outline: 0;
+  padding: 2px 0;
+  width: 100%;
+}
+.edit-field:focus { border-bottom-color: var(--ink); }
+.edit-field[type="number"] { -moz-appearance: textfield; }
+.edit-field[type="number"]::-webkit-inner-spin-button,
+.edit-field[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* ── 15. Radio Sync section ────────────────────────────── */
+.sync {
+  margin-top: var(--sp-5);
+  border: 1.5px solid var(--ink);
+  padding: var(--sp-4);
+}
+.sync > summary {
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--font-stamp);
+  font-size: var(--t-sm);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.sync > summary::-webkit-details-marker { display: none; }
+.sync > summary::after { content: "▾"; color: var(--ink-soft); margin-left: auto; transition: transform 180ms; }
+.sync[open] > summary::after { transform: rotate(-180deg); }
+.sync > summary small {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 1px;
+  text-transform: none;
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+.sync__body {
+  margin-top: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.sync__desc {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--ink-soft);
+  margin: 0;
+}
+.sync__link-row {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.sync__link-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--ink-pencil);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--ink);
+  outline: 0;
+  padding: 4px 0;
+  user-select: all;
+}
+.sync__link-input:focus { border-bottom-color: var(--ink); }
+.sync__meta {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--ink-soft);
+  min-height: 1em;
+}
+
+/* Sync receive banner */
+.sync-banner {
+  border: 1.5px solid var(--ink-blue);
+  background: rgba(31, 42, 74, 0.07);
+  padding: var(--sp-3) var(--sp-4);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-4);
+  font-family: var(--font-stamp);
+  font-size: var(--t-sm);
+  letter-spacing: 1px;
+  color: var(--ink-blue);
+}
+.sync-banner[hidden] { display: none; }

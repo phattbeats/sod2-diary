@@ -10,6 +10,8 @@
   const HISTORY_KEY  = "sod2-diary-v4-history";
   const PREFS_KEY    = "sod2-diary-v4-prefs";
   const ROSTER_KEY   = "sod2-diary-v4-roster";
+  const TIES_KEY     = "sod2-diary-v4-ties";
+  const SHARE_BUDGET = 2048;
 
   const RESOURCES = [
     { id: "food",      label: "Food" },
@@ -84,6 +86,9 @@
   let saveTimer = null;
   let history = [];
   let roster = [];
+  let ties = [];
+  let editingId = null;
+  let lastEditedId = null;
 
   // ── Resources list build ────────────────────────────────
   function buildResources() {
@@ -242,6 +247,7 @@
       localStorage.setItem(STORE_KEY,   JSON.stringify(collectFormState()));
       localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
       localStorage.setItem(ROSTER_KEY,  JSON.stringify(roster));
+      localStorage.setItem(TIES_KEY,    JSON.stringify(ties));
     } catch (e) { /* ignore quota errors */ }
   }
   function scheduleSave() {
@@ -259,6 +265,38 @@
     try {
       roster = JSON.parse(localStorage.getItem(ROSTER_KEY) || "[]");
     } catch (e) { roster = []; }
+    try {
+      ties = JSON.parse(localStorage.getItem(TIES_KEY) || "[]");
+    } catch (e) { ties = []; }
+    migrateLegacyTies();
+  }
+
+  function migrateLegacyTies() {
+    const prefs = loadPrefs();
+    if (prefs.tiesMigrated) return;
+    try {
+      const legacy = JSON.parse(localStorage.getItem("sod2.relationships") || "[]");
+      if (!legacy.length) { savePrefs(Object.assign(loadPrefs(), { tiesMigrated: true })); return; }
+      const seen = new Set();
+      legacy.forEach(function (rel) {
+        if (!rel.fromSurvivorId || !rel.toSurvivorId) return;
+        const pk = pairKey(rel.fromSurvivorId, rel.toSurvivorId) + "|" + (rel.kind || "friend");
+        if (seen.has(pk)) return;
+        seen.add(pk);
+        const [a, b] = [rel.fromSurvivorId, rel.toSurvivorId].sort();
+        ties.push({
+          id: "tie-" + Math.random().toString(36).slice(2, 9),
+          a, b,
+          kind: rel.kind || "friend",
+          label: rel.label || "",
+          since: rel.since || 1,
+          strained: !!(rel.status === "strained")
+        });
+      });
+      savePrefs(Object.assign(loadPrefs(), { tiesMigrated: true }));
+    } catch (e) {
+      savePrefs(Object.assign(loadPrefs(), { tiesMigrated: true }));
+    }
   }
 
   // ── Roster ──────────────────────────────────────────────
@@ -315,15 +353,26 @@
         return heading + g.items.map(s => survivorCard(s, g.tag)).join("");
       })
       .join("");
+
+    // Focus management: edit open → first field; edit closed → Edit button
+    if (editingId) {
+      const firstField = $(`#edit-name-${editingId}`);
+      if (firstField) firstField.focus();
+    } else if (lastEditedId) {
+      const editBtn = $(`[data-act="edit"][data-id="${lastEditedId}"]`);
+      if (editBtn) editBtn.focus();
+      lastEditedId = null;
+    }
   }
   function esc(s) { return (s == null ? "" : String(s)).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[c]); }
+
   function survivorCard(s, tag) {
+    if (editingId === s.id) return survivorCardEdit(s);
     const isActive = tag === "active";
-    const isFallen = s.status === "fallen" || s.status === "exiled";
-    const isLegacy = s.status === "legacy";
     let actionHtml = "";
     if (isActive) {
       actionHtml = `
+        <button data-act="edit"   data-id="${s.id}" aria-label="Edit ${esc(s.name)}">Edit</button>
         <button data-act="kill"   data-id="${s.id}" class="dangerous">Killed</button>
         <button data-act="exile"  data-id="${s.id}" class="dangerous">Exiled</button>
         <button data-act="legacy" data-id="${s.id}">→ Legacy</button>
@@ -338,15 +387,50 @@
     const cls = "card-survivor"
       + (s.status === "fallen" ? " is-fallen" : "")
       + (s.status === "exiled" ? " is-exiled" : "")
-      + (isLegacy ? " is-legacy" : "");
+      + (s.status === "legacy" ? " is-legacy" : "");
+    const tiesHtml = isActive ? buildTiesHtml(s) : "";
     return `
-      <article class="${cls}">
+      <article class="${cls}" id="card-${esc(s.id)}">
         <h3>${esc(s.name)}${s.age ? `, ${esc(s.age)}` : ""}</h3>
         <div class="joined">Joined D${esc(s.dayJoined)}${s.status === "fallen" ? " · KIA" : s.status === "exiled" ? " · Exiled" : s.status === "legacy" ? " · Retired" : ""}</div>
         ${s.bio ? `<p class="line"><span class="lbl">Bio</span>${esc(s.bio)}</p>` : ""}
         ${s.traits ? `<p class="line"><span class="lbl">Traits</span>${esc(s.traits)}</p>` : ""}
         ${s.skills ? `<p class="line"><span class="lbl">Skills</span>${esc(s.skills)}</p>` : ""}
         <div class="actions">${actionHtml}</div>
+        ${tiesHtml}
+      </article>
+    `;
+  }
+
+  function survivorCardEdit(s) {
+    return `
+      <article class="card-survivor is-editing" id="card-${esc(s.id)}">
+        <form class="edit-form" id="edit-form-${esc(s.id)}">
+          <label for="edit-name-${esc(s.id)}">
+            <span class="lbl">Name</span>
+            <input id="edit-name-${esc(s.id)}" name="name" type="text" value="${esc(s.name)}" required autocomplete="off" class="edit-field">
+          </label>
+          <label for="edit-age-${esc(s.id)}">
+            <span class="lbl">Age</span>
+            <input id="edit-age-${esc(s.id)}" name="age" type="number" min="0" max="120" value="${esc(s.age || "")}" inputmode="numeric" class="edit-field">
+          </label>
+          <label for="edit-bio-${esc(s.id)}">
+            <span class="lbl">Bio</span>
+            <input id="edit-bio-${esc(s.id)}" name="bio" type="text" value="${esc(s.bio || "")}" autocomplete="off" class="edit-field">
+          </label>
+          <label for="edit-traits-${esc(s.id)}">
+            <span class="lbl">Traits</span>
+            <input id="edit-traits-${esc(s.id)}" name="traits" type="text" value="${esc(s.traits || "")}" autocomplete="off" class="edit-field">
+          </label>
+          <label for="edit-skills-${esc(s.id)}">
+            <span class="lbl">Skills</span>
+            <input id="edit-skills-${esc(s.id)}" name="skills" type="text" value="${esc(s.skills || "")}" autocomplete="off" class="edit-field">
+          </label>
+          <div class="actions">
+            <button type="submit" data-act="edit-save" data-id="${esc(s.id)}" class="ink-btn">Save</button>
+            <button type="button" data-act="edit-cancel" data-id="${esc(s.id)}">Cancel</button>
+          </div>
+        </form>
       </article>
     `;
   }
@@ -369,6 +453,7 @@
       const btn = e.target.closest("[data-act]");
       if (!btn) return;
       const id = btn.dataset.id;
+      const tieId = btn.dataset.tie;
       switch (btn.dataset.act) {
         case "kill":    setStatus(id, "fallen"); notify("Marked fallen"); break;
         case "exile":   setStatus(id, "exiled"); notify("Marked exiled"); break;
@@ -377,8 +462,158 @@
         case "remove":
           if (confirm("Remove this survivor permanently?")) { removeSurvivor(id); notify("Removed"); }
           break;
+        case "edit":
+          editingId = id;
+          renderRoster();
+          break;
+        case "edit-cancel":
+          lastEditedId = editingId;
+          editingId = null;
+          renderRoster();
+          break;
+        case "sever":
+          if (tieId && confirm("Sever this tie?")) { severTie(tieId); notify("Tie severed"); }
+          break;
+        case "strained":
+          if (tieId) { toggleStrained(tieId); const t = ties.find(x => x.id === tieId); notify(t && t.strained ? "Marked strained" : "Strain cleared"); }
+          break;
       }
     });
+
+    // edit-save via form submit
+    $("#rosterList").addEventListener("submit", function (e) {
+      const form = e.target.closest(".edit-form");
+      if (!form) return;
+      e.preventDefault();
+      const sid = form.id.replace("edit-form-", "");
+      const s = roster.find(r => r.id === sid);
+      if (!s) return;
+      const fd = new FormData(form);
+      s.name   = fd.get("name").toString().trim() || s.name;
+      s.age    = fd.get("age").toString().trim();
+      s.bio    = fd.get("bio").toString().trim();
+      s.traits = fd.get("traits").toString().trim();
+      s.skills = fd.get("skills").toString().trim();
+      lastEditedId = sid;
+      editingId = null;
+      renderRoster();
+      persist();
+      notify("Saved " + s.name);
+    });
+
+    // tie add form submit
+    $("#rosterList").addEventListener("submit", function (e) {
+      const form = e.target.closest(".tie-add-form");
+      if (!form) return;
+      e.preventDefault();
+      const fromId = form.dataset.from;
+      const fd = new FormData(form);
+      const toId = fd.get("to");
+      if (!toId) return;
+      addTie(fromId, toId, fd.get("kind") || "friend", fd.get("label") || "", parseInt(fd.get("since"), 10) || 1);
+      notify("Tie added");
+      form.reset();
+    });
+
+    // Esc cancels edit
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && editingId) {
+        lastEditedId = editingId;
+        editingId = null;
+        renderRoster();
+      }
+    });
+  }
+
+  // ── Ties ─────────────────────────────────────────────────
+  function pairKey(a, b) { return [a, b].sort().join("|"); }
+
+  function addTie(fromId, toId, kind, label, since) {
+    const pk = pairKey(fromId, toId);
+    const existing = ties.find(t => pairKey(t.a, t.b) === pk && t.kind === kind);
+    if (existing) {
+      existing.label = label;
+      existing.since = since;
+    } else {
+      const sorted = [fromId, toId].sort();
+      ties.push({ id: "tie-" + Math.random().toString(36).slice(2, 9), a: sorted[0], b: sorted[1], kind: kind, label: label, since: since, strained: false });
+    }
+    renderRoster();
+    persist();
+  }
+
+  function severTie(id) {
+    ties = ties.filter(t => t.id !== id);
+    renderRoster();
+    persist();
+  }
+
+  function toggleStrained(id) {
+    const t = ties.find(t => t.id === id);
+    if (t) { t.strained = !t.strained; renderRoster(); persist(); }
+  }
+
+  function tiesForSurvivor(sid) {
+    return ties.filter(t => t.a === sid || t.b === sid);
+  }
+
+  function buildTiesHtml(s) {
+    const myTies = tiesForSurvivor(s.id);
+    const partners = roster.filter(r => r.id !== s.id && r.status === "active");
+    const listHtml = myTies.length
+      ? myTies.map(t => {
+          const partnerId = (t.a === s.id ? t.b : t.a);
+          const partnerSurv = roster.find(r => r.id === partnerId);
+          const partnerName = partnerSurv ? partnerSurv.name : "Unknown";
+          const strainedTag = t.strained
+            ? `<span class="tie-strained" aria-label="Strained tie">STRAINED</span>`
+            : "";
+          const kindLabel = t.kind.charAt(0).toUpperCase() + t.kind.slice(1);
+          const displayLabel = t.label ? ` — "${esc(t.label)}"` : "";
+          return `
+            <div class="tie-row">
+              <span class="tie-info">${kindLabel}: <strong>${esc(partnerName)}</strong>${displayLabel}${t.since ? ` · D${t.since}` : ""}${strainedTag}</span>
+              <span class="tie-acts">
+                <button type="button" data-act="strained" data-tie="${esc(t.id)}" class="tie-btn" aria-label="${t.strained ? "Clear strained" : "Mark strained"} tie with ${esc(partnerName)}">${t.strained ? "✓ Strained" : "Strain"}</button>
+                <button type="button" data-act="sever" data-tie="${esc(t.id)}" class="tie-btn tie-btn--sever" aria-label="Sever tie with ${esc(partnerName)}">Sever</button>
+              </span>
+            </div>`;
+        }).join("")
+      : `<div class="tie-empty">No ties yet.</div>`;
+
+    const day = parseInt($("#dayNumber").value, 10) || 1;
+    const partnerOptions = partners.length
+      ? partners.map(p => `<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("")
+      : "";
+
+    const addForm = partners.length ? `
+      <form class="tie-add-form" data-from="${esc(s.id)}">
+        <label class="sr-only" for="tie-to-${esc(s.id)}">Tied to</label>
+        <select id="tie-to-${esc(s.id)}" name="to" class="tie-select" required>
+          <option value="">Tied to…</option>
+          ${partnerOptions}
+        </select>
+        <label class="sr-only" for="tie-kind-${esc(s.id)}">Kind</label>
+        <select id="tie-kind-${esc(s.id)}" name="kind" class="tie-select">
+          <option value="partner">Partner</option>
+          <option value="family">Family</option>
+          <option value="mentor">Mentor</option>
+          <option value="rival">Rival</option>
+          <option value="friend">Friend</option>
+        </select>
+        <label class="sr-only" for="tie-label-${esc(s.id)}">Label</label>
+        <input id="tie-label-${esc(s.id)}" name="label" type="text" class="tie-input" placeholder="Label…" autocomplete="off" maxlength="40">
+        <label class="sr-only" for="tie-since-${esc(s.id)}">Day formed</label>
+        <input id="tie-since-${esc(s.id)}" name="since" type="number" class="tie-input tie-input--day" min="1" value="${day}" inputmode="numeric" aria-label="Day formed">
+        <button type="submit" class="tie-btn tie-btn--add">+ Tie</button>
+      </form>` : `<p class="tie-empty">Add more survivors to create ties.</p>`;
+
+    return `
+      <details class="tie-panel">
+        <summary class="tie-panel__toggle">Ties ▾ <span class="tie-count" aria-label="${myTies.length} ties">${myTies.length}</span></summary>
+        <div class="tie-list" aria-live="polite" aria-atomic="false">${listHtml}</div>
+        ${addForm}
+      </details>`;
   }
 
   // ── Report generation ───────────────────────────────────
@@ -524,11 +759,14 @@
     // Clear in-memory state
     history = [];
     roster = [];
+    ties = [];
+    editingId = null;
 
     // Clear localStorage data keys (keep prefs — color mood is a UI preference, not book data)
     localStorage.removeItem(STORE_KEY);
     localStorage.removeItem(HISTORY_KEY);
     localStorage.removeItem(ROSTER_KEY);
+    localStorage.removeItem(TIES_KEY);
     localStorage.removeItem(FOOTER_KEY);
 
     // Explicitly clear every form field
@@ -574,6 +812,7 @@
       exportedAt: new Date().toISOString(),
       current: collectFormState(),
       roster: roster,
+      ties: ties,
       history: history
     };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
@@ -593,6 +832,7 @@
         const data = JSON.parse(reader.result);
         if (data.current) applyFormState(data.current);
         if (Array.isArray(data.roster))  { roster  = data.roster;  renderRoster(); }
+        if (Array.isArray(data.ties))    { ties    = data.ties; }
         if (Array.isArray(data.history)) { history = data.history; renderHistory(); }
         persist();
         notify("Imported");
@@ -785,6 +1025,140 @@
     }
   }
 
+  // ── LZString (inlined, single-edge sync compression) ────
+  /* eslint-disable */
+  const LZString=(function(){var _=String.fromCharCode,M="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",S="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",x={};function O(o,r){if(!x[o]){x[o]={};for(var c=0;c<o.length;c++)x[o][o.charAt(c)]=c}return x[o][r]}var h={compressToBase64:function(o){if(o==null)return"";var r=h._compress(o,6,function(c){return M.charAt(c)});switch(r.length%4){default:case 0:return r;case 1:return r+"===";case 2:return r+"==";case 3:return r+"="}},decompressFromBase64:function(o){return o==null?"":o==""?null:h._decompress(o.length,32,function(r){return O(M,o.charAt(r))})},compressToEncodedURIComponent:function(o){return o==null?"":h._compress(o,6,function(r){return S.charAt(r)})},decompressFromEncodedURIComponent:function(o){return o==null?"":o==""?null:(o=o.replace(/ /g,"+"),h._decompress(o.length,32,function(r){return O(S,o.charAt(r))}))},compress:function(o){return h._compress(o,16,function(r){return _(r)})},_compress:function(o,r,c){if(o==null)return"";var i,f,a={},w={},v="",y="",u="",p=2,A=3,s=2,l=[],n=0,e=0,d;for(d=0;d<o.length;d+=1)if(v=o.charAt(d),Object.prototype.hasOwnProperty.call(a,v)||(a[v]=A++,w[v]=!0),y=u+v,Object.prototype.hasOwnProperty.call(a,y))u=y;else{if(Object.prototype.hasOwnProperty.call(w,u)){if(u.charCodeAt(0)<256){for(i=0;i<s;i++)n=n<<1,e==r-1?(e=0,l.push(c(n)),n=0):e++;for(f=u.charCodeAt(0),i=0;i<8;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}else{for(f=1,i=0;i<s;i++)n=n<<1|f,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=0;for(f=u.charCodeAt(0),i=0;i<16;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}p--,p==0&&(p=Math.pow(2,s),s++),delete w[u]}else for(f=a[u],i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;p--,p==0&&(p=Math.pow(2,s),s++),a[y]=A++,u=String(v)}if(u!==""){if(Object.prototype.hasOwnProperty.call(w,u)){if(u.charCodeAt(0)<256){for(i=0;i<s;i++)n=n<<1,e==r-1?(e=0,l.push(c(n)),n=0):e++;for(f=u.charCodeAt(0),i=0;i<8;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}else{for(f=1,i=0;i<s;i++)n=n<<1|f,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=0;for(f=u.charCodeAt(0),i=0;i<16;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}p--,p==0&&(p=Math.pow(2,s),s++),delete w[u]}else for(f=a[u],i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;p--,p==0&&(p=Math.pow(2,s),s++)}for(f=2,i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;for(;;)if(n=n<<1,e==r-1){l.push(c(n));break}else e++;return l.join("")},decompress:function(o){return o==null?"":o==""?null:h._decompress(o.length,32768,function(r){return o.charCodeAt(r)})},_decompress:function(o,r,c){var i=[],f,a=4,w=4,v=3,y="",u=[],p,A,s,l,n,e,d,t={val:c(0),position:r,index:1};for(p=0;p<3;p+=1)i[p]=p;for(s=0,n=Math.pow(2,2),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;switch(f=s){case 0:for(s=0,n=Math.pow(2,8),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;d=_(s);break;case 1:for(s=0,n=Math.pow(2,16),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;d=_(s);break;case 2:return""}for(i[3]=d,A=d,u.push(d);;){if(t.index>o)return"";for(s=0,n=Math.pow(2,v),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;switch(d=s){case 0:for(s=0,n=Math.pow(2,8),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;i[w++]=_(s),d=w-1,a--;break;case 1:for(s=0,n=Math.pow(2,16),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;i[w++]=_(s),d=w-1,a--;break;case 2:return u.join("")}if(a==0&&(a=Math.pow(2,v),v++),i[d])y=i[d];else if(d===w)y=A+A.charAt(0);else return null;u.push(y),i[w++]=A+y.charAt(0),a--,A=y,a==0&&(a=Math.pow(2,v),v++)}}};return h})();
+  /* eslint-enable */
+
+  // ── Radio Sync ──────────────────────────────────────────
+  function hashStr(s) {
+    let h = 5381;
+    for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;
+    return h.toString(36);
+  }
+
+  function buildSyncPayload() {
+    return { v: 4, state: collectFormState(), roster: roster, ties: ties };
+  }
+
+  function encodeSync(payload) {
+    try {
+      const json = JSON.stringify(payload);
+      const compressed = LZString.compressToEncodedURIComponent(json);
+      const checksum = hashStr(json);
+      return compressed + "." + checksum;
+    } catch (e) { return null; }
+  }
+
+  function decodeSync(encoded) {
+    try {
+      const dot = encoded.lastIndexOf(".");
+      const body = dot > 0 ? encoded.slice(0, dot) : encoded;
+      const checksum = dot > 0 ? encoded.slice(dot + 1) : "";
+      const json = LZString.decompressFromEncodedURIComponent(body);
+      if (!json) return null;
+      const payload = JSON.parse(json);
+      const integrity = checksum ? (hashStr(json) === checksum ? "ok" : "mismatch") : "none";
+      return { payload, integrity };
+    } catch (e) { return null; }
+  }
+
+  function setupSync() {
+    const block = $("#syncBlock");
+    if (!block) return;
+
+    block.addEventListener("toggle", function () {
+      if (!block.open) return;
+      refreshSyncLink();
+    });
+
+    const copyBtn = $("#syncCopyBtn");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", function () {
+        const link = $("#syncLinkOutput").value;
+        if (!link) return;
+        copyText(link);
+        const meta = $("#syncMeta");
+        if (meta) meta.textContent = "Link copied!";
+        notify("Sync link copied");
+        setTimeout(() => { if (meta) meta.textContent = ""; }, 2000);
+      });
+    }
+  }
+
+  function refreshSyncLink() {
+    const input = $("#syncLinkOutput");
+    const meta = $("#syncMeta");
+    if (!input) return;
+    const payload = buildSyncPayload();
+    const encoded = encodeSync(payload);
+    if (!encoded) { if (meta) meta.textContent = "Could not encode state."; return; }
+    const bytes = new TextEncoder().encode(encoded).length;
+    const link = window.location.href.split("#")[0] + "#sync=" + encoded;
+    input.value = link;
+    if (meta) {
+      if (bytes > SHARE_BUDGET) {
+        meta.textContent = "Warning: payload is " + bytes + " B (budget " + SHARE_BUDGET + " B). Link may be very long.";
+      } else {
+        meta.textContent = bytes + " B — ready to share";
+      }
+    }
+  }
+
+  function checkSyncHash() {
+    const hash = window.location.hash;
+    if (!hash || !hash.startsWith("#sync=")) return;
+    const encoded = hash.slice(6);
+    const result = decodeSync(encoded);
+    const banner = $("#syncBanner");
+    if (!banner) return;
+    if (!result) {
+      banner.hidden = false;
+      const msg = $("#syncBannerMsg");
+      if (msg) msg.textContent = "Sync link appears corrupt — cannot import.";
+      const yesBtn = $("#syncBannerYes");
+      if (yesBtn) yesBtn.hidden = true;
+      const noBtn = $("#syncBannerNo");
+      if (noBtn) noBtn.focus();
+      setupBannerDismiss();
+      return;
+    }
+    if (result.integrity === "mismatch") {
+      banner.hidden = false;
+      const msg = $("#syncBannerMsg");
+      if (msg) msg.textContent = "Sync link checksum mismatch — import anyway?";
+    } else {
+      banner.hidden = false;
+    }
+    const yesBtn = $("#syncBannerYes");
+    if (yesBtn) {
+      yesBtn.focus();
+      yesBtn.addEventListener("click", function () {
+        const p = result.payload;
+        if (p.state) applyFormState(p.state);
+        if (Array.isArray(p.roster)) { roster = p.roster; }
+        if (Array.isArray(p.ties))   { ties   = p.ties; }
+        renderRoster();
+        persist();
+        notify("Diary synced");
+        banner.hidden = true;
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      }, { once: true });
+    }
+    setupBannerDismiss();
+  }
+
+  function setupBannerDismiss() {
+    const noBtn = $("#syncBannerNo");
+    if (noBtn) {
+      noBtn.addEventListener("click", function () {
+        const banner = $("#syncBanner");
+        if (banner) banner.hidden = true;
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      }, { once: true });
+    }
+  }
+
   // ── Boot ────────────────────────────────────────────────
   function boot() {
     buildResources();
@@ -849,6 +1223,8 @@
 
     setupDockHighlight();
     setupFooter();
+    setupSync();
+    checkSyncHash();
   }
 
   function randomizePlaceholders() {
