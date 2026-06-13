@@ -420,6 +420,9 @@
         let cls = "tie-line tie-line--" + t.kind;
         if (t.strained || deadParty) cls += " tie-line--strained";
         line.setAttribute("class", cls);
+        // Endpoints for hover-reveal: light only the hovered survivor's ties.
+        line.setAttribute("data-a", t.a);
+        line.setAttribute("data-b", t.b);
         line.setAttribute("x1", ra.left + ra.width / 2 - box.left);
         line.setAttribute("y1", ra.top + ra.height / 2 - box.top);
         line.setAttribute("x2", rb.left + rb.width / 2 - box.left);
@@ -432,6 +435,21 @@
     } catch (e) {
       if (window.console && console.warn) console.warn("tie overlay skipped:", e);
     }
+  }
+
+  // Light up just the ties touching survivor `id` (pass null to hide all).
+  function lightTiesFor(id) {
+    try {
+      const list = document.getElementById("rosterList");
+      const svg = list && list.querySelector(".tie-line-overlay");
+      if (!svg) return;
+      const lines = svg.querySelectorAll(".tie-line");
+      for (let i = 0; i < lines.length; i++) {
+        const l = lines[i];
+        const on = id != null && (l.getAttribute("data-a") === id || l.getAttribute("data-b") === id);
+        l.classList.toggle("is-lit", on);
+      }
+    } catch (e) { /* never break hover */ }
   }
   function esc(s) { return (s == null ? "" : String(s)).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[c]); }
 
@@ -547,6 +565,20 @@
           if (tieId) { toggleStrained(tieId); const t = ties.find(x => x.id === tieId); notify(t && t.strained ? "Marked strained" : "Strain cleared"); }
           break;
       }
+    });
+
+    // Hover-reveal: ties stay invisible until you hover a survivor card,
+    // then only that survivor's connections fade in. Keeps the grid clean.
+    const rosterEl = $("#rosterList");
+    rosterEl.addEventListener("pointerover", function (e) {
+      const card = e.target.closest && e.target.closest(".card-survivor");
+      if (!card || !card.id) return;
+      lightTiesFor(card.id.replace(/^card-/, ""));
+    });
+    rosterEl.addEventListener("pointerout", function (e) {
+      const card = e.target.closest && e.target.closest(".card-survivor");
+      const to = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest(".card-survivor");
+      if (card && card !== to) lightTiesFor(null); // left the card → hide again
     });
 
     // edit-save via form submit
@@ -732,7 +764,30 @@
       fallen.forEach(r => lines.push("- " + survivorLine(r)));
       lines.push("");
     }
+
+    // Relationships — feeds the social graph to the diary-writing LLM.
+    const tieLines = (Array.isArray(ties) ? ties : [])
+      .map(t => relationshipLine(t))
+      .filter(Boolean);
+    if (tieLines.length) {
+      lines.push(`Relationships (${tieLines.length}):`);
+      lines.push(...tieLines, "");
+    }
     return lines.join("\n").trim();
+  }
+  function relationshipLine(t) {
+    if (!t) return null;
+    const a = roster.find(r => r.id === t.a);
+    const b = roster.find(r => r.id === t.b);
+    if (!a || !b) return null; // skip orphaned ties
+    const kind = t.kind ? t.kind.charAt(0).toUpperCase() + t.kind.slice(1) : "Tie";
+    const meta = [];
+    if (t.label) meta.push(t.label);
+    if (t.since) meta.push("since Day " + t.since);
+    if (t.strained) meta.push("strained");
+    const aTag = a.status !== "active" ? " (" + a.status + ")" : "";
+    const bTag = b.status !== "active" ? " (" + b.status + ")" : "";
+    return `- ${a.name}${aTag} & ${b.name}${bTag} — ${kind}${meta.length ? " (" + meta.join(", ") + ")" : ""}`;
   }
   function survivorLine(r) {
     const tags = [r.bio, r.traits, r.skills].filter(Boolean).join(" | ");
