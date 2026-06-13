@@ -632,9 +632,23 @@ textarea:focus { background-color: rgba(255, 248, 200, 0.18); }
 .tie-line--strained {
   stroke-dasharray: 3 5;
 }
+/* Severed = tear-away: a ripped, broken red line (PHA-1057). The sparse
+   dash reads as a line that's been torn apart rather than merely dotted. */
+.tie-line--severed {
+  stroke: var(--ink-red);
+  stroke-dasharray: 1 6;
+  stroke-width: 1.6;
+}
+/* Mourned = the faint, fading memory of a tie a death left behind. */
+.tie-line--mourned {
+  stroke: var(--ink-soft);
+  stroke-dasharray: 7 4;
+}
 /* Revealed only while hovering one of the tie's two survivor cards */
 .tie-line.is-lit { opacity: 0.45; }
 .tie-line--strained.is-lit { opacity: 0.5; }
+.tie-line--severed.is-lit { opacity: 0.55; }
+.tie-line--mourned.is-lit { opacity: 0.3; }
 @media (prefers-reduced-motion: reduce) {
   .tie-line { transition: none; }
 }
@@ -1341,16 +1355,25 @@ textarea:focus { background-color: rgba(255, 248, 200, 0.18); }
   color: var(--ink-blue);
   line-height: 1.35;
 }
-.tie-strained {
+.tie-status {
   display: inline-block;
   font-family: var(--font-stamp);
   font-size: 9px;
   letter-spacing: 1.5px;
-  color: var(--ink-red);
-  border: 1px solid var(--ink-red);
   padding: 1px 4px;
   margin-left: 4px;
   vertical-align: middle;
+  border: 1px solid currentColor;
+  color: var(--ink-red);
+}
+.tie-status--mourned { color: var(--ink-soft); border-style: dotted; }
+.tie-status--severed { border-style: dashed; }
+/* Terminal ties read as muted history in the card-back list. */
+.tie-row--severed .tie-info,
+.tie-row--mourned .tie-info { color: var(--ink-soft); }
+.tie-row--severed .tie-info strong {
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-red);
 }
 .tie-acts {
   display: flex;

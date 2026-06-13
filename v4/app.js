@@ -269,6 +269,7 @@
       ties = JSON.parse(localStorage.getItem(TIES_KEY) || "[]");
     } catch (e) { ties = []; }
     migrateLegacyTies();
+    normalizeTies(); // backfill status on ties saved under the old boolean model
   }
 
   function migrateLegacyTies() {
@@ -290,7 +291,7 @@
           kind: rel.kind || "friend",
           label: rel.label || "",
           since: rel.since || 1,
-          strained: !!(rel.status === "strained")
+          status: rel.status === "strained" ? "strained" : "active"
         });
       });
       savePrefs(Object.assign(loadPrefs(), { tiesMigrated: true }));
@@ -320,6 +321,8 @@
     const s = roster.find(s => s.id === id);
     if (!s) return;
     s.status = status;
+    // Death/exile converts this survivor's living ties to `mourned`.
+    if (status === "fallen" || status === "exiled") mournTiesFor(id);
     renderRoster();
     persist();
   }
@@ -418,7 +421,12 @@
                           (bSurv && bSurv.status !== "active");
         const line = document.createElementNS(SVG_NS, "line");
         let cls = "tie-line tie-line--" + t.kind;
-        if (t.strained || deadParty) cls += " tie-line--strained";
+        // Status drives the treatment: severed = tear-away, mourned = its own
+        // faint stroke, strained = dotted. deadParty is a defensive fallback for
+        // legacy ties that never got converted to mourned.
+        if (t.status === "severed")      cls += " tie-line--severed";
+        else if (t.status === "mourned") cls += " tie-line--mourned";
+        else if (t.status === "strained" || deadParty) cls += " tie-line--strained";
         line.setAttribute("class", cls);
         // Endpoints for hover-reveal: light only the hovered survivor's ties.
         line.setAttribute("data-a", t.a);
@@ -562,7 +570,7 @@
           if (tieId && confirm("Sever this tie?")) { severTie(tieId); notify("Tie severed"); }
           break;
         case "strained":
-          if (tieId) { toggleStrained(tieId); const t = ties.find(x => x.id === tieId); notify(t && t.strained ? "Marked strained" : "Strain cleared"); }
+          if (tieId) { toggleStrained(tieId); const t = ties.find(x => x.id === tieId); notify(t && t.status === "strained" ? "Marked strained" : "Strain cleared"); }
           break;
       }
     });
@@ -627,7 +635,29 @@
   }
 
   // ── Ties ─────────────────────────────────────────────────
+  // Tie lifecycle is no-DELETE: a tie is a permanent emotional record.
+  // status ∈ active | strained | severed | mourned. You don't erase a
+  // relationship when it ends — you mark how it ended (PHA-1057 / PHA-347).
+  const TIE_STATUSES = ["active", "strained", "severed", "mourned"];
+
   function pairKey(a, b) { return [a, b].sort().join("|"); }
+
+  function currentDay() { return parseInt($("#dayNumber").value, 10) || 1; }
+
+  // Backfill the status field on a tie loaded from older saves: the old model
+  // carried a boolean `strained`; absence of both → active. Idempotent.
+  function normalizeTie(t) {
+    if (!t || typeof t !== "object") return t;
+    if (!t.status || TIE_STATUSES.indexOf(t.status) === -1) {
+      t.status = t.strained ? "strained" : "active";
+    }
+    delete t.strained;
+    return t;
+  }
+  function normalizeTies() {
+    if (Array.isArray(ties)) ties = ties.map(normalizeTie);
+  }
+  const TIE_STATUS_LABEL = { strained: "STRAINED", severed: "SEVERED", mourned: "MOURNED" };
 
   function addTie(fromId, toId, kind, label, since) {
     const pk = pairKey(fromId, toId);
@@ -637,21 +667,48 @@
       existing.since = since;
     } else {
       const sorted = [fromId, toId].sort();
-      ties.push({ id: "tie-" + Math.random().toString(36).slice(2, 9), a: sorted[0], b: sorted[1], kind: kind, label: label, since: since, strained: false });
+      ties.push({ id: "tie-" + Math.random().toString(36).slice(2, 9), a: sorted[0], b: sorted[1], kind: kind, label: label, since: since, status: "active" });
     }
     renderRoster();
     persist();
   }
 
+  // No-DELETE: severing marks how the tie ended, it doesn't erase the row.
+  // The record stays so it can still render (tear-away overlay, report history).
   function severTie(id) {
-    ties = ties.filter(t => t.id !== id);
+    const t = ties.find(t => t.id === id);
+    if (!t || t.status === "severed") return;
+    t.status = "severed";
+    t.endedDay = currentDay();
     renderRoster();
     persist();
   }
 
+  // Strain is a status now, toggled between active ⇄ strained. Severed and
+  // mourned are terminal end-states and aren't re-strainable.
   function toggleStrained(id) {
     const t = ties.find(t => t.id === id);
-    if (t) { t.strained = !t.strained; renderRoster(); persist(); }
+    if (!t || t.status === "severed" || t.status === "mourned") return;
+    t.status = t.status === "strained" ? "active" : "strained";
+    renderRoster();
+    persist();
+  }
+
+  // The one sanctioned automation (PHA-347): when a survivor dies or is exiled,
+  // their living ties become `mourned`. Severed ties are left as-is — that
+  // history already records how they ended.
+  function mournTiesFor(sid) {
+    let changed = false;
+    const day = currentDay();
+    ties.forEach(function (t) {
+      if (t.a !== sid && t.b !== sid) return;
+      if (t.status === "active" || t.status === "strained") {
+        t.status = "mourned";
+        if (t.endedDay == null) t.endedDay = day;
+        changed = true;
+      }
+    });
+    return changed;
   }
 
   function tiesForSurvivor(sid) {
@@ -666,18 +723,25 @@
           const partnerId = (t.a === s.id ? t.b : t.a);
           const partnerSurv = roster.find(r => r.id === partnerId);
           const partnerName = partnerSurv ? partnerSurv.name : "Unknown";
-          const strainedTag = t.strained
-            ? `<span class="tie-strained" aria-label="Strained tie">STRAINED</span>`
+          const status = t.status || "active";
+          const ended = (status === "severed" || status === "mourned") && t.endedDay
+            ? ` · ended D${t.endedDay}` : "";
+          const statusTag = TIE_STATUS_LABEL[status]
+            ? `<span class="tie-status tie-status--${status}" aria-label="${TIE_STATUS_LABEL[status].toLowerCase()} tie">${TIE_STATUS_LABEL[status]}</span>`
             : "";
           const kindLabel = t.kind.charAt(0).toUpperCase() + t.kind.slice(1);
           const displayLabel = t.label ? ` — "${esc(t.label)}"` : "";
-          return `
-            <div class="tie-row">
-              <span class="tie-info">${kindLabel}: <strong>${esc(partnerName)}</strong>${displayLabel}${t.since ? ` · D${t.since}` : ""}${strainedTag}</span>
+          // Severed/mourned are terminal records — no destructive affordance to
+          // re-strain or re-sever them. Active/strained still toggle.
+          const isTerminal = status === "severed" || status === "mourned";
+          const acts = isTerminal ? "" : `
               <span class="tie-acts">
-                <button type="button" data-act="strained" data-tie="${esc(t.id)}" class="tie-btn" aria-label="${t.strained ? "Clear strained" : "Mark strained"} tie with ${esc(partnerName)}">${t.strained ? "✓ Strained" : "Strain"}</button>
+                <button type="button" data-act="strained" data-tie="${esc(t.id)}" class="tie-btn" aria-label="${status === "strained" ? "Clear strained" : "Mark strained"} tie with ${esc(partnerName)}">${status === "strained" ? "✓ Strained" : "Strain"}</button>
                 <button type="button" data-act="sever" data-tie="${esc(t.id)}" class="tie-btn tie-btn--sever" aria-label="Sever tie with ${esc(partnerName)}">Sever</button>
-              </span>
+              </span>`;
+          return `
+            <div class="tie-row tie-row--${status}">
+              <span class="tie-info">${kindLabel}: <strong>${esc(partnerName)}</strong>${displayLabel}${t.since ? ` · D${t.since}` : ""}${ended}${statusTag}</span>${acts}
             </div>`;
         }).join("")
       : `<div class="tie-empty">No ties yet.</div>`;
@@ -784,7 +848,10 @@
     const meta = [];
     if (t.label) meta.push(t.label);
     if (t.since) meta.push("since Day " + t.since);
-    if (t.strained) meta.push("strained");
+    const status = t.status || "active";
+    if (status === "strained") meta.push("strained");
+    else if (status === "severed") meta.push("severed" + (t.endedDay ? " Day " + t.endedDay : ""));
+    else if (status === "mourned") meta.push("mourned" + (t.endedDay ? " Day " + t.endedDay : ""));
     const aTag = a.status !== "active" ? " (" + a.status + ")" : "";
     const bTag = b.status !== "active" ? " (" + b.status + ")" : "";
     return `- ${a.name}${aTag} & ${b.name}${bTag} — ${kind}${meta.length ? " (" + meta.join(", ") + ")" : ""}`;
@@ -956,7 +1023,7 @@
         const data = JSON.parse(reader.result);
         if (data.current) applyFormState(data.current);
         if (Array.isArray(data.roster))  { roster  = data.roster;  renderRoster(); }
-        if (Array.isArray(data.ties))    { ties    = data.ties; }
+        if (Array.isArray(data.ties))    { ties    = data.ties; normalizeTies(); }
         if (Array.isArray(data.history)) { history = data.history; renderHistory(); }
         persist();
         notify("Imported");
@@ -1261,7 +1328,7 @@
         const p = result.payload;
         if (p.state) applyFormState(p.state);
         if (Array.isArray(p.roster)) { roster = p.roster; }
-        if (Array.isArray(p.ties))   { ties   = p.ties; }
+        if (Array.isArray(p.ties))   { ties   = p.ties; normalizeTies(); }
         renderRoster();
         persist();
         notify("Diary synced");
