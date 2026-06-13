@@ -601,6 +601,36 @@ textarea:focus { background-color: rgba(255, 248, 200, 0.18); }
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: var(--sp-4);
   margin-top: var(--sp-3);
+  position: relative; /* anchor for .tie-line-overlay (desktop pencil lines) */
+}
+
+/* ── Ties That Bind — desktop pencil-line overlay (PHA-396) ───
+   SVG is injected by renderTieOverlays() as an absolutely-positioned
+   child of .roster__list so it never claims a grid cell. Always
+   pointer-events:none so it can't eat card clicks. */
+.tie-line-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1; /* above card paper, below tape strip (::before z-index:2) */
+}
+.tie-line {
+  fill: none;
+  stroke: var(--ink-pencil);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  opacity: 0.32; /* faint pencil; lines cross faintly over cards */
+}
+.tie-line--family {
+  stroke-width: 1.2;
+}
+/* Strained, or a tie where one party is fallen/exiled → dotted */
+.tie-line--strained {
+  stroke-dasharray: 3 5;
+  opacity: 0.42;
 }
 .card-survivor {
   position: relative;

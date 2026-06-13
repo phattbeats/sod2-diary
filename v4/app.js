@@ -363,6 +363,75 @@
       if (editBtn) editBtn.focus();
       lastEditedId = null;
     }
+
+    // Desktop pencil-line overlay (PHA-396). rAF so card rects are settled.
+    if (typeof requestAnimationFrame === "function") {
+      requestAnimationFrame(renderTieOverlays);
+    } else {
+      renderTieOverlays();
+    }
+  }
+
+  // ── Ties That Bind — desktop pencil-line overlay (PHA-396) ──
+  // Desktop-only SVG connecting partner/family pairs across the roster
+  // grid. Wrapped end-to-end in try/catch: a bad render must NEVER take
+  // down the diary (the prior overlay attempt broke the deploy).
+  const TIE_OVERLAY_MQ = (typeof window.matchMedia === "function")
+    ? window.matchMedia("(hover: hover) and (min-width: 1100px)")
+    : { matches: false, addEventListener: null };
+  const OVERLAY_KINDS = { partner: true, family: true }; // highest-priority kinds only
+  const SVG_NS = "http://www.w3.org/2000/svg";
+
+  function renderTieOverlays() {
+    try {
+      const list = document.getElementById("rosterList");
+      if (!list) return;
+      // Always clear the prior overlay first, even when we won't redraw.
+      const stale = list.querySelector(".tie-line-overlay");
+      if (stale) stale.remove();
+
+      if (!TIE_OVERLAY_MQ.matches) return;          // desktop / hover only
+      if (!Array.isArray(ties) || !ties.length) return;
+
+      const box = list.getBoundingClientRect();
+      if (!box.width || !box.height) return;        // grid hidden / not laid out
+
+      const svg = document.createElementNS(SVG_NS, "svg");
+      svg.setAttribute("class", "tie-line-overlay");
+      svg.setAttribute("aria-hidden", "true");
+      svg.setAttribute("width", box.width);
+      svg.setAttribute("height", box.height);
+      svg.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
+
+      let drawn = 0;
+      ties.forEach(function (t) {
+        if (!t || !OVERLAY_KINDS[t.kind]) return;
+        const ca = document.getElementById("card-" + t.a);
+        const cb = document.getElementById("card-" + t.b);
+        if (!ca || !cb) return;
+        const ra = ca.getBoundingClientRect();
+        const rb = cb.getBoundingClientRect();
+        if (!ra.width || !rb.width) return;         // a card is display:none
+        const aSurv = roster.find(function (r) { return r.id === t.a; });
+        const bSurv = roster.find(function (r) { return r.id === t.b; });
+        const deadParty = (aSurv && aSurv.status !== "active") ||
+                          (bSurv && bSurv.status !== "active");
+        const line = document.createElementNS(SVG_NS, "line");
+        let cls = "tie-line tie-line--" + t.kind;
+        if (t.strained || deadParty) cls += " tie-line--strained";
+        line.setAttribute("class", cls);
+        line.setAttribute("x1", ra.left + ra.width / 2 - box.left);
+        line.setAttribute("y1", ra.top + ra.height / 2 - box.top);
+        line.setAttribute("x2", rb.left + rb.width / 2 - box.left);
+        line.setAttribute("y2", rb.top + rb.height / 2 - box.top);
+        svg.appendChild(line);
+        drawn++;
+      });
+
+      if (drawn) list.appendChild(svg);
+    } catch (e) {
+      if (window.console && console.warn) console.warn("tie overlay skipped:", e);
+    }
   }
   function esc(s) { return (s == null ? "" : String(s)).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[c]); }
 
@@ -1184,6 +1253,16 @@
     // Sync community name → header title
     $("#communityName").addEventListener("input", updateDiaryTitle);
     updateDiaryTitle();
+
+    // Re-draw tie overlay on resize (debounced) — re-positions/clears lines.
+    let tieResizeRaf = 0;
+    window.addEventListener("resize", function () {
+      if (tieResizeRaf) cancelAnimationFrame(tieResizeRaf);
+      tieResizeRaf = requestAnimationFrame(renderTieOverlays);
+    }, { passive: true });
+    // Redraw once the page (fonts/layout) has fully settled — the boot-time
+    // rAF can fire before the grid has measurable card rects.
+    window.addEventListener("load", renderTieOverlays);
 
     // Allow typing directly into morale value
     $("#moraleValue").addEventListener("input", () => {
