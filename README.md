@@ -47,6 +47,10 @@ docs/HANDOFF-v4.md notes on v4 + features pending re-review
 
 Static files served from GitHub Pages (`main` branch root). No build step — open `index.html` locally or push to deploy.
 
+## Authorship
+
+Every commit must be authored by `phattbeats <obiwouldjablowme@protonmail.com>` and contain no `Co-authored-by` trailers. See [`docs/AUTHORSHIP.md`](./docs/AUTHORSHIP.md) and run `./scripts/install-git-hooks.sh` after cloning to enforce locally.
+
 ## License
 
 MIT
