@@ -604,7 +604,7 @@ textarea:focus { background-color: rgba(255, 248, 200, 0.18); }
   position: relative; /* anchor for .tie-line-overlay (desktop pencil lines) */
 }
 
-/* ── Ties That Bind — desktop pencil-line overlay (PHA-396) ───
+/* ── Ties That Bind — desktop pencil-line overlay (#396) ───
    SVG is injected by renderTieOverlays() as an absolutely-positioned
    child of .roster__list so it never claims a grid cell. Always
    pointer-events:none so it can't eat card clicks. */
@@ -632,7 +632,7 @@ textarea:focus { background-color: rgba(255, 248, 200, 0.18); }
 .tie-line--strained {
   stroke-dasharray: 3 5;
 }
-/* Severed = tear-away: a ripped, broken red line (PHA-1057). The sparse
+/* Severed = tear-away: a ripped, broken red line (#1057). The sparse
    dash reads as a line that's been torn apart rather than merely dotted. */
 .tie-line--severed {
   stroke: var(--ink-red);

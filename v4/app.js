@@ -367,7 +367,7 @@
       lastEditedId = null;
     }
 
-    // Desktop pencil-line overlay (PHA-396). rAF so card rects are settled.
+    // Desktop pencil-line overlay (#396). rAF so card rects are settled.
     if (typeof requestAnimationFrame === "function") {
       requestAnimationFrame(renderTieOverlays);
     } else {
@@ -375,7 +375,7 @@
     }
   }
 
-  // ── Ties That Bind — desktop pencil-line overlay (PHA-396) ──
+  // ── Ties That Bind — desktop pencil-line overlay (#396) ──
   // Desktop-only SVG connecting partner/family pairs across the roster
   // grid. Wrapped end-to-end in try/catch: a bad render must NEVER take
   // down the diary (the prior overlay attempt broke the deploy).
@@ -637,7 +637,7 @@
   // ── Ties ─────────────────────────────────────────────────
   // Tie lifecycle is no-DELETE: a tie is a permanent emotional record.
   // status ∈ active | strained | severed | mourned. You don't erase a
-  // relationship when it ends — you mark how it ended (PHA-1057 / PHA-347).
+  // relationship when it ends — you mark how it ended (#1057 / #347).
   const TIE_STATUSES = ["active", "strained", "severed", "mourned"];
 
   function pairKey(a, b) { return [a, b].sort().join("|"); }
@@ -694,7 +694,7 @@
     persist();
   }
 
-  // The one sanctioned automation (PHA-347): when a survivor dies or is exiled,
+  // The one sanctioned automation (#347): when a survivor dies or is exiled,
   // their living ties become `mourned`. Severed ties are left as-is — that
   // history already records how they ended.
   function mournTiesFor(sid) {

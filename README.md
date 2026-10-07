@@ -1,6 +1,6 @@
 # State of Decay 2 Community Diary
 
-Narrative tracking tool for State of Decay 2 playthroughs. Generate daily reports to paste into LLM chats (Claude, ChatGPT, SillyTavern, etc.).
+Narrative tracking tool for State of Decay 2 playthroughs. Generate daily reports to paste into LLM chats (ChatGPT, SillyTavern, etc.).
 
 **Live:** https://phattbeats.github.io/sod2-diary/
 

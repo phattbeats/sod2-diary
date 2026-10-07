@@ -874,7 +874,7 @@
             background: var(--leather-shadow);
         }
 
-        /* ── v2 INDEX CARDS — survivor roster (PHA-353 / components.md §3 + §11)
+        /* ── v2 INDEX CARDS — survivor roster (#353 / components.md §3 + §11)
          * Each card is a paper artifact clipped to the page. Status (KIA /
          * EXILED / LEGACY) lands as a stamp overlay; status text in the data
          * row carries meaning for screen readers (clarity-win, Plan §0). */
@@ -1100,7 +1100,7 @@
             box-shadow: 2px 2px 0 rgba(27, 18, 10, 0.35);
         }
 
-        /* Restore = pencil "un-stamp" mark per PHA-353 spec */
+        /* Restore = pencil "un-stamp" mark per #353 spec */
         .card-action--restore {
             background: transparent;
             color: var(--ink-brown);
@@ -1179,7 +1179,7 @@
                 0 1px 2px rgba(27, 18, 10, 0.35);
         }
 
-        /* Per-status visual treatments per PHA-353 acceptance:
+        /* Per-status visual treatments per #353 acceptance:
          * deceased = sepia-darken; exiled = paper-tear edge; legacy = gold edge */
         .index-card[data-status="dead"] {
             filter: sepia(0.45) brightness(0.84) contrast(1.05);
@@ -1203,9 +1203,9 @@
                 var(--shadow-card);
         }
 
-        /* ── Card-back placeholder — flip target reserved for PHA-355.
+        /* ── Card-back placeholder — flip target reserved for #355.
          * Hidden behind the front face; the actual flip mechanic lands
-         * with Ties That Bind. We leave the DOM hook so PHA-355 can
+         * with Ties That Bind. We leave the DOM hook so #355 can
          * wire the flip without re-touching this file. */
         .index-card__back {
             display: none;
@@ -1595,8 +1595,8 @@
         }
 
         /* ── Design Tokens ────────────────────────────────────────────
-         * Canonical sepia palette per PHA-336 plan rev 3 (§2 Visual
-         * Language). Values mirror design/tokens.css from PHA-346.
+         * Canonical sepia palette per #336 plan rev 3 (§2 Visual
+         * Language). Values mirror design/tokens.css from #346.
          * Future component PRs MUST consume these vars; do not introduce
          * new raw hex literals.
          * ─────────────────────────────────────────────────────────────── */
@@ -1688,7 +1688,7 @@
             /* ----- Legacy compat shims -----
              * Surviving non-canonical names that downstream component CSS
              * still references. The neon aliases (--teal/--red/--gold/--muted/
-             * --muted-dark) were retired by PHA-361 — every usage was
+             * --muted-dark) were retired by #361 — every usage was
              * rewritten onto the canonical sepia tokens. */
             --teal-dark:    #14193A;
             --red-dark:     #5A1414;
@@ -2508,7 +2508,7 @@
 
 /* ──────────────────────────────────────────────────────────────
  * Section Nav — paper bookmark cutouts + leather field-ribbon
- * (PHA-352, elevated)
+ * (#352, elevated)
  *
  * Three surfaces, all driven by the same <a href="#sec-…"> anchors:
  *   1. .book-tabs    — right-edge paper bookmarks (≥641px)
@@ -2647,7 +2647,7 @@
             font-weight: 400;
         }
 
-        /* tie-strip (PHA-354) */
+        /* tie-strip (#354) */
         .tie-strip{display:flex;flex-wrap:wrap;gap:2px 0;padding:3px 4px 2px;border-top:.5px dashed rgba(27,18,10,.25);margin-top:4px;align-items:center}
         .ts-pip{font-family:var(--font-mono,'Courier New',monospace);font-size:10px;color:var(--ink-blue,#1F2A4A);white-space:nowrap}
         .ts-sep{color:var(--ink-brown,#2A1F12);opacity:.5;font-size:9px;padding:0 2px}
@@ -3236,13 +3236,13 @@
             <button onclick="generateReport()">Generate Report</button>
         </div>
 
-<!-- Inside back cover — Sync Radio Dial (PHA-355) -->
+<!-- Inside back cover — Sync Radio Dial (#355) -->
         <div class="sync-back-cover" aria-label="sync entry">
           <span class="sync-back-cover-label">Inside back cover</span>
           <button class="sync-radio-dial" onclick="showSyncPanel()" title="sync entry" aria-label="sync entry"></button>
         </div>
 
-        <!-- Sync Panel (PHA-355) -->
+        <!-- Sync Panel (#355) -->
         <div class="sync-panel-overlay" id="syncOverlay" onclick="if(event.target===this)hideSyncPanel()">
           <div class="sync-panel">
             <div class="sync-panel-header">
@@ -3287,7 +3287,7 @@
           </div>
         </div>
 
-<!-- Section Nav (PHA-352, elevated)
+<!-- Section Nav (#352, elevated)
      Three surfaces, one set of #sec-... anchors:
      - .book-tabs    right-edge paper bookmarks (>=641px)
      - .field-ribbon fixed bottom leather strap (<=640px)
@@ -3692,7 +3692,7 @@
         }
         
 
-        // ==================== RELATIONSHIPS (PHA-354) ====================
+        // ==================== RELATIONSHIPS (#354) ====================
 
         const REL_KEY  = 'sod2.relationships';
         const REL_ICON = { partner:'*', family:'~', mentor:'+', rival:'x', friend:'o', tie:'.' };
@@ -4143,7 +4143,7 @@
                 });
             }
             
-            // Ties That Bind section (PHA-354). Only emit the header if at
+            // Ties That Bind section (#354). Only emit the header if at
             // least one active tie exists — empty section with no rows looks
             // like a bug in the LLM-paste flow.
             const relationships = getRelationships();
@@ -4297,7 +4297,7 @@
             showAutoSaveIndicator('saving');
             saveValues();
             localStorage.setItem('autosave_last_saved_at', Date.now().toString());
-            // PHA-355: stamp lastEditedAt + originId on every save so the
+            // #355: stamp lastEditedAt + originId on every save so the
             // sync panel can compare two devices by edit time, not transmit time.
             if (typeof window.markStateEdited === 'function') window.markStateEdited();
             showAutoSaveIndicator('saved');
@@ -4957,7 +4957,7 @@ Events: ${events}` + generateRosterText();
     <script>
 var m=(function(){var _=String.fromCharCode,M="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",S="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",x={};function O(o,r){if(!x[o]){x[o]={};for(var c=0;c<o.length;c++)x[o][o.charAt(c)]=c}return x[o][r]}var h={compressToBase64:function(o){if(o==null)return"";var r=h._compress(o,6,function(c){return M.charAt(c)});switch(r.length%4){default:case 0:return r;case 1:return r+"===";case 2:return r+"==";case 3:return r+"="}},decompressFromBase64:function(o){return o==null?"":o==""?null:h._decompress(o.length,32,function(r){return O(M,o.charAt(r))})},compressToUTF16:function(o){return o==null?"":h._compress(o,15,function(r){return _(r+32)})+" "},decompressFromUTF16:function(o){return o==null?"":o==""?null:h._decompress(o.length,16384,function(r){return o.charCodeAt(r)-32})},compressToUint8Array:function(o){for(var r=h.compress(o),c=new Uint8Array(r.length*2),i=0,f=r.length;i<f;i++){var a=r.charCodeAt(i);c[i*2]=a>>>8,c[i*2+1]=a%256}return c},decompressFromUint8Array:function(o){if(o==null)return h.decompress(o);for(var r=new Array(o.length/2),c=0,i=r.length;c<i;c++)r[c]=o[c*2]*256+o[c*2+1];var f=[];return r.forEach(function(a){f.push(_(a))}),h.decompress(f.join(""))},compressToEncodedURIComponent:function(o){return o==null?"":h._compress(o,6,function(r){return S.charAt(r)})},decompressFromEncodedURIComponent:function(o){return o==null?"":o==""?null:(o=o.replace(/ /g,"+"),h._decompress(o.length,32,function(r){return O(S,o.charAt(r))}))},compress:function(o){return h._compress(o,16,function(r){return _(r)})},_compress:function(o,r,c){if(o==null)return"";var i,f,a={},w={},v="",y="",u="",p=2,A=3,s=2,l=[],n=0,e=0,d;for(d=0;d<o.length;d+=1)if(v=o.charAt(d),Object.prototype.hasOwnProperty.call(a,v)||(a[v]=A++,w[v]=!0),y=u+v,Object.prototype.hasOwnProperty.call(a,y))u=y;else{if(Object.prototype.hasOwnProperty.call(w,u)){if(u.charCodeAt(0)<256){for(i=0;i<s;i++)n=n<<1,e==r-1?(e=0,l.push(c(n)),n=0):e++;for(f=u.charCodeAt(0),i=0;i<8;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}else{for(f=1,i=0;i<s;i++)n=n<<1|f,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=0;for(f=u.charCodeAt(0),i=0;i<16;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}p--,p==0&&(p=Math.pow(2,s),s++),delete w[u]}else for(f=a[u],i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;p--,p==0&&(p=Math.pow(2,s),s++),a[y]=A++,u=String(v)}if(u!==""){if(Object.prototype.hasOwnProperty.call(w,u)){if(u.charCodeAt(0)<256){for(i=0;i<s;i++)n=n<<1,e==r-1?(e=0,l.push(c(n)),n=0):e++;for(f=u.charCodeAt(0),i=0;i<8;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}else{for(f=1,i=0;i<s;i++)n=n<<1|f,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=0;for(f=u.charCodeAt(0),i=0;i<16;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1}p--,p==0&&(p=Math.pow(2,s),s++),delete w[u]}else for(f=a[u],i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;p--,p==0&&(p=Math.pow(2,s),s++)}for(f=2,i=0;i<s;i++)n=n<<1|f&1,e==r-1?(e=0,l.push(c(n)),n=0):e++,f=f>>1;for(;;)if(n=n<<1,e==r-1){l.push(c(n));break}else e++;return l.join("")},decompress:function(o){return o==null?"":o==""?null:h._decompress(o.length,32768,function(r){return o.charCodeAt(r)})},_decompress:function(o,r,c){var i=[],f,a=4,w=4,v=3,y="",u=[],p,A,s,l,n,e,d,t={val:c(0),position:r,index:1};for(p=0;p<3;p+=1)i[p]=p;for(s=0,n=Math.pow(2,2),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;switch(f=s){case 0:for(s=0,n=Math.pow(2,8),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;d=_(s);break;case 1:for(s=0,n=Math.pow(2,16),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;d=_(s);break;case 2:return""}for(i[3]=d,A=d,u.push(d);;){if(t.index>o)return"";for(s=0,n=Math.pow(2,v),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;switch(d=s){case 0:for(s=0,n=Math.pow(2,8),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;i[w++]=_(s),d=w-1,a--;break;case 1:for(s=0,n=Math.pow(2,16),e=1;e!=n;)l=t.val&t.position,t.position>>=1,t.position==0&&(t.position=r,t.val=c(t.index++)),s|=(l>0?1:0)*e,e<<=1;i[w++]=_(s),d=w-1,a--;break;case 2:return u.join("")}if(a==0&&(a=Math.pow(2,v),v++),i[d])y=i[d];else if(d===w)y=A+A.charAt(0);else return null;u.push(y),i[w++]=A+y.charAt(0),a--,A=y,a==0&&(a=Math.pow(2,v),v++)}}};return h})();typeof define=="function"&&define.amd?define(function(){return m}):typeof module<"u"&&module!=null?module.exports=m:typeof angular<"u"&&angular!=null&&angular.module("LZString",[]).factory("LZString",function(){return m});window.LZString=m;
 var MiniQR=(()=>{var $=Object.defineProperty;var A=Object.getOwnPropertyDescriptor;var p=Object.getOwnPropertyNames;var v=Object.prototype.hasOwnProperty;var M=(e,n)=>{for(var t in n)$(e,t,{get:n[t],enumerable:!0})},I=(e,n,t,o)=>{if(n&&typeof n=="object"||typeof n=="function")for(let i of p(n))!v.call(e,i)&&i!==t&&$(e,i,{get:()=>n[i],enumerable:!(o=A(n,i))||o.enumerable});return e};var L=e=>I($({},"__esModule",{value:!0}),e);var C={};M(C,{gen:()=>U});function w(e){return new Uint8Array(e)}var d=class{constructor(){this.d=w(16),this.l=0}_e(n){if(this.l+n>this.d.byteLength*8){let t=w(this.d.byteLength*2);t.set(this.d),this.d=t}}b(n,t){this._e(t);for(let o=t-1;o>=0;o--)n&1<<o&&(this.d[this.l>>3]|=1<<7-(this.l&7)),this.l++}u(){return this.d.slice(0,Math.ceil(this.l/8))}},z="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+./:-";function m(e){return/^\d+$/.test(e)?1:/^[A-Z0-9 $%*+./:-]+$/.test(e)?2:4}function x(e,n){let t=new d;t.b(n,4);let o=[10,9,8][n-1]||8;if(t.b(e.length,o),n===1)for(let i=0;i<e.length;i+=3){let c=e.slice(i,i+3);t.b(parseInt(c),c.length*3+1)}else if(n===2)for(let i=0;i<e.length;i+=2){let c=z.indexOf(e[i]),f=i+1<e.length?z.indexOf(e[i+1]):0;t.b(c*45+f,11)}else for(let i=0;i<e.length;i++)t.b(e.charCodeAt(i),8);return t}function O(e){let t=Array.from({length:21},()=>new Array(21).fill(null));function o(s,h){for(let l=0;l<7;l++)for(let r=0;r<7;r++)t[h+l][s+r]=l===0||l===6||r===0||r===6||l>=2&&l<=4&&r>=2&&r<=4?1:0;for(let l=0;l<8;l++){let r=(g,b)=>{g>=0&&g<21&&b>=0&&b<21&&t[g][b]===null&&(t[g][b]=0)};r(h+l,s),r(h+l,s+7),r(h,s+l),r(h+7,s+l)}}o(0,0),o(14,0),o(0,14);for(let s=8;s<13;s++)t[6][s]===null&&(t[6][s]=s%2===0?1:0),t[s][6]===null&&(t[s][6]=s%2===0?1:0);let i=m(e),c=x(e,i),f=c.u(),u=c.l,a=0;for(let s=20;s>0;s-=2){s===6&&(s=5);for(let h=20;h>=0;h--)for(let l=s;l>s-2;l--)if(t[h][l]===null){let r=a>>3,g=7-(a&7);a<u&&r<f.length?t[h][l]=f[r]>>g&1:t[h][l]=0,a++}}return{matrix:t,size:21}}function S(e,n,t){let o="";for(let c=0;c<n;c++){let f=-1;for(let u=0;u<=n;u++){let a=u<n&&e[c][u]===1;a&&f===-1?f=u:!a&&f!==-1&&(o+=`M${f},${c}h${u-f}v1H${f}z`,f=-1)}}let i=n*t;return`<svg xmlns="http://www.w3.org/2000/svg" width="${i}" height="${i}" viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges"><path fill="#000" d="${o}"/></svg>`}function U(e,n){let t=n&&n.cellSize||4,{matrix:o,size:i}=O(e);return S(o,i,t)}return L(C);})();
-// Sync Panel app — PHA-355 (fixes pass: lastEditedAt, integrity, merge, XSS, gate)
+// Sync Panel app — #355 (fixes pass: lastEditedAt, integrity, merge, XSS, gate)
 (function () {
   'use strict';
 
@@ -5335,7 +5335,7 @@ var MiniQR=(()=>{var $=Object.defineProperty;var A=Object.getOwnPropertyDescript
   window.getSyncState = getSyncState;
 
 
-  // ── Section Nav (PHA-352, elevated) ────────────────────────────────
+  // ── Section Nav (#352, elevated) ────────────────────────────────
   // Anchors are real <a href="#sec-…"> elements. JS layers on:
   //   · click handler — smooth scroll + auto-expand collapsibles
   //   · IntersectionObserver — picks the most-visible section as active
